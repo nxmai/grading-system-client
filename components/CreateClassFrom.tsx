@@ -1,7 +1,9 @@
 import React, { useState, FC, useEffect, useRef } from "react";
+import classApi from "../api/classes";
 
 interface CreateClassFormProps {
   closeModal: () => void;
+  createClass: () => void;
   // cancelCreateClassModal: () => void,
 }
 
@@ -20,32 +22,92 @@ function useOutsideCollapse(ref: any, closeModal: any) {
   }, [ref]);
 }
 
-const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal }) => {
+const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal, createClass }) => {
   const wrapperRef = useRef(null);
   useOutsideCollapse(wrapperRef, closeModal);
+
+  const [classInfo, setClassInfo] = useState({
+    className: "",
+    classSubject: "",
+    classTeacher: "",
+  });
+
+  const [classNameError, setClassNameError] = useState("");
 
   const onCloseModal = () => {
     closeModal();
   };
 
+  const validateForm = () => {
+    let valid = true;
+
+    if (classInfo.className.length == 0) {
+      setClassNameError("Please input your class name");
+      valid = false;
+    }
+    return valid;
+  };
+
+  const onCreateClass = async () => {
+    if (validateForm()) {
+      setClassNameError("");
+      closeModal();
+
+      try{
+        const data = await classApi.createClass(classInfo);
+        createClass();
+      }catch(error){
+        console.log(error);
+      }
+
+    }
+  };
+
+  const onClassNameChange = (e: any) => {
+    const { name, value } = e.target;
+    setClassInfo({ ...classInfo, [name]: value });
+    //value.length == 0 ? setClassNameError("Please input your class name") : setClassNameError("");
+  };
+
+  const onClassSubjectChange = (e: any) => {
+    const { name, value } = e.target;
+    setClassInfo({ ...classInfo, [name]: value });
+
+  };
+
   return (
-    <div>
-      <div className="fixed inset-0 bg-gray-700 bg-opacity-50 overflow-y-auto h-full w-full"></div>
-      <div className="max-w-lg relative mx-auto mt-10 bg-gray-400">
+    <div className="overflow-x-hidden overflow-y-auto fixed inset-0 ">
+      <div className="max-w-lg relative mx-auto mt-24 bg-gray-400 z-50">
         <form
           className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
           ref={wrapperRef}
         >
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Class Name
+              Class Name <span className="text-red-700">*</span>
             </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="username"
-              type="text"
-              placeholder="Class Name"
-            />
+            {classNameError == "" ? (
+              <input
+                className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="classname"
+                name="className"
+                type="text" 
+                placeholder="Class Name"
+                onChange={onClassNameChange}
+              />
+            ) : (
+              <>
+              <input
+                className="shadow appearance-none border border-red-600 rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="classname"
+                name="className"
+                type="text"
+                placeholder="Class Name"
+                onChange={onClassNameChange}
+              />
+              <p className="text-xs m-1 text-red-600">{classNameError}</p>
+              </>
+            )}
           </div>
           <div className="mb-6">
             <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -53,9 +115,11 @@ const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal }) => {
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="password"
-              type="password"
+              id="subject"
+              type="text"
+              name="classSubject"
               placeholder="Subject"
+              onChange={onClassSubjectChange}
             />
           </div>
           <div className="flex items-center justify-end gap-4">
@@ -69,12 +133,14 @@ const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal }) => {
             <button
               className="bg-blue-500 border hover:bg-blue-700 duration-300 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
+              onClick={onCreateClass}
             >
               Create
             </button>
           </div>
         </form>
       </div>
+      <div className="fixed inset-0 bg-gray-800 bg-opacity-50 overflow-y-auto h-full w-full"></div>
     </div>
   );
 };

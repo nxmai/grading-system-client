@@ -1,71 +1,43 @@
 import type { NextPage } from "next";
-import React, { useState, FC } from "react";
+import React, { useState, FC, useEffect } from "react";
 import ClassCard from "../components/ClassCard";
-import CreateClassForm from "../components/CreateClassFrom";
 import Header from "../components/Header";
-
-interface Values {
-  classname: string,
-  subject: string,
-}
-
-interface CreateClassFormProps {
-  isModalVisible: boolean,
-  onCreateClass: (values: Values) => void,
-  cancelCreateClassModal: () => void,
-}
+import classApi from "../api/classes";
 
 const Home: NextPage = () => {
-  
+  const [classesData, setClassesData] = useState([]);
+  const [isCreateClass, setIsCreateClass] = useState(false);
+
+  const createClass = () => {
+    setIsCreateClass(!isCreateClass);
+  };
+
+  useEffect(() => {
+    async function getAllClass() {
+      try{
+        const res = await classApi.getAllClasses();
+        setClassesData(res?.data);
+      }catch(error: any){
+        console.log(error.message);
+      }
+    }
+
+    getAllClass();
+  }, [createClass]);
 
   return (
-    <div>
-      <Header />
-      {/* <CreateClassForm /> */}
+    <div className="mb-20">
+      <Header createClass={createClass}/>
 
-      {/* <div className="flex flex-wrap gap-8 mr-20 ml-20 mt-8">
-        {data.map((item, index)=>(
+      <div className="flex flex-wrap gap-8 mr-16 ml-16 mt-8">
+        {classesData.map((item, index)=>(
           <div key={index}>
             <ClassCard classInfo={item}/>
           </div>
         ))}
-      </div> */}
+      </div>
     </div>
   );
 };
 
 export default Home;
-
-const data = [
-  {
-    className: "[CQ] PTUDWNC - 18_3",
-    subject: "PTUDWNC",
-    teacherName: "Nguyen Huy Khanh",
-    teacherDepartment: "Faculty of IT - HCMUS",
-  },{
-    className: "[CQ] PTUDWNC - 18_3",
-    subject: "PTUDWNC",
-    teacherName: "Nguyen Huy Khanh",
-    teacherDepartment: "Faculty of IT - HCMUS",
-  },{
-    className: "[CQ] PTUDWNC - 18_3",
-    subject: "PTUDWNC",
-    teacherName: "Nguyen Huy Khanh",
-    teacherDepartment: "Faculty of IT - HCMUS",
-  },{
-    className: "[CQ] PTUDWNC - 18_3",
-    subject: "PTUDWNC",
-    teacherName: "Nguyen Huy Khanh",
-    teacherDepartment: "Faculty of IT - HCMUS",
-  },{
-    className: "[CQ] PTUDWNC - 18_3",
-    subject: "PTUDWNC",
-    teacherName: "Nguyen Huy Khanh",
-    teacherDepartment: "Faculty of IT - HCMUS",
-  },{
-    className: "[CQ] PTUDWNC - 18_3",
-    subject: "PTUDWNC",
-    teacherName: "Nguyen Huy Khanh",
-    teacherDepartment: "Faculty of IT - HCMUS",
-  }
-];

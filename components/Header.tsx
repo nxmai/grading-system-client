@@ -1,9 +1,11 @@
 import React, { useState, FC } from "react";
-import Image from "next/image";
-import Menu from "../public/icons/menu.svg";
 import CreateClassForm from "./CreateClassFrom";
 
-const Header = () => {
+interface HeaderProps {
+  createClass: () => void;
+}
+
+const Header:FC<HeaderProps> = ({createClass}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const openModal = () => {
     setIsModalVisible(true);
@@ -19,7 +21,7 @@ const Header = () => {
         <div className="flex items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
+            className="h-6 w-6 text-[#5F6368] cursor-pointer hover:text-blue-700"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -36,7 +38,7 @@ const Header = () => {
         <div onClick={openModal}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 cursor-pointer hover:text-blue-500"
+            className="h-6 w-6 cursor-pointer hover:text-blue-700 text-[#5F6368]"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -50,7 +52,7 @@ const Header = () => {
           </svg>
         </div>
       </nav>
-      {isModalVisible ? <CreateClassForm closeModal={closeModal}/> : ""}
+      {isModalVisible ? <CreateClassForm closeModal={closeModal} createClass={createClass}/> : ""}
     </div>
   );
 };
