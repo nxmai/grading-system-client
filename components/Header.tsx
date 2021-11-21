@@ -1,11 +1,13 @@
 import React, { useState, FC } from "react";
 import CreateClassForm from "./CreateClassFrom";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 interface HeaderProps {
-  createClass: () => void;
+  // createClass: () => void;
 }
 
-const Header:FC<HeaderProps> = ({createClass}) => {
+const Header: FC<HeaderProps> = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const openModal = () => {
     setIsModalVisible(true);
@@ -15,10 +17,19 @@ const Header:FC<HeaderProps> = ({createClass}) => {
     setIsModalVisible(false);
   };
 
+  const router = useRouter();
+  //console.log(router);
+
   return (
     <div>
-      <nav className="flex items-center justify-between border-2 p-6">
-        <div className="flex items-center">
+      <nav
+        className={
+          router.pathname !== "/"
+            ? "items-center h-[70px] pl-6 pr-6 grid grid-cols-3"
+            : "items-center h-[70px] pl-6 pr-6 grid grid-cols-2"
+        }
+      >
+        <div className="flex items-center h-full">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6 text-[#5F6368] cursor-pointer hover:text-blue-700"
@@ -33,26 +44,78 @@ const Header:FC<HeaderProps> = ({createClass}) => {
               d="M4 6h16M4 12h16M4 18h16"
             />
           </svg>
-          <h1 className="ml-4 text-lg">Doodle classroom</h1>
-        </div>
-        <div onClick={openModal}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 cursor-pointer hover:text-blue-700 text-[#5F6368]"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+          <h1
+            className="ml-4 text-lg cursor-pointer"
+            onClick={() => router.push("/")}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 4v16m8-8H4"
-            />
-          </svg>
+            Doodle classroom
+          </h1>
+        </div>
+        {router.pathname !== "/" ? (
+          <div className="h-full">
+            <ul className="flex h-full justify-center items-center ">
+              <li
+                onClick={() => router.push(`/class/${router.query.id}/stream`)}
+                className="w-24 h-full flex justify-center items-center cursor-pointer text-[#1967D2] font-semibold hover:bg-blue-100 border-b-2 border-blue-700"
+              >
+                Stream
+              </li>
+              <li
+                onClick={() => router.push(`/class/${router.query.id}/classwork`)}
+                className="w-24 h-full flex justify-center items-center cursor-pointer text-gray-400 font-semibold hover:bg-blue-100 border-b-2 border-white hover:border-blue-100"
+              >
+                Classwork
+              </li>
+              <li
+                onClick={() => router.push(`/class/${router.query.id}/people`)}
+                className="w-24 h-full flex justify-center items-center cursor-pointer text-gray-400 font-semibold hover:bg-blue-100 border-b-2 border-white hover:border-blue-100"
+              >
+                People
+              </li>
+            </ul>
+          </div>
+        ) : (
+          ""
+        )}
+        <div className="flex gap-3 justify-end">
+          {router.pathname === "/" ? (
+            <div onClick={openModal}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 cursor-pointer hover:text-blue-700 text-[#5F6368]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+            </div>
+          ) : (
+            ""
+          )}
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 cursor-pointer hover:text-blue-700 text-[#5F6368]"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
         </div>
       </nav>
-      {isModalVisible ? <CreateClassForm closeModal={closeModal} createClass={createClass}/> : ""}
+      <hr />
+      {isModalVisible ? <CreateClassForm closeModal={closeModal} /> : ""}
     </div>
   );
 };

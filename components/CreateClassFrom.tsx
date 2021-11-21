@@ -3,7 +3,7 @@ import classApi from "../api/classes";
 
 interface CreateClassFormProps {
   closeModal: () => void;
-  createClass: () => void;
+  // createClass: () => void;
   // cancelCreateClassModal: () => void,
 }
 
@@ -22,14 +22,13 @@ function useOutsideCollapse(ref: any, closeModal: any) {
   }, [ref]);
 }
 
-const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal, createClass }) => {
+const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal }) => {
   const wrapperRef = useRef(null);
   useOutsideCollapse(wrapperRef, closeModal);
 
   const [classInfo, setClassInfo] = useState({
-    className: "",
-    classSubject: "",
-    classTeacher: "",
+    name: "",
+    subject: "",
   });
 
   const [classNameError, setClassNameError] = useState("");
@@ -41,7 +40,7 @@ const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal, createClass }) 
   const validateForm = () => {
     let valid = true;
 
-    if (classInfo.className.length == 0) {
+    if (classInfo.name.length == 0) {
       setClassNameError("Please input your class name");
       valid = false;
     }
@@ -49,13 +48,14 @@ const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal, createClass }) 
   };
 
   const onCreateClass = async () => {
+    console.log(classInfo);
     if (validateForm()) {
       setClassNameError("");
       closeModal();
 
       try{
         const data = await classApi.createClass(classInfo);
-        createClass();
+        // createClass();
       }catch(error){
         console.log(error);
       }
@@ -90,7 +90,7 @@ const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal, createClass }) 
               <input
                 className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="classname"
-                name="className"
+                name="name"
                 type="text" 
                 placeholder="Class Name"
                 onChange={onClassNameChange}
@@ -100,7 +100,7 @@ const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal, createClass }) 
               <input
                 className="shadow appearance-none border border-red-600 rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="classname"
-                name="className"
+                name="name"
                 type="text"
                 placeholder="Class Name"
                 onChange={onClassNameChange}
@@ -117,7 +117,7 @@ const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal, createClass }) 
               className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
               id="subject"
               type="text"
-              name="classSubject"
+              name="subject"
               placeholder="Subject"
               onChange={onClassSubjectChange}
             />
