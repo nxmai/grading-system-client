@@ -6,11 +6,11 @@ import classApi from "../api/classes";
 
 const Home: NextPage = () => {
   const [classesData, setClassesData] = useState([]);
-  const [isCreateClass, setIsCreateClass] = useState(false);
+  //const [isCreateClass, setIsCreateClass] = useState(false);
 
-  const createClass = () => {
-    setIsCreateClass(!isCreateClass);
-  };
+  // const createClass = () => {
+  //   setIsCreateClass(!isCreateClass);
+  // }; 
 
   useEffect(() => {
     async function getAllClass() {
@@ -23,11 +23,14 @@ const Home: NextPage = () => {
     }
 
     getAllClass();
-  }, [createClass]);
+  }, []);
+
+  //console.log(classesData);
 
   return (
     <div className="mb-20">
-      <Header createClass={createClass}/>
+      {/* <Header createClass={createClass}/> */}
+      <Header />
 
       <div className="flex flex-wrap gap-8 mr-16 ml-16 mt-8">
         {classesData.map((item, index)=>(

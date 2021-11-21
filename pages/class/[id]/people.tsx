@@ -30,13 +30,15 @@ const PeopleRow: FC<InformationProps> = ({ firstName, lastName }) => {
 
 const ClassPeople = () => {
   const router = useRouter();
+  const { id } = router.query;
+
   const [teacherList, setTeacherList] = useState([]);
   const [studentList, setStudentList] = useState([]);
 
   useEffect(() => {
     async function getTeachers() {
       try {
-        const res = await classApi.getTeachersInClass(router.query.id);
+        const res = await classApi.getTeachersInClass(id);
         setTeacherList(res?.data);
       } catch (error: any) {
         console.log(error.message);
@@ -45,7 +47,7 @@ const ClassPeople = () => {
 
     async function getStudents() {
       try {
-        const res = await classApi.getStudentsInClass(router.query.id);
+        const res = await classApi.getStudentsInClass(id);
         setStudentList(res?.data);
       } catch (error: any) {
         console.log(error.message);
@@ -54,7 +56,7 @@ const ClassPeople = () => {
 
     getTeachers();
     getStudents();
-  }, [router]);
+  }, [id]);
 
   return (
     <>
