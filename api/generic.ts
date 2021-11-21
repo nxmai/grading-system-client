@@ -5,10 +5,19 @@ export const baseURL =
 
 export const apiURL = `${baseURL}`;
 
-export const get = function (url: string) {
+export const config = function (token: string) {
+  return {
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+};
+
+export const get = function (url: string, token: string) {
   return new Promise<{ data: any }>((resolve, reject) =>
     axios
-      .get(url)
+      .get(url, config(token))
       .then((res) => {
         // return data
         return resolve({ data: res.data });
@@ -21,10 +30,10 @@ export const get = function (url: string) {
   );
 };
 
-export const post = function (url: string, data: any) {
+export const post = function (url: string, data: any, token: string = "") {
   return new Promise<{ data: any }>((resolve, reject) =>
     axios
-      .post(url, data)
+      .post(url, data, config(token))
       .then((res) => {
         // return data
         return resolve({ data: res.data });

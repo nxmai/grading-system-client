@@ -15,13 +15,13 @@ const ClassCard: FC<ClassCardProps> = ({ classInfo }) => {
           alt="Sunset in the mountains"
         />
         <div className="ml-4 mr-4 pt-2">
-          <p className="text-2xl font-bold text-white">{classInfo.className}</p>
+          <p className="text-2xl font-bold text-white">{classInfo.name}</p>
           <p className="text-lg font-semibold text-white">
             {classInfo.classSubject}
           </p>
         </div>
         <div className="ml-4 mr-4 pt-2">
-          <p className="text-white text-base">{classInfo.classTeacher}</p>
+          <p className="text-white text-base">{classInfo.created}</p>
         </div>
       </div>
 

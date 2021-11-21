@@ -35,6 +35,7 @@ const Header:FC<HeaderProps> = ({createClass}) => {
           </svg>
           <h1 className="ml-4 text-lg">Doodle classroom</h1>
         </div>
+        
         <div onClick={openModal}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
