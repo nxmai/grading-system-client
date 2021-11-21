@@ -25,7 +25,8 @@ const Home: NextPage = () => {
     getAllClass();
   }, []);
 
-  //console.log(classesData);
+  console.log(classesData);
+
 
   return (
     <div className="mb-20">
