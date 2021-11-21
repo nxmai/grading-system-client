@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useState, FC } from "react";
 import CreateClassForm from "./CreateClassFrom";
 
@@ -5,14 +6,20 @@ interface HeaderProps {
   createClass: () => void;
 }
 
-const Header:FC<HeaderProps> = ({createClass}) => {
+const Header: FC<HeaderProps> = ({ createClass }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const router = useRouter();
   const openModal = () => {
     setIsModalVisible(true);
   };
 
   const closeModal = () => {
     setIsModalVisible(false);
+  };
+
+  const logout = () => {
+    localStorage.clear();
+    router.push('/auth/login');
   };
 
   return (
@@ -35,25 +42,30 @@ const Header:FC<HeaderProps> = ({createClass}) => {
           </svg>
           <h1 className="ml-4 text-lg">Doodle classroom</h1>
         </div>
-        
-        <div onClick={openModal}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 cursor-pointer hover:text-blue-700 text-[#5F6368]"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 4v16m8-8H4"
-            />
+
+        <div className="flex justify-between w-16 items-center">
+          <div onClick={openModal}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 cursor-pointer hover:text-blue-700 text-[#5F6368]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+          </div>
+          <svg onClick={logout} xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 cursor-pointer hover:text-blue-700 text-[#5F6368]" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clipRule="evenodd" />
           </svg>
         </div>
       </nav>
-      {isModalVisible ? <CreateClassForm closeModal={closeModal} createClass={createClass}/> : ""}
+      {isModalVisible ? <CreateClassForm closeModal={closeModal} createClass={createClass} /> : ""}
     </div>
   );
 };

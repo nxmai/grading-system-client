@@ -13,7 +13,8 @@ function Login() {
     const onSubmit = () => {
         if (email.length && password.length) {
             authApi.login({ email, password })
-                .then(access => {
+                .then(({ data }) => {
+                    localStorage.setItem('token', `${data}`);
                     router.push('/');
                 })
                 .catch(error => { console.log(error); });
@@ -24,7 +25,8 @@ function Login() {
 
     const responseGoogle = (response: any) => {
         authApi.googleAuth(response)
-            .then(access => {
+            .then(({ data }) => {
+                localStorage.setItem('token', `${data}`);
                 router.push('/');
             })
             .catch(error => { console.log(error); });
