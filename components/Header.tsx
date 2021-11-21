@@ -18,7 +18,7 @@ const Header: FC<HeaderProps> = () => {
   };
 
   const router = useRouter();
-  //console.log(router);
+  const { id } = router.query;
 
   return (
     <div>
@@ -55,20 +55,37 @@ const Header: FC<HeaderProps> = () => {
           <div className="h-full">
             <ul className="flex h-full justify-center items-center ">
               <li
-                onClick={() => router.push(`/class/${router.query.id}/stream`)}
-                className="w-24 h-full flex justify-center items-center cursor-pointer text-[#1967D2] font-semibold hover:bg-blue-100 border-b-2 border-blue-700"
+                onClick={() => router.push(`/class/${id}`)}
+                className={
+                  "w-24 h-full flex justify-center items-center cursor-pointer font-semibold hover:bg-blue-100 border-b-2 " +
+                  (router.pathname === "/class/[id]"
+                    ? "text-[#1967D2]  border-blue-700"
+                    : "text-gray-400  border-white hover:border-blue-100")
+                }
               >
                 Stream
               </li>
               <li
-                onClick={() => router.push(`/class/${router.query.id}/classwork`)}
-                className="w-24 h-full flex justify-center items-center cursor-pointer text-gray-400 font-semibold hover:bg-blue-100 border-b-2 border-white hover:border-blue-100"
+                onClick={() =>
+                  router.push(`/class/${id}/classwork`)
+                }
+                className={
+                  "w-24 h-full flex justify-center items-center cursor-pointer font-semibold hover:bg-blue-100 border-b-2 " +
+                  (router.pathname === "/class/[id]/classwork"
+                    ? "text-[#1967D2]  border-blue-700"
+                    : "text-gray-400  border-white hover:border-blue-100")
+                }
               >
                 Classwork
               </li>
               <li
-                onClick={() => router.push(`/class/${router.query.id}/people`)}
-                className="w-24 h-full flex justify-center items-center cursor-pointer text-gray-400 font-semibold hover:bg-blue-100 border-b-2 border-white hover:border-blue-100"
+                onClick={() => router.push(`/class/${id}/people`)}
+                className={
+                  "w-24 h-full flex justify-center items-center cursor-pointer font-semibold hover:bg-blue-100 border-b-2 " +
+                  (router.pathname === "/class/[id]/people"
+                    ? "text-[#1967D2]  border-blue-700"
+                    : "text-gray-400  border-white hover:border-blue-100")
+                }
               >
                 People
               </li>
