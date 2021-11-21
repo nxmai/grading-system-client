@@ -13,10 +13,11 @@ function Register() {
     const [password, setPassword] = useState("");
 
     const responseGoogle = (response: any) => {
-        // alert('Log in success! 🎉')
         authApi.googleAuth(response)
-            .then(access => {
+            .then(({ data }) => {
+                localStorage.setItem('token', `${data}`);
                 router.push('/');
+                alert('Log in success! 🎉');
             })
             .catch(error => { console.log(error); });
     };
@@ -24,7 +25,8 @@ function Register() {
     const onSubmit = () => {
         if (firstName.length && lastName.length && email.length && password.length) {
             authApi.register({ firstName, lastName, email, password })
-                .then(user => {
+                .then(({ data }) => {
+                    localStorage.setItem('token', `${data}`);
                     router.push('/');
                 })
                 .catch(error => { console.log(error); });
