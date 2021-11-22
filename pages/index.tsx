@@ -10,7 +10,7 @@ const Home: NextPage = () => {
 
   const createClass = () => {
     setIsCreateClass(!isCreateClass);
-  };
+  }; 
 
   useEffect(() => {
     async function getAllClass() {
@@ -23,11 +23,14 @@ const Home: NextPage = () => {
     }
 
     getAllClass();
-  }, [createClass]);
+  }, [isCreateClass]);
+
+  console.log(classesData);
 
   return (
     <div className="mb-20">
       <Header createClass={createClass}/>
+      {/* <Header /> */}
 
       <div className="flex flex-wrap gap-8 mr-16 ml-16 mt-8">
         {classesData.map((item, index)=>(

@@ -1,4 +1,4 @@
-import { apiURL, get, post } from "./generic";
+import { apiURL, post } from "./generic";
 
 const authApi = {
   register(userData: any){
@@ -13,10 +13,6 @@ const authApi = {
     const url=`${apiURL}/auth/google`;
     return post(url, userData);
   },
-  // logout(){
-  //   const url=`${apiURL}/auth/logout`;
-  //   return get(url);
-  // },
 };
 
 export default authApi;
