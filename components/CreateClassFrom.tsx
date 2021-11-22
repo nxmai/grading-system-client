@@ -3,7 +3,7 @@ import classApi from "../api/classes";
 
 interface CreateClassFormProps {
   closeModal: () => void;
-  // createClass: () => void;
+  createClass: () => void;
   // cancelCreateClassModal: () => void,
 }
 
@@ -22,7 +22,7 @@ function useOutsideCollapse(ref: any, closeModal: any) {
   }, [ref]);
 }
 
-const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal }) => {
+const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal, createClass }) => {
   const wrapperRef = useRef(null);
   useOutsideCollapse(wrapperRef, closeModal);
 
@@ -55,7 +55,7 @@ const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal }) => {
 
       try{
         const data = await classApi.createClass(classInfo);
-        // createClass();
+        createClass();
       }catch(error){
         console.log(error);
       }

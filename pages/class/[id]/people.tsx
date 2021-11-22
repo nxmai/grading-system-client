@@ -39,6 +39,7 @@ const ClassPeople = () => {
     async function getTeachers() {
       try {
         const res = await classApi.getTeachersInClass(id);
+        console.log(res.data);
         setTeacherList(res?.data);
       } catch (error: any) {
         console.log(error.message);
