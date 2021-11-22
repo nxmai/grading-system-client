@@ -61,7 +61,7 @@ const ClassPeople = () => {
 
   return (
     <>
-      <Header />
+      <Header createClass={() => {}} />
       <div className="w-[760px] ml-[calc(50%-380px)] mr-[calc(50%-380px)]">
         <section className="mt-4">
           <p className="text-3xl text-blue-700 pb-4 pt-4">Teachers</p>

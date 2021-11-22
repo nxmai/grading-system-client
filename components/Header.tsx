@@ -50,25 +50,9 @@ const Header: FC<HeaderProps> = ({ createClass }) => {
                             d="M4 6h16M4 12h16M4 18h16"
                         />
                     </svg>
-                    {/* <h1
-            className="ml-4 text-lg cursor-pointer"
-            onClick={() => router.push("/")} >
-          </h1>  */}
-
                     <h1 className="ml-4 text-lg">Doodle classroom</h1>
                 </div>
 
-                {/* <div onClick={openModal}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 cursor-pointer hover:text-blue-700 text-[#5F6368]"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            Doodle classroom
-          </svg>
-        </div> */}
                 {router.pathname !== "/" ? (
                     <div className="h-full">
                         <ul className="flex h-full justify-center items-center ">
@@ -137,17 +121,17 @@ const Header: FC<HeaderProps> = ({ createClass }) => {
                     )}
                     <div>
                         {/* <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 cursor-pointer hover:text-blue-700 text-[#5F6368]"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                clipRule="evenodd"
-              />
-            </svg> */}
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6 cursor-pointer hover:text-blue-700 text-[#5F6368]"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                        >
+                            <path
+                                fillRule="evenodd"
+                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                                clipRule="evenodd"
+                            />
+                        </svg> */}
                         <svg
                             onClick={logout}
                             xmlns="http://www.w3.org/2000/svg"
@@ -165,7 +149,14 @@ const Header: FC<HeaderProps> = ({ createClass }) => {
                 </div>
             </nav>
             <hr />
-            {isModalVisible ? <CreateClassForm closeModal={closeModal} createClass={createClass} /> : ""}
+            {isModalVisible ? (
+                <CreateClassForm
+                    closeModal={closeModal}
+                    createClass={createClass}
+                />
+            ) : (
+                ""
+            )}
         </div>
     );
 };
