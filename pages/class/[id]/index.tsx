@@ -59,7 +59,7 @@ const ClassDetail = () => {
                         </p>
                     </div>
                 </section>
-                <section>asdf</section>
+                <section></section>
             </div>
         </>
     );

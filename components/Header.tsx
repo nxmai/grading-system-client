@@ -1,7 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 import { useRouter } from "next/router";
-import React, { useState, FC } from "react";
+import React, { useState, FC, useEffect } from "react";
 import CreateClassForm from "./class/CreateClassFrom";
 import { GoogleLogout } from "react-google-login";
+import userApi from "api/user";
+import Image from "next/image";
 
 const clientId =
     "416191100698-anqr49onakr79lg2tldn7cnv4t62rqnk.apps.googleusercontent.com";
@@ -12,6 +15,29 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ createClass }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
+    //TODO: change to context api or redux
+    const [userInfo, setUserInfo] = useState({
+        firstName: "",
+        lastName: "",
+        studentCardID: "",
+        photoUrl: "",
+        active: "",
+        email: "",
+    });
+
+    useEffect(() => {
+        async function getUser() {
+            try {
+                const res = await userApi.getMe();
+                setUserInfo(res.data);
+            } catch (error: any) {
+                console.log(error.message);
+            }
+        }
+
+        getUser();
+    }, []);
+    console.log(userInfo);
 
     const openModal = () => {
         setIsModalVisible(true);
@@ -106,7 +132,7 @@ const Header: FC<HeaderProps> = ({ createClass }) => {
                 ) : (
                     ""
                 )}
-                <div className="flex gap-4 justify-end">
+                <div className="flex gap-4 justify-end items-center">
                     {router.pathname === "/" ? (
                         <div onClick={openModal}>
                             <svg
@@ -129,19 +155,23 @@ const Header: FC<HeaderProps> = ({ createClass }) => {
                     )}
 
                     <div className="group relative">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6 cursor-pointer hover:text-blue-700 text-[#5F6368]"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fillRule="evenodd"
-                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                                clipRule="evenodd"
-                            />
-                        </svg>
-                        <ul className="hidden group-hover:block absolute border-2 bg-white rounded-lg shadow-md w-[150px] top-[25px] right-[-5px] p-[10px]">
+                        {userInfo.photoUrl !== "" ? (
+                            <img src={userInfo.photoUrl} alt="avt" className="w-10 rounded-full" />
+                        ) : (
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-10 w-10 cursor-pointer hover:text-blue-700 text-[#5F6368]"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                                    clipRule="evenodd"
+                                />
+                            </svg>
+                        )}
+                        <ul className="hidden group-hover:block absolute border-2 bg-white rounded-lg shadow-md w-[150px] top-[40px] right-[-5px] p-[10px]">
                             <li
                                 className="hover:bg-blue-50 cursor-pointer p-2"
                                 onClick={() => router.push("/user/me")}

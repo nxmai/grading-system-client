@@ -17,7 +17,7 @@ const Home: NextPage = () => {
         console.log("use effect");
         async function getAllClass() {
             try {
-                const res = await classApi.getAllClasses();
+                const res = await classApi.getAllClassesByUser();
                 setClassesData(res?.data);
             } catch (error: any) {
                 console.log(error.message);

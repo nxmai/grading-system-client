@@ -9,7 +9,7 @@ interface ClassCardProps {
 const ClassCard: FC<ClassCardProps> = ({ classInfo }) => {
   return (
     <Link href={"/class/" + classInfo._id} passHref>
-      <div className="max-w-xs rounded overflow-hidden shadow-lg cursor-pointer">
+      <div className="w-[320px] rounded overflow-hidden shadow-lg cursor-pointer">
         <div className="relative h-28 z-[-1]">
           <img
             className="w-full h-28 absolute z-[-1]"
@@ -29,11 +29,11 @@ const ClassCard: FC<ClassCardProps> = ({ classInfo }) => {
           </div> */}
         </div>
 
-        <div className="px-6 py-4 h-32">
-          <div className="font-bold text-xl mb-2">The Coldest Sunset</div>
-          <p className="text-gray-700 text-base">
+        <div className="px-6 py-4 ">
+          <div className=" text-xl mb-2">Upcomming function</div>
+          {/* <p className="text-gray-700 text-base">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          </p>
+          </p> */}
         </div>
         <hr />
         <div className="px-6 h-14 flex justify-end items-center gap-6">
