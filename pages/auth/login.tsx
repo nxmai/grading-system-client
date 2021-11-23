@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import { GoogleLogin } from 'react-google-login';
 import authApi from '../../api/auth';
 
 const clientId = '416191100698-anqr49onakr79lg2tldn7cnv4t62rqnk.apps.googleusercontent.com';
@@ -79,11 +79,6 @@ function Login() {
                     </div>
                 </div>
             </div>
-            {/* <GoogleLogout
-                clientId={clientId}
-                buttonText="Logout"
-                onLogoutSuccess={logout}
-            /> */}
         </>
     );
 }
