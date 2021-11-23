@@ -32,6 +32,10 @@ const classApi = {
     inviteUserWithInviteLink(classId: any, data: any) {
         const url = `${apiURL}/${classId}/invite-link/${classId}/invite`;
         return post(url, data, localStorage.getItem("token") ?? "");
+    },
+    confirmInviteUserLink(inviteLink: any) {
+        const url =`${apiURL}/approve/${inviteLink}`;
+        return post(url, {}, localStorage.getItem("token") ?? "");
     }
 };
 
