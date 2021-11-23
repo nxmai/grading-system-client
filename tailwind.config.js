@@ -3,7 +3,11 @@ module.exports = {
   mode: 'jit',
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extends: {
+      colors: {
+        "main": "#29B5B8"
+      },
+    },
     fontFamily: {
       'body': ['"Raleway"'],
     },
@@ -11,5 +15,6 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+  ],
 };
