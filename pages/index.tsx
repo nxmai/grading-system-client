@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import React, { useState, FC, useEffect } from "react";
-import ClassCard from "../components/ClassCard";
+import ClassCard from "../components/class/ClassCard";
 import Header from "../components/Header";
 import classApi from "../api/classes";
 
@@ -26,8 +26,6 @@ const Home: NextPage = () => {
 
         getAllClass();
     }, [isCreateClass]);
-
-    console.log(classesData);
 
     return (
         <div className="mb-20">

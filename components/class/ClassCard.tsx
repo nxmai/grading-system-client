@@ -24,9 +24,9 @@ const ClassCard: FC<ClassCardProps> = ({ classInfo }) => {
               {classInfo.subject}
             </p>
           </div>
-          <div className="ml-4 mr-4 pt-2">
+          {/* <div className="ml-4 mr-4 pt-2">
             <p className="text-white text-base">classInfo.classTeacher</p>
-          </div>
+          </div> */}
         </div>
 
         <div className="px-6 py-4 h-32">
