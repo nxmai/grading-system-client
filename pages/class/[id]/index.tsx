@@ -19,10 +19,10 @@ const ClassDetail = () => {
         async function getClass() {
             try {
                 const res = await classApi.getClassById(id);
-                console.log(res);
                 setClassData({ ...res?.data });
             } catch (error: any) {
                 console.log(error.message);
+                return router.push("/");
             }
         }
 

@@ -10,6 +10,10 @@ interface InformationProps {
     lastName: String;
 }
 
+type ClassUserRole = {
+    role: "teacher" | "student",
+}
+
 const PeopleRow: FC<InformationProps> = ({ firstName, lastName }) => {
     return (
         <div className="flex items-center gap-4 p-4">
@@ -34,16 +38,29 @@ const ClassPeople = () => {
     const router = useRouter();
     const { id } = router.query;
 
+    const [classData, setClassData] = useState<ClassUserRole>({
+        role: "student",
+    });
+
     const [teacherList, setTeacherList] = useState([]);
     const [studentList, setStudentList] = useState([]);
     const [isLinkCreated, setLinkInvite] = useState<string>("");
     const [isOpenInviteUserModal, setOpenInviteUserModal] = useState<boolean>(false);
 
     useEffect(() => {
+        async function getClass() {
+            try {
+                const res = await classApi.getClassById(id);
+                setClassData({ ...res?.data });
+            } catch (error: any) {
+                console.log(error.message);
+                return router.push("/");
+            }
+        }
+
         async function getTeachers() {
             try {
                 const res = await classApi.getTeachersInClass(id);
-                console.log(res.data);
                 setTeacherList(res?.data);
             } catch (error: any) {
                 console.log(error.message);
@@ -68,6 +85,7 @@ const ClassPeople = () => {
             }
         }
 
+        getClass();
         getTeachers();
         getStudents();
         getInviteUserLink();
@@ -94,27 +112,31 @@ const ClassPeople = () => {
         <>
             <Header createClass={() => { }} />
             <div className="w-[760px] ml-[calc(50%-380px)] mr-[calc(50%-380px)]">
-                <section className="mt-4">
-                    <div className="flex flex-wrap items-center">
-                        <p className="text-3xl text-blue-700 pb-4 pt-4">Invite User</p>
-                        {!isLinkCreated ? (
-                            <LockOpenIcon onClick={createLinkInviteUser}
-                                className="ml-4 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
-                        ) : (
-                            <>
-                                <p className="ml-4 items-end">{isLinkCreated}</p>
-                                <InviteUserModal isOpen={isOpenInviteUserModal} setShowModal={setOpenInviteUserModal} classId={id}/>
-                                <DocumentDuplicateIcon
-                                    onClick={copyLinkInviteUser}
-                                    className="ml-2 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
-                                <UserAddIcon
-                                    onClick={inviteUser}
-                                    className="ml-4 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
-                            </>
-                        )}
-                    </div>
-                    <hr className="border-blue-600" />
-                </section>
+                {
+                    classData.role == "teacher" && (
+                        <section className="mt-4">
+                            <div className="flex flex-wrap items-center">
+                                <p className="text-3xl text-blue-700 pb-4 pt-4">Invite User</p>
+                                {!isLinkCreated ? (
+                                    <LockOpenIcon onClick={createLinkInviteUser}
+                                        className="ml-4 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
+                                ) : (
+                                    <>
+                                        <p className="ml-4 items-end">{isLinkCreated}</p>
+                                        <InviteUserModal isOpen={isOpenInviteUserModal} setShowModal={setOpenInviteUserModal} classId={id} />
+                                        <DocumentDuplicateIcon
+                                            onClick={copyLinkInviteUser}
+                                            className="ml-2 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
+                                        <UserAddIcon
+                                            onClick={inviteUser}
+                                            className="ml-4 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
+                                    </>
+                                )}
+                            </div>
+                            <hr className="border-blue-600" />
+                        </section>
+                    )
+                }
                 <section className="mt-4">
                     <p className="text-3xl text-blue-700 pb-4 pt-4">Teachers</p>
                     <hr className="border-blue-600" />
