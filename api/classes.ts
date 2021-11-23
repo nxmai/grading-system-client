@@ -1,7 +1,7 @@
 import { apiURL, get, post } from "./generic";
 
 const classApi = {
-    getAllClasses() {
+    getAllClassesByser() {
         const url = `${apiURL}`;
         return get(url, localStorage.getItem("token") ?? "");
     },
