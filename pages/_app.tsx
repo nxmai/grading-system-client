@@ -9,10 +9,21 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if(!token) {
+    if (!token) {
+      const listAllowUrl = [
+        "/auth/login",
+        "/auth/register",
+      ];
+      const url = router.asPath;
+      console.log(url);
+      listAllowUrl.forEach(e => {
+        if (url.indexOf(e) === -1) {
+          return;
+        }
+      });
       router.push('/auth/login');
     }
-  },[]);
+  }, []);
 
   return <Component {...pageProps} />;
 }

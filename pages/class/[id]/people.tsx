@@ -38,7 +38,7 @@ const ClassPeople = () => {
     const router = useRouter();
     const { id } = router.query;
 
-    const [classData, setClassData] = useState<ClassUserRole>({
+    const [classUserRole, setClassUserRole] = useState<ClassUserRole>({
         role: "student",
     });
 
@@ -48,10 +48,10 @@ const ClassPeople = () => {
     const [isOpenInviteUserModal, setOpenInviteUserModal] = useState<boolean>(false);
 
     useEffect(() => {
-        async function getClass() {
+        async function getUserRoleByClassID() {
             try {
-                const res = await classApi.getClassById(id);
-                setClassData({ ...res?.data });
+                const res = await classApi.getUserRoleByClassId(id);
+                setClassUserRole({ ...res?.data });
             } catch (error: any) {
                 console.log(error.message);
                 return router.push("/");
@@ -85,7 +85,7 @@ const ClassPeople = () => {
             }
         }
 
-        getClass();
+        getUserRoleByClassID();
         getTeachers();
         getStudents();
         getInviteUserLink();
@@ -113,7 +113,7 @@ const ClassPeople = () => {
             <Header createClass={() => { }} />
             <div className="w-[760px] ml-[calc(50%-380px)] mr-[calc(50%-380px)]">
                 {
-                    classData.role == "teacher" && (
+                    classUserRole.role == "teacher" && (
                         <section className="mt-4">
                             <div className="flex flex-wrap items-center">
                                 <p className="text-3xl text-blue-700 pb-4 pt-4">Invite User</p>

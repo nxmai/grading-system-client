@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import authApi from '../../api/auth';
+import Link from "next/link";
 
 const clientId = '416191100698-anqr49onakr79lg2tldn7cnv4t62rqnk.apps.googleusercontent.com';
 
@@ -71,9 +72,11 @@ function Login() {
                                     onSuccess={responseGoogle}
                                     onFailure={responseGoogle}
                                     cookiePolicy={'single_host_origin'}
-                                    isSignedIn={true}
+                                    isSignedIn={true}   
                                 >Sign in with Google</GoogleLogin>
-                                <a className='underline' href="auth/register">Don`t have an account?</a>
+                                <Link href="/auth/register">
+                                    <a className='underline'>Don`t have an account?</a>
+                                </Link>
                             </div>
                         </div>
                     </div>

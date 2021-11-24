@@ -8,7 +8,15 @@ const userApi = {
     updateStudentID (data: any) {
         const url = `${apiURL}/user/update/card`;
         return put(url, data, localStorage.getItem("token") ?? "");
-    }
+    },
+    updateInfo (data: any) {
+        const url = `${apiURL}/user/updateMe`;
+        return put(url, data, localStorage.getItem("token") ?? "");
+    },
+    updatePW (data: any) {
+        const url = `${apiURL}/user/updatePassword`;
+        return put(url, data, localStorage.getItem("token") ?? "");
+    },
 };
 
 export default userApi;

@@ -9,7 +9,8 @@ type AppProps = {
 
 export default function InviteUserModal({ isOpen, setShowModal, classId }: AppProps) {
     const [email, setEmail] = useState<string>("");
-    const [role, setRole] = useState<string>("");
+    const [role, setRole] = useState<string>("student");
+    const [inputError, setInputError] = useState<String>("");
 
     function onActionClick() {
         async function inviteUser(){
@@ -18,12 +19,13 @@ export default function InviteUserModal({ isOpen, setShowModal, classId }: AppPr
                     email,
                     role,
                 });
-            } catch (err) {
-                console.log(err);
+                setShowModal(false);
+            } catch (error: any) {
+                console.log(error);
+                setInputError(error);
             }
         }
         inviteUser();
-        setShowModal(false);
     }
     return (
         <Fragment>
@@ -56,6 +58,15 @@ export default function InviteUserModal({ isOpen, setShowModal, classId }: AppPr
                                             <option value="student">Student</option>
                                             <option value="teacher">Teacher</option>
                                         </select>
+                                    </div>
+                                    <div className="md:col-span-5">
+                                    {inputError !== "" ? (
+                                            <p className="text-red-500 text-xs">
+                                                {inputError}
+                                            </p>
+                                        ) : (
+                                            ""
+                                        )}
                                     </div>
                                     <div className="md:col-span-5 text-right">
                                         <div className="inline-flex items-end pr-4">

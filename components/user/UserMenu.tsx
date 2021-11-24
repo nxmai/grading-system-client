@@ -7,10 +7,11 @@ import EditPasswordComp from "./EditPasswordComp";
 import AddStudetnCardNumberComp from "./AddStudentCardNumberComp";
 
 type AppProps = {
-    updateCardId: any
+    updateCardId: any;
+    reRenderPage: VoidFunction;
 };
 
-export default function UserMenu({updateCardId} : AppProps) {
+export default function UserMenu({updateCardId, reRenderPage} : AppProps) {
     const [openEditPasswordModal, setOpenEditPasswordModal] = useState<boolean>(false);
     const [openEditProfileModal, setOpenEditProfileModal] = useState<boolean>(false);
     const [openAddStudentCardNumberModal, setOpenAddStudentCardNumberModal] = useState<boolean>(false);
@@ -18,7 +19,7 @@ export default function UserMenu({updateCardId} : AppProps) {
     return (
         <Fragment>
             <EditPasswordComp isOpen={openEditPasswordModal} setShowModal={setOpenEditPasswordModal} />
-            <EditProfileComp isOpen={openEditProfileModal} setShowModal={setOpenEditProfileModal} />
+            <EditProfileComp isOpen={openEditProfileModal} setShowModal={setOpenEditProfileModal} reRender={reRenderPage}/>
             <AddStudetnCardNumberComp isOpen={openAddStudentCardNumberModal}
                 setShowModal={setOpenAddStudentCardNumberModal} updateCardId={updateCardId} />
             <Menu as="div" className="relative inline-block text-left">
