@@ -1,5 +1,5 @@
 import React, { useState, FC, useEffect, useRef } from "react";
-import classApi from "../api/classes";
+import classApi from "../../api/classes";
 
 interface CreateClassFormProps {
   closeModal: () => void;

@@ -7,22 +7,6 @@ type AppProps = {
 
 
 export default function EditPasswordComp({ isOpen, setShowModal }: AppProps) {
-    const [className, setClassName] = useState<string>("");
-    const [classDes, setClassDes] = useState<string>("");
-    const [cover, setCover] = useState<string>("");
-
-    useEffect(() => {
-        ChangeImg();
-    }, []);
-    function ChangeImg() {
-        // utilApi.randImg().then((e) => {
-        //   setCover(e.data?.result?.urls?.raw);
-        // });
-    }
-
-    function onCreateClick() {
-        setShowModal(false);
-    }
     return (
         <Fragment>
             {isOpen && (
