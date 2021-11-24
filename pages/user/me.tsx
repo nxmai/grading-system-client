@@ -1,8 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import UserMenu from "components/user/UserMenu";
 import React, { Fragment, useEffect, useState } from "react";
-import Image from "next/image";
-import "./style.module.css";
 import Header from "components/Header";
 import userApi from "api/user";
 
@@ -15,12 +13,13 @@ export default function UserMe() {
         active: "",
         email: "",
     });
-    const [rerender, setRerender] = useState(false);
+    const [rerender, setRerender] = useState<boolean>(false);
 
     const updateCardId = (card: string) => {
         setUserInfo({ ...userInfo, studentCardID: card });
-        setRerender(!rerender);
     };
+
+    function reRenderPage() { setRerender(!rerender);}
 
     useEffect(() => {
         async function getUser() {
@@ -31,7 +30,6 @@ export default function UserMe() {
                 console.log(error.message);
             }
         }
-
         getUser();
     }, [rerender]);
 
@@ -67,7 +65,7 @@ export default function UserMe() {
                                 </div>
                                 <div className="lg:w-4/12 px-4 lg:order-3 text-right lg:self-center">
                                     <div className="py-6 px-3 sm:mt-0">
-                                        <UserMenu updateCardId={updateCardId} />
+                                        <UserMenu updateCardId={updateCardId} reRenderPage={reRenderPage}/>
                                     </div>
                                 </div>
                             </div>
