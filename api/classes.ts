@@ -21,6 +21,10 @@ const classApi = {
         const url = `${apiURL}/${classId}`;
         return get(url, localStorage.getItem("token") ?? "");
     },
+    getUserRoleByClassId(classId: any) {
+        const url = `${apiURL}/${classId}/role`;
+        return get(url, localStorage.getItem("token") ?? "");
+    },
     getInviteUserLinkByClassId(classId: any) {
         const url = `${apiURL}/${classId}/invite-link`;
         return get(url, localStorage.getItem("token") ?? "");
