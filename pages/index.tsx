@@ -9,7 +9,6 @@ const Home: NextPage = () => {
     const [isCreateClass, setIsCreateClass] = useState(false);
 
     const createClass = () => {
-        console.log("create class");
         setIsCreateClass(!isCreateClass);
     };
 
@@ -20,7 +19,7 @@ const Home: NextPage = () => {
                 const res = await classApi.getAllClassesByUser();
                 setClassesData(res?.data);
             } catch (error: any) {
-                console.log(error.message);
+                console.log(error?.message);
             }
         }
 

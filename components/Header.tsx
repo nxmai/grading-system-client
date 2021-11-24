@@ -31,13 +31,12 @@ const Header: FC<HeaderProps> = ({ createClass }) => {
                 const res = await userApi.getMe();
                 setUserInfo(res.data);
             } catch (error: any) {
-                console.log(error.message);
+                console.log(error?.message);
             }
         }
 
         getUser();
     }, []);
-    console.log(userInfo);
 
     const openModal = () => {
         setIsModalVisible(true);
