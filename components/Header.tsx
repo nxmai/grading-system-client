@@ -53,6 +53,7 @@ const Header: FC<HeaderProps> = ({ createClass }) => {
 
     const router = useRouter();
     const { id } = router.query;
+    console.log(userInfo);
 
     return (
         <div>
@@ -154,7 +155,7 @@ const Header: FC<HeaderProps> = ({ createClass }) => {
                     )}
 
                     <div className="group relative">
-                        {userInfo.photoUrl !== "" ? (
+                        {userInfo.photoUrl ? (
                             <img src={userInfo.photoUrl} alt="avt" className="w-10 rounded-full" />
                         ) : (
                             <svg
