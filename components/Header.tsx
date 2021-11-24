@@ -53,7 +53,6 @@ const Header: FC<HeaderProps> = ({ createClass }) => {
 
     const router = useRouter();
     const { id } = router.query;
-    console.log(userInfo);
 
     return (
         <div>
