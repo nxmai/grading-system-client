@@ -1,4 +1,4 @@
-import React, { useEffect, useState, FC } from "react";
+import React, { useEffect, useState, FC, Fragment } from "react";
 import classApi from "../../../api/classes";
 import Header from "../../../components/Header";
 import { useRouter } from "next/router";
@@ -109,7 +109,7 @@ const ClassPeople = () => {
     }
 
     return (
-        <>
+        <Fragment>
             <Header createClass={() => { }} />
             <div className="w-[760px] ml-[calc(50%-380px)] mr-[calc(50%-380px)]">
                 {
@@ -164,7 +164,7 @@ const ClassPeople = () => {
                     ))}
                 </section>
             </div>
-        </>
+        </Fragment>
     );
 };
 
