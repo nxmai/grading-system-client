@@ -1,5 +1,4 @@
 import { Menu, Transition } from "@headlessui/react";
-import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 import EditProfileComp from "./EditProfileComp";
 import { DotsVerticalIcon } from "@heroicons/react/solid";
@@ -7,11 +6,11 @@ import EditPasswordComp from "./EditPasswordComp";
 import AddStudetnCardNumberComp from "./AddStudentCardNumberComp";
 
 type AppProps = {
-    updateCardId: any;
+    // updateCardId: any;
     reRenderPage: VoidFunction;
 };
 
-export default function UserMenu({updateCardId, reRenderPage} : AppProps) {
+export default function UserMenu({ reRenderPage }: AppProps) {
     const [openEditPasswordModal, setOpenEditPasswordModal] = useState<boolean>(false);
     const [openEditProfileModal, setOpenEditProfileModal] = useState<boolean>(false);
     const [openAddStudentCardNumberModal, setOpenAddStudentCardNumberModal] = useState<boolean>(false);
@@ -19,9 +18,9 @@ export default function UserMenu({updateCardId, reRenderPage} : AppProps) {
     return (
         <Fragment>
             <EditPasswordComp isOpen={openEditPasswordModal} setShowModal={setOpenEditPasswordModal} />
-            <EditProfileComp isOpen={openEditProfileModal} setShowModal={setOpenEditProfileModal} reRender={reRenderPage}/>
+            <EditProfileComp isOpen={openEditProfileModal} setShowModal={setOpenEditProfileModal} reRender={reRenderPage} />
             <AddStudetnCardNumberComp isOpen={openAddStudentCardNumberModal}
-                setShowModal={setOpenAddStudentCardNumberModal} updateCardId={updateCardId} />
+                setShowModal={setOpenAddStudentCardNumberModal} />
             <Menu as="div" className="relative inline-block text-left">
                 <Menu.Button>
                     <DotsVerticalIcon className="h-5 w-5 text-blue-500" />

@@ -1,9 +1,10 @@
+import { useAppDispatch } from "app/hooks";
+import { addClass } from "features/class/classSlice";
 import React, { useState, FC, useEffect, useRef } from "react";
-import classApi from "../../api/classes";
 
 interface CreateClassFormProps {
   closeModal: () => void;
-  createClass: () => void;
+  // createClass: () => void;
   // cancelCreateClassModal: () => void,
 }
 
@@ -22,7 +23,7 @@ function useOutsideCollapse(ref: any, closeModal: any) {
   }, [ref]);
 }
 
-const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal, createClass }) => {
+const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal }) => {
   const wrapperRef = useRef(null);
   useOutsideCollapse(wrapperRef, closeModal);
 
@@ -47,19 +48,20 @@ const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal, createClass }) 
     return valid;
   };
 
+  const dispatch = useAppDispatch();
   const onCreateClass = async () => {
-    console.log(classInfo);
     if (validateForm()) {
       setClassNameError("");
       closeModal();
 
-      try{
-        const data = await classApi.createClass(classInfo);
-        createClass();
-      }catch(error){
-        console.log(error);
-      }
+      // try{
+      //   const data = await classApi.createClass(classInfo);
+      //   createClass();
+      // }catch(error){
+      //   console.log(error);
+      // }
 
+      dispatch(addClass(classInfo));
     }
   };
 
@@ -72,7 +74,6 @@ const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal, createClass }) 
   const onClassSubjectChange = (e: any) => {
     const { name, value } = e.target;
     setClassInfo({ ...classInfo, [name]: value });
-
   };
 
   return (

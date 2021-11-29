@@ -1,16 +1,16 @@
-import userApi from "api/user";
-import React, { Fragment, useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { updateStudentCardID } from "features/user/userSlice";
+import React, { Fragment, useState } from "react";
 
 type AppProps = {
     isOpen: boolean;
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-    updateCardId: any;
+    // updateCardId: any;
 };
 
 export default function AddStudentCardNumberComp({
     isOpen,
     setShowModal,
-    updateCardId,
 }: AppProps) {
     const [studentCardId, setStudentCardId] = useState<String>("");
     const [inputError, setInputError] = useState("");
@@ -23,19 +23,21 @@ export default function AddStudentCardNumberComp({
             : setInputError("");
     };
 
+    const dispatch = useAppDispatch();
     const handleUpdateCardNumber = async () => {
         if (studentCardId === "") {
             setInputError("*Please type your student card");
             return;
         }
         try {
-            const data = await userApi.updateStudentID({
-                studentCardId: studentCardId,
-            });
+            // const data = await userApi.updateStudentID({
+            //     studentCardId: studentCardId,
+            // });
+            dispatch(updateStudentCardID(studentCardId));
             setInputError("");
             setShowModal(false);
             setStudentCardId("");
-            updateCardId(studentCardId);
+            // updateCardId(studentCardId);
         } catch (error) {
             console.log(error);
             setInputError("*Your student card id existed");

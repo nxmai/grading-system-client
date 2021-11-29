@@ -3,40 +3,45 @@ import { useRouter } from "next/router";
 import React, { useState, FC, useEffect } from "react";
 import CreateClassForm from "./class/CreateClassFrom";
 import { GoogleLogout } from "react-google-login";
-import userApi from "api/user";
-import Image from "next/image";
+import { fetchUserInfo, selectUser } from "features/user/userSlice";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 
 const clientId =
     "416191100698-anqr49onakr79lg2tldn7cnv4t62rqnk.apps.googleusercontent.com";
 
-interface HeaderProps {
-    createClass: () => void;
-}
+// interface HeaderProps {
+//     createClass: () => void;
+// }
 
-const Header: FC<HeaderProps> = ({ createClass }) => {
+const Header: FC = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     //TODO: change to context api or redux
-    const [userInfo, setUserInfo] = useState({
-        firstName: "",
-        lastName: "",
-        studentCardID: "",
-        photoUrl: "",
-        active: "",
-        email: "",
-    });
+    // const [userInfo, setUserInfo] = useState({
+    //     firstName: "",
+    //     lastName: "",
+    //     studentCardID: "",
+    //     photoUrl: "",
+    //     active: "",
+    //     email: "",
+    // });
 
-    useEffect(() => {
-        async function getUser() {
-            try {
-                const res = await userApi.getMe();
-                setUserInfo(res.data);
-            } catch (error: any) {
-                console.log(error?.message);
-            }
-        }
+    const userInfo = useAppSelector(selectUser);
+    const dispatch = useAppDispatch();
+    useEffect(()=>{
+        dispatch(fetchUserInfo());
+    },[dispatch]);
+    // useEffect(() => {
+    //     async function getUser() {
+    //         try {
+    //             const res = await userApi.getMe();
+    //             setUserInfo(res.data);
+    //         } catch (error: any) {
+    //             console.log(error?.message);
+    //         }
+    //     }
 
-        getUser();
-    }, []);
+    //     getUser();
+    // }, []);
 
     const openModal = () => {
         setIsModalVisible(true);
@@ -199,7 +204,7 @@ const Header: FC<HeaderProps> = ({ createClass }) => {
             {isModalVisible ? (
                 <CreateClassForm
                     closeModal={closeModal}
-                    createClass={createClass}
+                    // createClass={createClass}
                 />
             ) : (
                 ""

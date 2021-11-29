@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, FC } from "react";
+import React, { FC } from "react";
 import Link from "next/link";
 
 interface ClassCardProps {

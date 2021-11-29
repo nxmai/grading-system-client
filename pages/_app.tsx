@@ -3,6 +3,8 @@ import 'tailwindcss/tailwind.css';
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { Provider } from 'react-redux';
+import { store } from 'app/store';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -25,6 +27,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, []);
 
-  return <Component {...pageProps} />;
+  return <Provider store={store}>
+    <Component {...pageProps} />
+  </Provider>;
 }
 export default MyApp;
