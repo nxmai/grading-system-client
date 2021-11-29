@@ -107,11 +107,11 @@ const Header: FC = () => {
                             </li>
                             <li
                                 onClick={() =>
-                                    router.push(`/class/${id}/classwork`)
+                                    router.push(`/class/${id}/grade`)
                                 }
                                 className={
                                     "w-24 h-full flex justify-center items-center cursor-pointer font-semibold hover:bg-blue-100 border-b-2 " +
-                                    (router.pathname === "/class/[id]/classwork"
+                                    (router.pathname === "/class/[id]/grade"
                                         ? "text-[#1967D2]  border-blue-700"
                                         : "text-gray-400  border-white hover:border-blue-100")
                                 }
