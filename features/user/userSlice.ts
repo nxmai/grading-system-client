@@ -32,8 +32,7 @@ export const fetchUserInfo = createAsyncThunk(
 export const updateStudentCardID = createAsyncThunk(
   "user/updateStudentCard",
   async (studentCardId: String) => {
-    const response = await userApi.updateStudentID({ studentCardId: studentCardId, });
-    console.log(response);
+    const response = await userApi.updateStudentID({ studentCardId });
     return response.data;
   }
 );
@@ -49,7 +48,7 @@ export const userSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(updateStudentCardID.fulfilled, (state, action) => {
-        state.data.studentCardID = action.payload;
+        state.data.studentCardID = action.payload.studentCardID;
       });
   },
 });
