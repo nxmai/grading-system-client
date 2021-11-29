@@ -4,7 +4,7 @@ import Header from "components/Header";
 export default function ClassWork() {
     return (
         <Fragment>
-            <Header createClass={() => { }} />
+            <Header />
             <div className="w-[760px] ml-[calc(50%-380px)] mr-[calc(50%-380px)]">
                 classwork
             </div>

@@ -34,7 +34,7 @@ const Home: NextPage = () => {
 
     return (
         <div className="mb-20">
-            <Header createClass={createClass} />
+            <Header />
             {/* <Header /> */}
 
             <div className="flex flex-wrap gap-8 mr-16 ml-16 mt-8">

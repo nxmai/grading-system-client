@@ -110,7 +110,7 @@ const ClassPeople = () => {
 
     return (
         <Fragment>
-            <Header createClass={() => { }} />
+            <Header />
             <div className="w-[760px] ml-[calc(50%-380px)] mr-[calc(50%-380px)]">
                 {
                     classUserRole.role == "teacher" && (
