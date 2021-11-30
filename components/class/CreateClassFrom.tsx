@@ -4,8 +4,6 @@ import React, { useState, FC, useEffect, useRef } from "react";
 
 interface CreateClassFormProps {
   closeModal: () => void;
-  // createClass: () => void;
-  // cancelCreateClassModal: () => void,
 }
 
 function useOutsideCollapse(ref: any, closeModal: any) {
@@ -49,19 +47,11 @@ const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal }) => {
   };
 
   const dispatch = useAppDispatch();
-  const onCreateClass = async () => {
+  const onCreateClass = () => {
     if (validateForm()) {
       setClassNameError("");
-      closeModal();
-
-      // try{
-      //   const data = await classApi.createClass(classInfo);
-      //   createClass();
-      // }catch(error){
-      //   console.log(error);
-      // }
-
       dispatch(addClass(classInfo));
+      closeModal();
     }
   };
 

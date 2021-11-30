@@ -1,57 +1,39 @@
 import React, { useEffect, useState } from "react";
-import userApi from "api/user";
 import Modal from "components/Modal";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { selectUser, updateUserInfo } from "features/user/userSlice";
 
 type AppProps = {
     isOpen: boolean;
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-    reRender: VoidFunction;
 };
 
-export default function EditProfileComp({ isOpen, setShowModal, reRender }: AppProps) {
+export default function EditProfileComp({ isOpen, setShowModal }: AppProps) {
     const [firstName, setFirstName] = useState<String>("");
     const [lastName, setLastName] = useState<String>("");
     const [photoUrl, setPhotoUrl] = useState<String>("");
     const [isProcess, setProcess] = useState<boolean>(false);
 
-    async function onAction() {
-        setProcess(true);
-        try {
-            await userApi.updateInfo({
-                firstName,
-                lastName,
-                photoUrl,
-            });
-            setShowModal(false);
-            reRender();
-        } catch (error: any) {
-            console.log(error?.message);
-        }
-        setProcess(false);
+    const user = useAppSelector(selectUser);
+
+    const dispatch = useAppDispatch();
+    function onAction() {
+        dispatch(updateUserInfo({ firstName, lastName, photoUrl }));
+        setShowModal(false);
     }
 
     useEffect(() => {
-        async function getUser() {
-            setProcess(true);
-            try {
-                const res = await userApi.getMe();
-                setFirstName(res?.data?.firstName);
-                setLastName(res?.data?.lastName);
-                setPhotoUrl(res?.data?.photoUrl);
-            } catch (error: any) {
-                console.log(error?.message);
-            }
-            setProcess(false);
-        };
-        getUser();
-    }, []);
+        setFirstName(user.firstName);
+        setLastName(user.lastName);
+        setPhotoUrl(user.photoUrl);
+    },[user]);
 
     return (
         <Modal open={isOpen} onSubmit={onAction} onClose={() => setShowModal(false)} options={{
             title: "Edit profle",
             submitText: "Update"
         }}
-        isProcess={isProcess}
+            isProcess={isProcess}
         >
             <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-1 text-left">
                 <div className="lg:col-span-2">

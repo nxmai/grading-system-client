@@ -5,12 +5,7 @@ import { DotsVerticalIcon } from "@heroicons/react/solid";
 import EditPasswordComp from "./EditPasswordComp";
 import AddStudetnCardNumberComp from "./AddStudentCardNumberComp";
 
-type AppProps = {
-    // updateCardId: any;
-    reRenderPage: VoidFunction;
-};
-
-export default function UserMenu({ reRenderPage }: AppProps) {
+export default function UserMenu() {
     const [openEditPasswordModal, setOpenEditPasswordModal] = useState<boolean>(false);
     const [openEditProfileModal, setOpenEditProfileModal] = useState<boolean>(false);
     const [openAddStudentCardNumberModal, setOpenAddStudentCardNumberModal] = useState<boolean>(false);
@@ -18,7 +13,7 @@ export default function UserMenu({ reRenderPage }: AppProps) {
     return (
         <Fragment>
             <EditPasswordComp isOpen={openEditPasswordModal} setShowModal={setOpenEditPasswordModal} />
-            <EditProfileComp isOpen={openEditProfileModal} setShowModal={setOpenEditProfileModal} reRender={reRenderPage} />
+            <EditProfileComp isOpen={openEditProfileModal} setShowModal={setOpenEditProfileModal} />
             <AddStudetnCardNumberComp isOpen={openAddStudentCardNumberModal}
                 setShowModal={setOpenAddStudentCardNumberModal} />
             <Menu as="div" className="relative inline-block text-left">

@@ -8,6 +8,8 @@ const ClassDetail = () => {
     const router = useRouter();
     const { id } = router.query;
 
+    // console.log(classDetail);
+
     const [classData, setClassData] = useState({
         name: "",
         subject: "",

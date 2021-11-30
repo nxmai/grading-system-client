@@ -8,38 +8,13 @@ import { fetchUserInfo, selectUser } from "features/user/userSlice";
 export default function UserMe() {
     const userInfo = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
-    // const [userInfo, setUserInfo] = useState({
-    //     firstName: "",
-    //     lastName: "",
-    //     studentCardID: "",
-    //     photoUrl: "",
-    //     active: "",
-    //     email: "",
-    // });
+
     const [rerender, setRerender] = useState<boolean>(false);
-
-    // const updateCardId = (card: string) => {
-    //     setUserInfo({ ...userInfo, studentCardID: card });
-    // };
-
     function reRenderPage() { setRerender(!rerender);}
 
     useEffect(() => {
-        // async function getUser() {
-        //     try {
-        //         const res = await userApi.getMe();
-        //         setUserInfo(res.data);
-        //     } catch (error: any) {
-        //         console.log(error.message);
-        //     }
-        // }
-        // getUser();
         dispatch(fetchUserInfo());
     }, [dispatch]);
-
-    //   const myLoader = () => {
-    //     return "https://images.unsplash.com/photo-1637352532486-4046253f49b1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80";
-    //   };
 
     return (
         <div>
