@@ -1,31 +1,47 @@
+import classGradeApi from "api/classGrade";
 import Header from "components/Header";
 import AddingForm from "components/structure/AddingForm";
 import FormCreator from "components/structure/FormCreator";
-import React, { useState } from "react";
+import { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-const data = [
-    { title: "one", grade: 10, id: "one" },
-    { title: "two", grade: 10, id: "two" },
-];
-
 const GradeStructure = () => {
+    const router = useRouter();
+    const { id } = router.query;
+
     const [gradeStructure, setGradeStructure] = useState<
-        Array<{ title: string; grade: Number; id: string }>
+        Array<{ title: string; grade: Number; _id: string }>
     >([]);
 
-    const handleAddAssignment = (item: any) => {
-        setGradeStructure([...gradeStructure, item]);
-    };
-    console.log(gradeStructure);
+    async function getClassGradeByClassId() {
+        try {
+            if (id == undefined) return;
+            const res = await classGradeApi.getClassGradesByClassId(id);
+            setGradeStructure(res?.data);
+        } catch (error: any) {
+            console.log(error.message);
+        }
+    }
 
-    const onDragEnd = (result: any) => {
-        const item = Array.from(gradeStructure);
-        const [reorderedItem] = item.splice(result.source.index, 1);
-        item.splice(result.destination.index, 0, reorderedItem);
-
-        setGradeStructure(item);
+    const fetchClassGrade = () => {
+        getClassGradeByClassId();
     };
+
+    const onDragEnd = async (result: any) => {
+        try {
+            if (id == undefined) return;
+            const res = await classGradeApi.orderClassGrade(id, result.source.index, result.destination.index);
+        } catch (error: any) {
+            console.log(error.message);
+        }
+
+        await getClassGradeByClassId();
+    };
+
+    useEffect(()=>{
+        getClassGradeByClassId();
+    },[id]);
 
     return (
         <div>
@@ -43,12 +59,12 @@ const GradeStructure = () => {
                             {...provided.droppableProps}
                             ref={provided.innerRef}
                         >
-                            {gradeStructure.map((item, index) => {
+                            {gradeStructure?.map((item, index) => {
                                 return (
                                     <Draggable
-                                        draggableId={item.id}
+                                        draggableId={item._id}
                                         index={index}
-                                        key={item.id}
+                                        key={item._id}
                                     >
                                         {(provided) => (
                                             <div
@@ -57,7 +73,9 @@ const GradeStructure = () => {
                                                 ref={provided.innerRef}
                                             >
                                                 <FormCreator
-                                                    assignment={item}
+                                                    assignmentT={item}
+                                                    fetchClassGrade={fetchClassGrade}
+                                                    classId={id}
                                                 />
                                             </div>
                                         )}
@@ -69,7 +87,7 @@ const GradeStructure = () => {
                     )}
                 </Droppable>
             </DragDropContext>
-            <AddingForm addAssignment={handleAddAssignment} />
+            <AddingForm fetchClassGrade={fetchClassGrade} classId={id}/>
         </div>
     );
 };

@@ -1,12 +1,60 @@
+import classGradeApi from "api/classGrade";
 import Button from "components/Button";
 import React, { useState } from "react";
 
 type FormCreatorProps = {
-    assignment: any;
+    fetchClassGrade: VoidFunction;
+    assignmentT: any;
+    classId: any;
 };
 
-const FormCreator = ({ assignment }: FormCreatorProps) => {
+const FormCreator = ({ fetchClassGrade, assignmentT, classId }: FormCreatorProps) => {
     const [didEdit, setDidEdit] = useState<Boolean>(false);
+
+    const [assignment, setAssignment] = useState({ title: assignmentT?.title, grade: assignmentT?.grade, id: assignmentT?._id});
+    const handleChangeInput = (e: any) => {
+        const { name, value } = e.target;
+        if(name == "title"){
+            setAssignment({ ...assignment, [name]: value});
+            return;
+        }
+        setAssignment({ ...assignment, [name]: value });
+    };
+
+    async function updateClassGrade() {
+        try {
+            const grade = await classGradeApi.updateClassGradeById(classId, assignment.id, assignment);
+            return grade;
+        } catch(err: any) {
+            console.log(err.message);
+        }
+    }
+    async function deleteClassGrade() {
+        try {
+            const grade = await classGradeApi.deleteClassGradeById(classId, assignment.id);
+            return grade;
+        } catch(err: any) {
+            console.log(err.message);
+        }
+    }
+
+    const handleUpdateAssignment = async () => {
+        await updateClassGrade();
+        setDidEdit(!didEdit);
+        fetchClassGrade();
+    };
+
+    const handleCancelEditAssignment = () => {
+        setAssignment({ title: assignmentT?.title, grade: assignmentT?.grade, id: assignmentT?._id });
+        setDidEdit(!didEdit);
+    };
+
+    const handleDeleteAssignment = async () => {
+        await deleteClassGrade();
+        setAssignment({ title: "", grade: "", id: ""});
+        setDidEdit(!didEdit);
+        fetchClassGrade();
+    };
 
     return (
         <div className="flex justify-center mt-4 ">
@@ -25,6 +73,7 @@ const FormCreator = ({ assignment }: FormCreatorProps) => {
                         }
                         disabled={!didEdit ? true : false}
                         value={assignment.title}
+                        onChange={handleChangeInput}
                     />
                 </div>
                 <div className="">
@@ -41,6 +90,7 @@ const FormCreator = ({ assignment }: FormCreatorProps) => {
                         }
                         value={assignment.grade}
                         disabled={!didEdit ? true : false}
+                        onChange={handleChangeInput}
                     />
                 </div>
                 <div className="flex gap-2 justify-end">
@@ -49,7 +99,7 @@ const FormCreator = ({ assignment }: FormCreatorProps) => {
                             type="button"
                             variants="primary"
                             className="pl-6 pr-6 sm:mt-0 sm:w-auto sm:text-sm"
-                            onClick={() => setDidEdit(true)}
+                            onClick={handleCancelEditAssignment}
                         >
                             Edit
                         </Button>
@@ -58,7 +108,7 @@ const FormCreator = ({ assignment }: FormCreatorProps) => {
                             type="button"
                             variants="primary"
                             className="!bg-green-500 pl-6 pr-6 sm:mt-0 sm:w-auto sm:text-sm"
-                            onClick={() => setDidEdit(false)}
+                            onClick={handleUpdateAssignment}
                         >
                             Save
                         </Button>
@@ -67,6 +117,7 @@ const FormCreator = ({ assignment }: FormCreatorProps) => {
                         type="button"
                         variants="error"
                         className="sm:mt-0 sm:w-auto sm:text-sm"
+                        onClick={handleDeleteAssignment}
                     >
                         Delete
                     </Button>

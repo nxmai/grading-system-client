@@ -1,24 +1,36 @@
+import classGradeApi from "api/classGrade";
 import Button from "components/Button";
 import React, { useState } from "react";
 
 type FormAddingProps = {
-    addAssignment: (item: any) => void;
+    fetchClassGrade: VoidFunction;
+    classId: any;
 };
 
-const AddingForm = ({ addAssignment }: FormAddingProps) => {
-    const [assignment, setAssignment] = useState({ title: "", grade: "", id: "" });
+const AddingForm = ({ fetchClassGrade, classId }: FormAddingProps) => {
+    const [assignment, setAssignment] = useState({ title: "", grade: ""});
     const handleChangeInput = (e: any) => {
         const { name, value } = e.target;
         if(name == "title"){
-            setAssignment({ ...assignment, [name]: value, id: value });
+            setAssignment({ ...assignment, [name]: value});
             return;
         }
         setAssignment({ ...assignment, [name]: value });
     };
 
-    const handleAddAssignment = () => {
-        addAssignment(assignment);
-        setAssignment({ title: "", grade: "", id: "" });
+    async function createClassGrade() {
+        try {
+            const grade = await classGradeApi.createClassGrade(classId, assignment);
+            return grade;
+        } catch(err: any) {
+            console.log(err.message);
+        }
+    }
+
+    const handleAddAssignment = async () => {
+        await createClassGrade();
+        fetchClassGrade();
+        setAssignment({ title: "", grade: ""});
     };
 
     return (
@@ -39,7 +51,7 @@ const AddingForm = ({ addAssignment }: FormAddingProps) => {
                 <div className="">
                     <label htmlFor="grade">Grade *</label>
                     <input
-                        type="text"
+                        type="number"
                         name="grade"
                         id="grade"
                         className="h-10 border mt-1 rounded px-4 w-full focus:outline-none bg-gray-50"
