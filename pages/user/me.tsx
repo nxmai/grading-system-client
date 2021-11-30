@@ -53,7 +53,7 @@ export default function UserMe() {
                                 </div>
                                 <div className="lg:w-4/12 px-4 lg:order-3 text-right lg:self-center">
                                     <div className="py-6 px-3 sm:mt-0">
-                                        <UserMenu reRenderPage={reRenderPage}/>
+                                        <UserMenu />
                                     </div>
                                 </div>
                             </div>
