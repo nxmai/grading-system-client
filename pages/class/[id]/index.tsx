@@ -3,12 +3,17 @@ import Header from "../../../components/Header";
 import { useRouter } from "next/router";
 import classApi from "../../../api/classes";
 import Image from "next/image";
+import Link from "next/link";
+import GradeStructureMenu from "components/class/GradeStructureMenu";
+import classGradeApi from "api/classGrade";
 
 const ClassDetail = () => {
     const router = useRouter();
     const { id } = router.query;
 
-    // console.log(classDetail);
+    const [gradeStructure, setGradeStructure] = useState<
+        Array<{ title: string; grade: Number; _id: string }>
+    >([]);
 
     const [classData, setClassData] = useState({
         name: "",
@@ -17,18 +22,32 @@ const ClassDetail = () => {
         description: "",
     });
 
-    useEffect(() => {
-        async function getClass() {
-            try {
-                const res = await classApi.getClassById(id);
-                setClassData({ ...res?.data });
-            } catch (error: any) {
-                console.log(error.message);
-                return router.push("/");
-            }
+    async function getClass() {
+        try {
+            const res = await classApi.getClassById(id);
+            setClassData({ ...res?.data });
+        } catch (error: any) {
+            console.log(error.message);
+            return router.push("/");
         }
+    }
 
-        getClass();
+    async function getClassGradeByClassId() {
+        try {
+            if (id == undefined) return;
+            const res = await classGradeApi.getClassGradesByClassId(id);
+            setGradeStructure(res?.data);
+        } catch (error: any) {
+            console.log(error.message);
+        }
+    }
+
+    useEffect(() => {
+        async function doAsyncTask() {
+            await getClass();
+            await getClassGradeByClassId();
+        }
+        doAsyncTask();
     }, [id]);
 
     return (
@@ -61,7 +80,42 @@ const ClassDetail = () => {
                         </p>
                     </div>
                 </section>
-                <section></section>
+                <section className="mt-4">
+                    <div className="flex">
+                        <div className="flex flex-col space-y-4">
+                            <div className="min-w-[200px] max-w-[240px] shadow-md p-4 rounded-sm">
+                                <div className="flex justify-between">
+                                    <div className="">Grade Structure</div>
+                                    {/* <DotsVerticalIcon className="w-4 cursor-pointer hover:text-black-500"/> */}
+                                    <GradeStructureMenu classId={id} />
+                                </div>
+                                <div className="h-4"></div>
+                                {gradeStructure?.map((item, index) => {
+                                    // let url = `/class/${id}/grade/${item._id}`;
+                                    let url = "#";
+                                    return (
+                                        <Link href={url} key={index}>
+                                            <a className="text-blue-600 truncate block">{item.title} : {item.grade}</a>
+                                        </Link>
+                                    );
+                                })}
+                            </div>
+                            {/* <div className="min-w-[200px] max-w-[240px] shadow-md p-2 rounded-sm">
+                            <div className="flex justify-between">
+                                <div className="text-semibold">Invite Link</div>
+                                <DotsVerticalIcon className="w-4 cursor-pointer hover:text-black-500"/>
+                            </div>
+                            <div className="h-4"></div>
+                            <Link href="#">
+                                <a className="text-blue-600 truncate block">###</a>
+                            </Link>
+                        </div> */}
+                        </div>
+                        <div>
+
+                        </div>
+                    </div>
+                </section>
             </div>
         </>
     );
