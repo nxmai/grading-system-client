@@ -5,7 +5,7 @@ import classApi from "../../../api/classes";
 import Image from "next/image";
 import Link from "next/link";
 import GradeStructureMenu from "components/class/GradeStructureMenu";
-import classGradeApi from "api/classGrade";
+import classAssignmentApi from "api/classAssignment";
 
 const ClassDetail = () => {
     const router = useRouter();
@@ -32,10 +32,10 @@ const ClassDetail = () => {
         }
     }
 
-    async function getClassGradeByClassId() {
+    async function getClassAssignmentByClassId() {
         try {
             if (id == undefined) return;
-            const res = await classGradeApi.getClassGradesByClassId(id);
+            const res = await classAssignmentApi.getClassAssignmentsByClassId(id);
             setGradeStructure(res?.data);
         } catch (error: any) {
             console.log(error.message);
@@ -45,7 +45,7 @@ const ClassDetail = () => {
     useEffect(() => {
         async function doAsyncTask() {
             await getClass();
-            await getClassGradeByClassId();
+            await getClassAssignmentByClassId();
         }
         doAsyncTask();
     }, [id]);

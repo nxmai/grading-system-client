@@ -1,14 +1,14 @@
-import classGradeApi from "api/classGrade";
+import classAssignmentApi from "api/classAssignment";
 import Button from "components/Button";
 import React, { useState } from "react";
 
 type FormCreatorProps = {
-    fetchClassGrade: VoidFunction;
+    fetchClassAssignment: VoidFunction;
     assignmentT: any;
     classId: any;
 };
 
-const FormCreator = ({ fetchClassGrade, assignmentT, classId }: FormCreatorProps) => {
+const FormCreator = ({ fetchClassAssignment, assignmentT, classId }: FormCreatorProps) => {
     const [didEdit, setDidEdit] = useState<Boolean>(false);
 
     const [assignment, setAssignment] = useState({ title: assignmentT?.title, grade: assignmentT?.grade, id: assignmentT?._id});
@@ -21,17 +21,17 @@ const FormCreator = ({ fetchClassGrade, assignmentT, classId }: FormCreatorProps
         setAssignment({ ...assignment, [name]: value });
     };
 
-    async function updateClassGrade() {
+    async function updateClassAssignment() {
         try {
-            const grade = await classGradeApi.updateClassGradeById(classId, assignment.id, assignment);
+            const grade = await classAssignmentApi.updateClassAssignmentById(classId, assignment.id, assignment);
             return grade;
         } catch(err: any) {
             console.log(err.message);
         }
     }
-    async function deleteClassGrade() {
+    async function deleteClassAssignment() {
         try {
-            const grade = await classGradeApi.deleteClassGradeById(classId, assignment.id);
+            const grade = await classAssignmentApi.deleteClassAssignmentById(classId, assignment.id);
             return grade;
         } catch(err: any) {
             console.log(err.message);
@@ -39,9 +39,9 @@ const FormCreator = ({ fetchClassGrade, assignmentT, classId }: FormCreatorProps
     }
 
     const handleUpdateAssignment = async () => {
-        await updateClassGrade();
+        await updateClassAssignment();
         setDidEdit(!didEdit);
-        fetchClassGrade();
+        fetchClassAssignment();
     };
 
     const handleCancelEditAssignment = () => {
@@ -50,10 +50,10 @@ const FormCreator = ({ fetchClassGrade, assignmentT, classId }: FormCreatorProps
     };
 
     const handleDeleteAssignment = async () => {
-        await deleteClassGrade();
+        await deleteClassAssignment();
         setAssignment({ title: "", grade: "", id: ""});
         setDidEdit(!didEdit);
-        fetchClassGrade();
+        fetchClassAssignment();
     };
 
     return (

@@ -107,11 +107,11 @@ const Header: FC = () => {
                             </li>
                             <li
                                 onClick={() =>
-                                    router.push(`/class/${id}/grade`)
+                                    router.push(`/class/${id}/assignment`)
                                 }
                                 className={
                                     "w-24 h-full flex justify-center items-center cursor-pointer font-semibold hover:bg-blue-100 border-b-2 " +
-                                    (router.pathname === "/class/[id]/grade"
+                                    (router.pathname === "/class/[id]/assignment"
                                         ? "text-[#1967D2]  border-blue-700"
                                         : "text-gray-400  border-white hover:border-blue-100")
                                 }
@@ -143,6 +143,19 @@ const Header: FC = () => {
                                 }
                             >
                                 Score
+                            </li>
+                            <li
+                                onClick={() =>
+                                    router.push(`/class/${id}/grades`)
+                                }
+                                className={
+                                    "w-24 h-full flex justify-center items-center cursor-pointer font-semibold hover:bg-blue-100 border-b-2 " +
+                                    (router.pathname === "/class/[id]/grades"
+                                        ? "text-[#1967D2]  border-blue-700"
+                                        : "text-gray-400  border-white hover:border-blue-100")
+                                }
+                            >
+                                Grades
                             </li>
                         </ul>
                     </div>

@@ -1,13 +1,13 @@
-import classGradeApi from "api/classGrade";
+import classAssignmentApi from "api/classAssignment";
 import Button from "components/Button";
 import React, { useState } from "react";
 
 type FormAddingProps = {
-    fetchClassGrade: VoidFunction;
+    fetchClassAssignment: VoidFunction;
     classId: any;
 };
 
-const AddingForm = ({ fetchClassGrade, classId }: FormAddingProps) => {
+const AddingForm = ({ fetchClassAssignment, classId }: FormAddingProps) => {
     const [assignment, setAssignment] = useState({ title: "", grade: ""});
     const handleChangeInput = (e: any) => {
         const { name, value } = e.target;
@@ -18,9 +18,9 @@ const AddingForm = ({ fetchClassGrade, classId }: FormAddingProps) => {
         setAssignment({ ...assignment, [name]: value });
     };
 
-    async function createClassGrade() {
+    async function createClassAssignment() {
         try {
-            const grade = await classGradeApi.createClassGrade(classId, assignment);
+            const grade = await classAssignmentApi.createClassAssignment(classId, assignment);
             return grade;
         } catch(err: any) {
             console.log(err.message);
@@ -28,8 +28,8 @@ const AddingForm = ({ fetchClassGrade, classId }: FormAddingProps) => {
     }
 
     const handleAddAssignment = async () => {
-        await createClassGrade();
-        fetchClassGrade();
+        await createClassAssignment();
+        fetchClassAssignment();
         setAssignment({ title: "", grade: ""});
     };
 

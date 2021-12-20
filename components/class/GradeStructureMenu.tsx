@@ -30,7 +30,7 @@ export default function GradeStructureMenu( { classId }: AppProps) {
                             <Menu.Item>
                                 {({ active }) => (
                                     <button
-                                    onClick={()=>router.push(`/class/${classId}/grade`)}
+                                    onClick={()=>router.push(`/class/${classId}/assignment`)}
                                         className={`${active ? "bg-blue-50" : "text-gray-900"
                                             } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                                     >

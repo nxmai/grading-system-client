@@ -1,4 +1,4 @@
-import classGradeApi from "api/classGrade";
+import classAssignmentApi from "api/classAssignment";
 import Header from "components/Header";
 import AddingForm from "components/structure/AddingForm";
 import FormCreator from "components/structure/FormCreator";
@@ -14,33 +14,33 @@ const GradeStructure = () => {
         Array<{ title: string; grade: Number; _id: string }>
     >([]);
 
-    async function getClassGradeByClassId() {
+    async function getClassAssignmentByClassId() {
         try {
             if (id == undefined) return;
-            const res = await classGradeApi.getClassGradesByClassId(id);
+            const res = await classAssignmentApi.getClassAssignmentsByClassId(id);
             setGradeStructure(res?.data);
         } catch (error: any) {
             console.log(error.message);
         }
     }
 
-    const fetchClassGrade = () => {
-        getClassGradeByClassId();
+    const fetchClassAssignment = () => {
+        getClassAssignmentByClassId();
     };
 
     const onDragEnd = async (result: any) => {
         try {
             if (id == undefined) return;
-            const res = await classGradeApi.orderClassGrade(id, result.source.index, result.destination.index);
+            const res = await classAssignmentApi.orderClassAssignment(id, result.source.index, result.destination.index);
         } catch (error: any) {
             console.log(error.message);
         }
 
-        await getClassGradeByClassId();
+        await getClassAssignmentByClassId();
     };
 
     useEffect(()=>{
-        getClassGradeByClassId();
+        getClassAssignmentByClassId();
     },[id]);
 
     return (
@@ -74,7 +74,7 @@ const GradeStructure = () => {
                                             >
                                                 <FormCreator
                                                     assignmentT={item}
-                                                    fetchClassGrade={fetchClassGrade}
+                                                    fetchClassAssignment={fetchClassAssignment}
                                                     classId={id}
                                                 />
                                             </div>
@@ -87,7 +87,7 @@ const GradeStructure = () => {
                     )}
                 </Droppable>
             </DragDropContext>
-            <AddingForm fetchClassGrade={fetchClassGrade} classId={id}/>
+            <AddingForm fetchClassAssignment={fetchClassAssignment} classId={id}/>
         </div>
     );
 };
