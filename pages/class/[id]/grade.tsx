@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import classAssignmentApi from 'api/classAssignment';
-import classApi from 'api/classes';
+import classScoreApi from 'api/classScore';
 import Header from 'components/Header';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -14,8 +14,9 @@ function ClassGrades() {
 
     async function getStudents(id: any) {
         try {
-            const res = await classApi.getStudentsInClass(id);
-            setStudentList(res?.data);
+            const res = await classScoreApi.getStudentsInClass(id);
+            setStudentList(res?.data?.data);
+            console.log(res?.data?.data);
         } catch (error: any) {
             console.log(error.message);
         }
