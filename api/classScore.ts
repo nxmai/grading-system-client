@@ -9,12 +9,12 @@ const classScoreApi = {
         const url = `${apiURL}/${classId}/score/student/file`;
         return postWithFile(url, data, localStorage.getItem("token") ?? "");
     },
-    uploadScoreByGradeId(classId: any, gradeId: any, data: FormData) {
-        const url = `${apiURL}/${classId}/score/${gradeId}/upload`;
+    uploadScoreByAssignmentId(classId: any, assignmentId: any, data: FormData) {
+        const url = `${apiURL}/${classId}/score/${assignmentId}/upload`;
         return postWithFile(url, data, localStorage.getItem("token") ?? "");
     },
-    downloadTemplateScoreByGradeId(classId: any, gradeId: any) {
-        const url = `${apiURL}/${classId}/score/${gradeId}/download`;
+    downloadTemplateScoreByAssignmentId(classId: any, assignmentId: any) {
+        const url = `${apiURL}/${classId}/score/${assignmentId}/download`;
         return get(url, localStorage.getItem("token") ?? "");
     },
 };

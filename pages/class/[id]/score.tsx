@@ -21,7 +21,7 @@ export default function ClassScore() {
 
     // for test
     function onClickDowndloadTemplateScore() {
-        classScoreApi.downloadTemplateScoreByGradeId(id, id).then((res) => {
+        classScoreApi.downloadTemplateScoreByAssignmentId(id, id).then((res) => {
             console.log(res);
             alert(res.data.data);
         });
@@ -30,7 +30,7 @@ export default function ClassScore() {
     return (
         <Fragment>
             <Header />
-            <UploadScoreModal isOpen={isOpenUploadScoreModal} setShowModal={setOpenUploadScoreModal} classId={id} gradeId={id} />
+            <UploadScoreModal isOpen={isOpenUploadScoreModal} setShowModal={setOpenUploadScoreModal} classId={id} assignmentId={id} />
             <div className="w-[760px] ml-[calc(50%-380px)] mr-[calc(50%-380px)]">
                 <div className="flex">
                     <div className="justify-end">

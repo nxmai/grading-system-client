@@ -6,10 +6,10 @@ type AppProps = {
     isOpen: boolean;
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
     classId: any;
-    gradeId: any
+    assignmentId: any
 };
 
-export default function UploadScoreModal({ isOpen, setShowModal, classId, gradeId }: AppProps) {
+export default function UploadScoreModal({ isOpen, setShowModal, classId, assignmentId }: AppProps) {
     const [file, setFile] = useState<File>();
     const [inputError, setInputError] = useState<String>("");
     const [isProcess, setProcess] = useState<boolean>(false);
@@ -26,7 +26,7 @@ export default function UploadScoreModal({ isOpen, setShowModal, classId, gradeI
             return;
         }
         
-        classScoreApi.uploadScoreByGradeId(classId, gradeId, dataForm)
+        classScoreApi.uploadScoreByAssignmentId(classId, assignmentId, dataForm)
         .then(_ => {
             setShowModal(false);
         }).catch((error: any)=>{

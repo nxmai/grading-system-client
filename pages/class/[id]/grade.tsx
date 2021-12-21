@@ -1,16 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
+import classAssignmentApi from 'api/classAssignment';
 import classApi from 'api/classes';
 import Header from 'components/Header';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
-function ClassAssignments() {
+function ClassGrades() {
     const router = useRouter();
     const { id } = router.query;
 
     const [studentList, setStudentList] = useState([]);
+    const [assignments, setAssignments] = useState([]);
 
-    async function getStudents() {
+    async function getStudents(id: any) {
         try {
             const res = await classApi.getStudentsInClass(id);
             setStudentList(res?.data);
@@ -18,9 +20,28 @@ function ClassAssignments() {
             console.log(error.message);
         }
     }
+
+    async function getAssignments(id: any) {
+        try {
+            if (id == undefined) return;
+            const res = await classAssignmentApi.getClassAssignmentsByClassId(id);
+            setAssignments(res?.data);
+        } catch (error: any) {
+            console.log(error.message);
+        }
+    }
+
+    // TODO: upload student list
+    // TODO: load grade board
+    // scores: {classStudentId, classAssignment, score}
+    // assignment: id, title
+    // student: id, firstName, lastName, photoUrl
+
     useEffect(() => {
-        getStudents();
+        getStudents(id);
+        getAssignments(id);
     }, [id]);
+
     return (
         <>
             <Header />
@@ -34,9 +55,11 @@ function ClassAssignments() {
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Name
                                         </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Grades
-                                        </th>
+                                        {assignments.map((assignment: any, index) => <>
+                                            <th key={index} scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                {assignment.title}
+                                            </th></>
+                                        )}
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
@@ -71,4 +94,4 @@ function ClassAssignments() {
     );
 }
 
-export default ClassAssignments;
+export default ClassGrades;
