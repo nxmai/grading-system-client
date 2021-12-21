@@ -4,6 +4,7 @@ import Button from "components/Button";
 import classScoreApi from "api/classScore";
 import { useRouter } from "next/router";
 import UploadScoreModal from "components/class/UploadScoreModal";
+import { triggerDownloadScv } from "libs/downloadCsv";
 
 export default function ClassScore() {
     const router = useRouter();
@@ -14,16 +15,14 @@ export default function ClassScore() {
     // for test
     function onClickDowndloadTemplate() {
         classScoreApi.downloadTemplateListStudentId(id).then((res) => {
-            console.log(res);
-            alert(res.data.data);
+            triggerDownloadScv('download', res);
         });
     }
 
     // for test
     function onClickDowndloadTemplateScore() {
         classScoreApi.downloadTemplateScoreByAssignmentId(id, id).then((res) => {
-            console.log(res);
-            alert(res.data.data);
+            triggerDownloadScv('download', res);
         });
     }
 
