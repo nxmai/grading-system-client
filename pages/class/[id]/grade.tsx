@@ -1,10 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import classAssignmentApi from "api/classAssignment";
 import classScoreApi from "api/classScore";
-import AssignmentMenu from "components/grade/assignmentMenu";
-import UploadScoreAssignment from "components/grade/UploadScoreAssignment";
+import AssignmentMenu from "components/grade/AssignmentMenu";
 import Header from "components/Header";
-import UserMenu from "components/user/UserMenu";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
@@ -13,7 +11,7 @@ function ClassGrades() {
     const { id } = router.query;
 
     const [studentList, setStudentList] = useState([]);
-    const [assignments, setAssignments] = useState(assignmentsData);
+    const [assignments, setAssignments] = useState([]);
     const [gradeAssignment, setGradeAssignment] = useState(gradeAssi);
 
     async function getStudents(id: any) {
@@ -24,8 +22,8 @@ function ClassGrades() {
         } catch (error: any) {
             console.log(error.message);
         }
-        setAssignments(assignmentsData);
-        setGradeAssignment(gradeAssi);
+        // setAssignments(assignmentsData);
+        // setGradeAssignment(gradeAssi);
     }
     console.log(studentList);
     console.log(assignments);
@@ -90,7 +88,7 @@ function ClassGrades() {
                                                 d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
                                             />
                                         </svg> */}
-                                        <AssignmentMenu />
+                                        <AssignmentMenu classId={id} assignmentId={assignment?._id}/>
                                     </div>
                                 </th>
                             ))}
@@ -146,11 +144,6 @@ function ClassGrades() {
 }
 
 export default ClassGrades;
-
-const assignmentsData = [
-    { title: "Midterm", id: "61c193f4003e70393277dde0" },
-    { title: "Final", id: "61c19487003e70393277de17" },
-];
 
 const gradeAssi = [
     {

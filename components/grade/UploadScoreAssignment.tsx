@@ -1,37 +1,39 @@
 import React, { useEffect, useState } from "react";
 import Modal from "components/Modal";
+import classScoreApi from "api/classScore";
 
 type AppProps = {
     isOpen: boolean;
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+    classId: any;
+    assignmentId: any;
 };
 
-export default function UploadScoreAssignment({ isOpen, setShowModal }: AppProps) {
+export default function UploadScoreAssignment({ isOpen, setShowModal, classId, assignmentId }: AppProps) {
     const [file, setFile] = useState<File>();
     const [inputError, setInputError] = useState<String>("");
     const [isProcess, setProcess] = useState<boolean>(false);
 
     function onActionClick() {
         setProcess(true);
+        const dataForm = new FormData();
+        if (file && typeof file === 'object' && file instanceof File) {
+            dataForm.append('file', file);
+        } else {
+            setInputError("No file found");
+            setProcess(false);
+            return;
+        }
         
-        // const dataForm = new FormData();
-        // if (file && typeof file === 'object' && file instanceof File) {
-        //     dataForm.append('file', file);
-        // } else {
-        //     setInputError("No file found");
-        //     setProcess(false);
-        //     return;
-        // }
-        
-        // classScoreApi.uploadScoreByAssignmentId(classId, assignmentId, dataForm)
-        // .then(_ => {
-        //     setShowModal(false);
-        // }).catch((error: any)=>{
-        //     console.log(error);
-        //     setInputError(error);
-        // }).finally(()=>{
-        //     setProcess(false);
-        // });
+        classScoreApi.uploadScoreByAssignmentId(classId, assignmentId, dataForm)
+        .then(_ => {
+            setShowModal(false);
+        }).catch((error: any)=>{
+            console.log(error);
+            setInputError(error);
+        }).finally(()=>{
+            setProcess(false);
+        });
     }
 
     function handleSetFile( data: any) {
@@ -42,8 +44,8 @@ export default function UploadScoreAssignment({ isOpen, setShowModal }: AppProps
 
     return (
         <Modal open={isOpen} onSubmit={onActionClick} onClose={() => setShowModal(false)} options={{
-            title: "Edit profle",
-            submitText: "Update"
+            title: "Upload Score Assignment",
+            submitText: "Upload"
         }}
             isProcess={isProcess}
         >

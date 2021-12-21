@@ -5,15 +5,20 @@ import UploadScoreAssignment from "./UploadScoreAssignment";
 import DownLoadScoreAssignment from "./DownloadScoreAssignment";
 import ReturnScoreAssignment from "./ReturnScoreAssignment";
 
-export default function AssignmentMenu() {
+type AppProps = {
+    classId: any,
+    assignmentId: any
+}
+
+export default function AssignmentMenu({classId, assignmentId }: AppProps) {
     const [openUploadScoreAssignment, setOpenUploadScoreAssignment] = useState<boolean>(false);
     const [openDownloadScoreAssignment, setOpenDownloadScoreAssignment] = useState<boolean>(false);
     const [openReturnScoreAssignment, setOpenReturnScoreAssignment] = useState<boolean>(false);
 
     return (
         <Fragment>
-            <UploadScoreAssignment isOpen={openUploadScoreAssignment} setShowModal={setOpenUploadScoreAssignment} />
-            <DownLoadScoreAssignment isOpen={openDownloadScoreAssignment} setShowModal={setOpenDownloadScoreAssignment} />
+            <UploadScoreAssignment isOpen={openUploadScoreAssignment} setShowModal={setOpenUploadScoreAssignment} classId={classId} assignmentId={assignmentId}/>
+            <DownLoadScoreAssignment isOpen={openDownloadScoreAssignment} setShowModal={setOpenDownloadScoreAssignment} classId={classId} assignmentId={assignmentId}/>
             <ReturnScoreAssignment isOpen={openReturnScoreAssignment} setShowModal={setOpenReturnScoreAssignment} />
             
             <Menu as="div" className="relative inline-block text-left">
