@@ -21,6 +21,10 @@ const classScoreApi = {
         const url = `${apiURL}/${classId}/score/${assignmentId}/download`;
         return get(url, localStorage.getItem("token") ?? "");
     },
+    getAssignmentScoreByClassId(classId: any) {
+        const url = `${apiURL}/${classId}/score`;
+        return get(url, localStorage.getItem("token") ?? "");
+    }
 };
 
 export default classScoreApi;
