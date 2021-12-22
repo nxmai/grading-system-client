@@ -9,6 +9,10 @@ const classScoreApi = {
         const url = `${apiURL}/${classId}/score/student/file`;
         return downloadFile(url, localStorage.getItem("token") ?? "");
     },
+    downloadFullTable(classId: any) {
+        const url = `${apiURL}/${classId}/score/full/file`;
+        return downloadFile(url, localStorage.getItem("token") ?? "");
+    },
     uploadStudentList(classId: any, data: FormData) {
         const url = `${apiURL}/${classId}/score/student/file`;
         return postWithFile(url, data, localStorage.getItem("token") ?? "");

@@ -119,6 +119,12 @@ function ClassGrades() {
         });
     }
 
+    function onClickDownloadScore() {
+        classScoreApi.downloadFullTable(id).then((res) => {
+            triggerDownloadScv("download", res);
+        });
+    }
+
     // for test
     function onClickDowndloadTemplateScore() {
         classScoreApi
@@ -144,9 +150,6 @@ function ClassGrades() {
                         <Button onClick={onClickDowndloadTemplate}>
                             Download Template
                         </Button>
-                        {/* <Button onClick={onClickDowndloadTemplateScore}>
-                            Download Template Score
-                        </Button> */}
                         <Button
                             onClick={() =>
                                 setOpenUploadStudentListModal(
@@ -155,6 +158,9 @@ function ClassGrades() {
                             }
                         >
                             Upload StudentList
+                        </Button>
+                        <Button onClick={onClickDownloadScore}>
+                            Download Table
                         </Button>
                     </div>
                 </div>
