@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import Button from "components/Button";
 import React, { useEffect, useState } from "react";
 import UploadScoreModal from "components/class/UploadScoreModal";
+import { triggerDownloadScv } from "libs/downloadCsv";
 
 function ClassGrades() {
     const router = useRouter();
@@ -95,38 +96,48 @@ function ClassGrades() {
         setAssignmentsScore(temp);
     }
 
-    function addScoreForOneStudentAssignment(assignmentId: any, studentId: any){
+    async function addScoreForOneStudentAssignment(
+        assignmentId: any,
+        studentId: any
+    ) {
         const index = assignmentsScore.findIndex(
             (assignmentScore: any) =>
                 assignmentScore.classAssignment == assignmentId &&
                 assignmentScore.classStudentId == studentId
         );
         console.log(assignmentsScore[index]);
+
+        await classScoreApi.createOneClassScore(id, assignmentId, assignmentsScore[index]);
         //call api
     }
-    const [isOpenUploadStudentListModal, setOpenUploadStudentListModal] = useState<boolean>(false);
+    const [isOpenUploadStudentListModal, setOpenUploadStudentListModal] =
+        useState<boolean>(false);
 
-    // for test
     function onClickDowndloadTemplate() {
         classScoreApi.downloadTemplateListStudentId(id).then((res) => {
-            console.log(res);
-            alert(res.data.data);
+            triggerDownloadScv("download", res);
         });
     }
 
     // for test
     function onClickDowndloadTemplateScore() {
-        classScoreApi.downloadTemplateScoreByAssignmentId(id, id).then((res) => {
-            console.log(res);
-            alert(res.data.data);
-        });
+        classScoreApi
+            .downloadTemplateScoreByAssignmentId(id, id)
+            .then((res) => {
+                triggerDownloadScv("download", res);
+            });
     }
 
     return (
         <>
             <Header />
-            
-            <UploadScoreModal isOpen={isOpenUploadStudentListModal} setShowModal={setOpenUploadStudentListModal} classId={id} assignmentId={id} />
+
+            <UploadScoreModal
+                isOpen={isOpenUploadStudentListModal}
+                setShowModal={setOpenUploadStudentListModal}
+                classId={id}
+                assignmentId={id}
+            />
             <div className="w-[760px] mr-[calc(50%-380px)]">
                 <div className="flex">
                     <div className="justify-start">
@@ -136,7 +147,13 @@ function ClassGrades() {
                         {/* <Button onClick={onClickDowndloadTemplateScore}>
                             Download Template Score
                         </Button> */}
-                        <Button onClick={()=> setOpenUploadStudentListModal(!isOpenUploadStudentListModal)}>
+                        <Button
+                            onClick={() =>
+                                setOpenUploadStudentListModal(
+                                    !isOpenUploadStudentListModal
+                                )
+                            }
+                        >
                             Upload StudentList
                         </Button>
                     </div>
@@ -166,7 +183,10 @@ function ClassGrades() {
                                         <p className="px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             {assignment.title}
                                         </p>
-                                        <AssignmentMenu />
+                                        <AssignmentMenu
+                                            classId={id}
+                                            assignmentId={assignment?._id}
+                                        />
                                     </div>
                                     <p className="px-1 text-left text-xs font-normal text-gray-500 tracking-wider">
                                         10 is max
@@ -256,19 +276,25 @@ function ClassGrades() {
                                                 />
                                             )}
                                             <span className="hidden group-hover:block absolute ml-12">
+                                                
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     className="h-4 w-4 cursor-pointer"
                                                     fill="none"
                                                     viewBox="0 0 24 24"
                                                     stroke="currentColor"
-                                                    onClick={() => addScoreForOneStudentAssignment(assignment._id, student._id)}
+                                                    onClick={() =>
+                                                        addScoreForOneStudentAssignment(
+                                                            assignment._id,
+                                                            student._id
+                                                        )
+                                                    }
                                                 >
                                                     <path
                                                         strokeLinecap="round"
                                                         strokeLinejoin="round"
-                                                        strokeWidth={2}
-                                                        d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+                                                        strokeWidth="2"
+                                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
                                                     />
                                                 </svg>
                                             </span>

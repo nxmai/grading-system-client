@@ -1,49 +1,30 @@
 import React, { useEffect, useState } from "react";
 import Modal from "components/Modal";
+import classScoreApi from "api/classScore";
+import { triggerDownloadScv } from "libs/downloadCsv";
 
 type AppProps = {
     isOpen: boolean;
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+    classId: any; 
+    assignmentId: any;
 };
 
-export default function DownLoadScoreAssignment({ isOpen, setShowModal }: AppProps) {
-    const [file, setFile] = useState<File>();
+export default function DownLoadScoreAssignment({ isOpen, setShowModal, classId, assignmentId }: AppProps) {
     const [inputError, setInputError] = useState<String>("");
     const [isProcess, setProcess] = useState<boolean>(false);
 
     function onActionClick() {
         setProcess(true);
-        
-        // const dataForm = new FormData();
-        // if (file && typeof file === 'object' && file instanceof File) {
-        //     dataForm.append('file', file);
-        // } else {
-        //     setInputError("No file found");
-        //     setProcess(false);
-        //     return;
-        // }
-        
-        // classScoreApi.uploadScoreByAssignmentId(classId, assignmentId, dataForm)
-        // .then(_ => {
-        //     setShowModal(false);
-        // }).catch((error: any)=>{
-        //     console.log(error);
-        //     setInputError(error);
-        // }).finally(()=>{
-        //     setProcess(false);
-        // });
-    }
-
-    function handleSetFile( data: any) {
-        if (data && typeof data === 'object') {
-            setFile(data.files[0]);
-        }
+        classScoreApi.downloadTemplateScoreByAssignmentId(classId, assignmentId).then((res) => {
+            triggerDownloadScv('download', res);
+        }).finally(()=>{setProcess(false); setShowModal(false)})
     }
 
     return (
         <Modal open={isOpen} onSubmit={onActionClick} onClose={() => setShowModal(false)} options={{
-            title: "Edit profle",
-            submitText: "Update"
+            title: "Download Assignment Score Template Upload",
+            submitText: "Download"
         }}
             isProcess={isProcess}
         >

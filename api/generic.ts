@@ -14,15 +14,6 @@ export const config = function (token: string) {
     };
 };
 
-export const configMultipart = function (token: string) {
-    return {
-        headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
-        },
-    };
-};
-
 export const get = function (url: string, token: string) {
     return new Promise<{ data: any }>((resolve, reject) =>
         axios
@@ -106,11 +97,37 @@ export const del = function (url: string, token: string = "") {
 export const postWithFile = function (url: string, data: FormData, token: string = "") {
     return new Promise<{ data: any }>((resolve, reject) =>
         axios
-            .post(url, data, configMultipart(token))
+            .post(url, data, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            )
             .then((res) => {
                 // return data
                 return resolve({ data: res.data });
             })
+            .catch((err) => {
+                // return err message
+                if (!err.response) return reject(err.message);
+                return reject(err.response.data.message);
+            })
+    );
+};
+
+export const downloadFile = function (url: string, token: string = "") {
+    return new Promise<{ data: any }>((resolve, reject) =>
+        axios
+            .get(url, 
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                responseType: 'blob'
+            })
+            .then(blob => resolve(blob))
             .catch((err) => {
                 // return err message
                 if (!err.response) return reject(err.message);
