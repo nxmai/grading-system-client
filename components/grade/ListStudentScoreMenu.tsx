@@ -1,15 +1,33 @@
+import React, { Fragment, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
 import { DotsVerticalIcon } from "@heroicons/react/solid";
-import UploadScoreAssignment from "./UploadScoreAssignmentModal";
 
-export default function ReturnMenu() {
-    const [openUploadScoreAssignment, setOpenUploadScoreAssignment] = useState<boolean>(false);
+import UploadListStudentScoreModal from "./UploadListStudentScoreModal";
+import classScoreApi from "api/classScore";
+import { triggerDownloadScv } from "libs/downloadCsv";
 
+type AppProps = {
+    classId: any;
+    reRender: VoidFunction;
+}
+
+export default function ListStudentScoreMenu({classId, reRender }: AppProps) {
+
+    const [isOpenUploadStudentListModal, setOpenUploadStudentListModal] = useState<boolean>(false);
+    
+    function onClickDowndloadTemplate() {
+        classScoreApi.downloadTemplateListStudentId(classId).then((res) => {
+            triggerDownloadScv("download", res);
+        });
+    }
     return (
         <Fragment>
-            <UploadScoreAssignment isOpen={openUploadScoreAssignment} setShowModal={setOpenUploadScoreAssignment} classId={undefined} assignmentId={undefined} />
-            
+            <UploadListStudentScoreModal
+                isOpen={isOpenUploadStudentListModal}
+                setShowModal={setOpenUploadStudentListModal}
+                classId={classId}
+                reRender={reRender}
+            />
             <Menu as="div" className="relative inline-block text-left">
                 <Menu.Button>
                     <DotsVerticalIcon className="h-5 w-5 text-blue-500" />
@@ -23,13 +41,12 @@ export default function ReturnMenu() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                 >
-                    <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute left-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div className="px-1 py-1 ">
-                            
                             <Menu.Item>
                                 {({ active }) => (
                                     <button
-                                        onClick={() => setOpenUploadScoreAssignment(true)}
+                                        onClick={onClickDowndloadTemplate}
                                         className={`${active ? "bg-blue-50" : "text-gray-900"
                                             } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                                     >
@@ -44,11 +61,32 @@ export default function ReturnMenu() {
                                                 aria-hidden="true"
                                             />
                                         )}
-                                        Upload Score
+                                        Download Template
                                     </button>
                                 )}
                             </Menu.Item>
-                            
+                            <Menu.Item>
+                                {({ active }) => (
+                                    <button
+                                        onClick={() => setOpenUploadStudentListModal(true)}
+                                        className={`${active ? "bg-blue-50" : "text-gray-900"
+                                            } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                                    >
+                                        {active ? (
+                                            <EditActiveIcon
+                                                className="w-5 h-5 mr-2"
+                                                aria-hidden="true"
+                                            />
+                                        ) : (
+                                            <EditInactiveIcon
+                                                className="w-5 h-5 mr-2"
+                                                aria-hidden="true"
+                                            />
+                                        )}
+                                        Upload Students
+                                    </button>
+                                )}
+                            </Menu.Item>
                         </div>
                     </Menu.Items>
                 </Transition>

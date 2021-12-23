@@ -1,23 +1,24 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { DotsVerticalIcon } from "@heroicons/react/solid";
-import UploadScoreAssignment from "./UploadScoreAssignment";
-import DownLoadScoreAssignment from "./DownloadScoreAssignment";
-import ReturnScoreAssignment from "./ReturnScoreAssignment";
+import UploadScoreAssignment from "./UploadScoreAssignmentModal";
+import DownLoadScoreAssignment from "./DownloadScoreAssignmentModal";
+import ReturnScoreAssignment from "./ReturnScoreAssignmentModal";
 
 type AppProps = {
-    classId: any,
-    assignmentId: any
+    classId: any;
+    assignmentId: any;
+    reRender: VoidFunction;
 }
 
-export default function AssignmentMenu({classId, assignmentId }: AppProps) {
+export default function AssignmentMenu({classId, assignmentId, reRender }: AppProps) {
     const [openUploadScoreAssignment, setOpenUploadScoreAssignment] = useState<boolean>(false);
     const [openDownloadScoreAssignment, setOpenDownloadScoreAssignment] = useState<boolean>(false);
     const [openReturnScoreAssignment, setOpenReturnScoreAssignment] = useState<boolean>(false);
 
     return (
         <Fragment>
-            <UploadScoreAssignment isOpen={openUploadScoreAssignment} setShowModal={setOpenUploadScoreAssignment} classId={classId} assignmentId={assignmentId}/>
+            <UploadScoreAssignment isOpen={openUploadScoreAssignment} setShowModal={setOpenUploadScoreAssignment} classId={classId} assignmentId={assignmentId} reRender={reRender}/>
             <DownLoadScoreAssignment isOpen={openDownloadScoreAssignment} setShowModal={setOpenDownloadScoreAssignment} classId={classId} assignmentId={assignmentId}/>
             <ReturnScoreAssignment isOpen={openReturnScoreAssignment} setShowModal={setOpenReturnScoreAssignment} />
             

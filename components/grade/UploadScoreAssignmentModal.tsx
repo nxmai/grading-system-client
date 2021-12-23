@@ -7,9 +7,10 @@ type AppProps = {
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
     classId: any;
     assignmentId: any;
+    reRender: VoidFunction;
 };
 
-export default function UploadScoreAssignment({ isOpen, setShowModal, classId, assignmentId }: AppProps) {
+export default function UploadScoreAssignmentModal({ isOpen, setShowModal, classId, assignmentId, reRender }: AppProps) {
     const [file, setFile] = useState<File>();
     const [inputError, setInputError] = useState<String>("");
     const [isProcess, setProcess] = useState<boolean>(false);
@@ -33,6 +34,7 @@ export default function UploadScoreAssignment({ isOpen, setShowModal, classId, a
             setInputError(error);
         }).finally(()=>{
             setProcess(false);
+            reRender();
         });
     }
 

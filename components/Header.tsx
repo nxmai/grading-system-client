@@ -133,29 +133,24 @@ const Header: FC = () => {
                             </li>
                             <li
                                 onClick={() =>
-                                    router.push(`/class/${id}/score`)
-                                }
-                                className={
-                                    "w-24 h-full flex justify-center items-center cursor-pointer font-semibold hover:bg-blue-100 border-b-2 " +
-                                    (router.pathname === "/class/[id]/score"
-                                        ? "text-[#1967D2]  border-blue-700"
-                                        : "text-gray-400  border-white hover:border-blue-100")
-                                }
-                            >
-                                Score
-                            </li>
-                            <li
-                                onClick={() =>
                                     router.push(`/class/${id}/grade`)
                                 }
                                 className={
-                                    "w-24 h-full flex justify-center items-center cursor-pointer font-semibold hover:bg-blue-100 border-b-2 " +
+                                    "group relative w-24 h-full flex justify-center items-center cursor-pointer font-semibold hover:bg-blue-100 border-b-2 " +
                                     (router.pathname === "/class/[id]/grade"
                                         ? "text-[#1967D2]  border-blue-700"
                                         : "text-gray-400  border-white hover:border-blue-100")
                                 }
                             >
                                 Grade
+                                <ul className="hidden group-hover:block absolute border-2 bg-white rounded-lg shadow-md w-[150px] top-[60px] right-[-5px] p-[10px]">
+                                    <li
+                                        className="hover:bg-blue-50 cursor-pointer p-2"
+                                        onClick={() => router.push(`/class/${id}/download_score`)}
+                                    >
+                                        Donwload Full Score
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </div>

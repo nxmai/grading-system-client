@@ -8,4 +8,4 @@ export const triggerDownloadScv = function(fileName: string, res: any) {
     document.body.appendChild(link);  // 4. Force download
     link.click();  // 5. Clean up and remove the link
     link?.parentNode?.removeChild(link);
-}
+};
