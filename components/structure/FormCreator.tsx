@@ -6,16 +6,26 @@ type FormCreatorProps = {
     fetchClassAssignment: VoidFunction;
     assignmentT: any;
     classId: any;
+    userRole: string;
 };
 
-const FormCreator = ({ fetchClassAssignment, assignmentT, classId }: FormCreatorProps) => {
+const FormCreator = ({
+    fetchClassAssignment,
+    assignmentT,
+    classId,
+    userRole,
+}: FormCreatorProps) => {
     const [didEdit, setDidEdit] = useState<Boolean>(false);
 
-    const [assignment, setAssignment] = useState({ title: assignmentT?.title, grade: assignmentT?.grade, id: assignmentT?._id});
+    const [assignment, setAssignment] = useState({
+        title: assignmentT?.title,
+        grade: assignmentT?.grade,
+        id: assignmentT?._id,
+    });
     const handleChangeInput = (e: any) => {
         const { name, value } = e.target;
-        if(name == "title"){
-            setAssignment({ ...assignment, [name]: value});
+        if (name == "title") {
+            setAssignment({ ...assignment, [name]: value });
             return;
         }
         setAssignment({ ...assignment, [name]: value });
@@ -23,17 +33,24 @@ const FormCreator = ({ fetchClassAssignment, assignmentT, classId }: FormCreator
 
     async function updateClassAssignment() {
         try {
-            const grade = await classAssignmentApi.updateClassAssignmentById(classId, assignment.id, assignment);
+            const grade = await classAssignmentApi.updateClassAssignmentById(
+                classId,
+                assignment.id,
+                assignment
+            );
             return grade;
-        } catch(err: any) {
+        } catch (err: any) {
             console.log(err.message);
         }
     }
     async function deleteClassAssignment() {
         try {
-            const grade = await classAssignmentApi.deleteClassAssignmentById(classId, assignment.id);
+            const grade = await classAssignmentApi.deleteClassAssignmentById(
+                classId,
+                assignment.id
+            );
             return grade;
-        } catch(err: any) {
+        } catch (err: any) {
             console.log(err.message);
         }
     }
@@ -45,13 +62,17 @@ const FormCreator = ({ fetchClassAssignment, assignmentT, classId }: FormCreator
     };
 
     const handleCancelEditAssignment = () => {
-        setAssignment({ title: assignmentT?.title, grade: assignmentT?.grade, id: assignmentT?._id });
+        setAssignment({
+            title: assignmentT?.title,
+            grade: assignmentT?.grade,
+            id: assignmentT?._id,
+        });
         setDidEdit(!didEdit);
     };
 
     const handleDeleteAssignment = async () => {
         await deleteClassAssignment();
-        setAssignment({ title: "", grade: "", id: ""});
+        setAssignment({ title: "", grade: "", id: "" });
         setDidEdit(!didEdit);
         fetchClassAssignment();
     };
@@ -77,7 +98,7 @@ const FormCreator = ({ fetchClassAssignment, assignmentT, classId }: FormCreator
                     />
                 </div>
                 <div className="">
-                    <label htmlFor="grade">Grade *</label>
+                    <label htmlFor="grade">Grade Scale *</label>
                     <input
                         type="text"
                         name="grade"
@@ -94,33 +115,41 @@ const FormCreator = ({ fetchClassAssignment, assignmentT, classId }: FormCreator
                     />
                 </div>
                 <div className="flex gap-2 justify-end">
-                    {!didEdit ? (
+                    {userRole == "teacher" ? (
+                        !didEdit ? (
+                            <Button
+                                type="button"
+                                variants="primary"
+                                className="pl-6 pr-6 sm:mt-0 sm:w-auto sm:text-sm"
+                                onClick={handleCancelEditAssignment}
+                            >
+                                Edit
+                            </Button>
+                        ) : (
+                            <Button
+                                type="button"
+                                variants="primary"
+                                className="!bg-green-500 pl-6 pr-6 sm:mt-0 sm:w-auto sm:text-sm"
+                                onClick={handleUpdateAssignment}
+                            >
+                                Save
+                            </Button>
+                        )
+                    ) : (
+                        ""
+                    )}
+                    {userRole == "teacher" ? (
                         <Button
                             type="button"
-                            variants="primary"
-                            className="pl-6 pr-6 sm:mt-0 sm:w-auto sm:text-sm"
-                            onClick={handleCancelEditAssignment}
+                            variants="error"
+                            className="sm:mt-0 sm:w-auto sm:text-sm"
+                            onClick={handleDeleteAssignment}
                         >
-                            Edit
+                            Delete
                         </Button>
                     ) : (
-                        <Button
-                            type="button"
-                            variants="primary"
-                            className="!bg-green-500 pl-6 pr-6 sm:mt-0 sm:w-auto sm:text-sm"
-                            onClick={handleUpdateAssignment}
-                        >
-                            Save
-                        </Button>
+                        ""
                     )}
-                    <Button
-                        type="button"
-                        variants="error"
-                        className="sm:mt-0 sm:w-auto sm:text-sm"
-                        onClick={handleDeleteAssignment}
-                    >
-                        Delete
-                    </Button>
                 </div>
             </div>
         </div>

@@ -49,7 +49,7 @@ const ClassDetail = () => {
         }
         doAsyncTask();
     }, [id]);
-
+    
     return (
         <>
             <Header />
