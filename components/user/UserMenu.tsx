@@ -134,7 +134,7 @@ function EditActiveIcon(props: any) {
             <path
                 d="M4 13V16H7L16 7L13 4L4 13Z"
                 fill="#3B82F6"
-                stroke="#70a7ff"
+                stroke="#3B82F6"
                 strokeWidth="2"
             />
         </svg>

@@ -48,6 +48,14 @@ const classScoreApi = {
     updateOneClassScore(classId: any, classScoreId: any, data: any) {
         const url = `${apiURL}/${classId}/score/class-score/${classScoreId}`;
         return put(url, data, localStorage.getItem("token") ?? "");
+    },
+    createOneClassScoreDraft(classId: any, data: any) {
+        const url = `${apiURL}/${classId}/score/class-score/draft`;
+        return post(url, data, localStorage.getItem("token") ?? "");
+    },
+    updateOneClassScoreDraft(classId: any, classScoreId: any, data: any) {
+        const url = `${apiURL}/${classId}/score/class-score/draft/${classScoreId}`;
+        return put(url, data, localStorage.getItem("token") ?? "");
     }
 };
 

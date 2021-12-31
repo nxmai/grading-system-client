@@ -23,6 +23,7 @@ export default function StudentScoreRow({classId, student}: AppProps) {
     useEffect(()=> {
         getListScoreByClassIdByStudentId();
     }, []);
+    console.log(listScore);
 
     return (
         <tr key={student._id}>
@@ -68,6 +69,7 @@ export default function StudentScoreRow({classId, student}: AppProps) {
                         scoreTempt={ele.score} 
                         coreId={ele._id}
                         resetRow={getListScoreByClassIdByStudentId}
+                        scoreDraft={ele?.scoreDraft}
                     />
                 )
             }
