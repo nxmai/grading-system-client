@@ -68,7 +68,12 @@ const GradeStructure = () => {
         getUserRoleByClassID();
         getClassAssignmentByClassId();
     }, [id]);
-    console.log(classUserRole);
+
+    const onOpenGradeReview = (id: any) => {
+        console.log('review', id);
+        
+        console.log(gradeStructure);
+    };
 
     return (
         <div>
@@ -79,7 +84,7 @@ const GradeStructure = () => {
                     {classUserRole.role == "teacher" ? (
                         <p>Edit your class grade structure</p>
                     ) : (
-                        <p>View your class grade structure</p>
+                        <p>View your grade by click to an assignment</p>
                     )}
                 </div>
             </div>
@@ -89,6 +94,7 @@ const GradeStructure = () => {
                         <div
                             {...provided.droppableProps}
                             ref={provided.innerRef}
+                            className="flex flex-col items-center"
                         >
                             {gradeStructure?.map((item, index) => {
                                 return classUserRole.role == "teacher" ? (
@@ -117,31 +123,33 @@ const GradeStructure = () => {
                                         )}
                                     </Draggable>
                                 ) : (
-                                    <Draggable
-                                        draggableId={item._id}
-                                        index={index}
-                                        key={item._id}
-                                        isDragDisabled
-                                    >
-                                        {(provided) => (
-                                            <div
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
-                                                ref={provided.innerRef}
-                                            >
-                                                <FormCreator
-                                                    assignmentT={item}
-                                                    fetchClassAssignment={
-                                                        fetchClassAssignment
-                                                    }
-                                                    classId={id}
-                                                    userRole={
-                                                        classUserRole.role
-                                                    }
-                                                />
-                                            </div>
-                                        )}
-                                    </Draggable>
+                                    <div className="cursor-pointer w-[700px]" onClick={() => router.push(`/class/${id}/assignment/${item._id}`)}>
+                                        <Draggable
+                                            draggableId={item._id}
+                                            index={index}
+                                            key={item._id}
+                                            isDragDisabled
+                                        >
+                                            {(provided) => (
+                                                <div
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                    ref={provided.innerRef}
+                                                >
+                                                    <FormCreator
+                                                        assignmentT={item}
+                                                        fetchClassAssignment={
+                                                            fetchClassAssignment
+                                                        }
+                                                        classId={id}
+                                                        userRole={
+                                                            classUserRole.role
+                                                        }
+                                                    />
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    </div>
                                 );
                             })}
                             {provided.placeholder}

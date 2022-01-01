@@ -116,7 +116,7 @@ const Header: FC = () => {
                                         : "text-gray-400  border-white hover:border-blue-100")
                                 }
                             >
-                                Classwork
+                                Assignments
                             </li>
                             <li
                                 onClick={() =>
