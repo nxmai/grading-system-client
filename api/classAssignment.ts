@@ -22,6 +22,10 @@ const classAssignmentApi = {
         const url = `${apiURL}/${classId}/assignment/${classAssignmentId}`;
         return del(url, localStorage.getItem("token") ?? "");
     },
+    getAssignmentById(classId: any, classAssignmentId: any) {
+        const url = `${apiURL}/${classId}/assignment/${classAssignmentId}`;
+        return get(url, localStorage.getItem("token") ?? "");
+    }
 };
 
 export default classAssignmentApi;

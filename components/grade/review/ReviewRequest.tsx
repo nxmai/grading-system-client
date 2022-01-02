@@ -6,12 +6,13 @@ import assignmentReviewApi from "api/assignmentReview";
 type AppProps = {
     isOpen: boolean;
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+    setReviewData: any;
 };
 
-const ReviewRequest = ({ isOpen, setShowModal }: AppProps) => {
+const ReviewRequest = ({ isOpen, setShowModal, setReviewData }: AppProps) => {
     const [isProcess, setProcess] = useState<boolean>(false);
     const [reviewRequestData, setReviewRequestData] = useState({
-        gradeExpectation: 0,
+        scoreExpectation: "",
         explanation: "",
     });
     const [isAddError, setIsAddError] = useState<Boolean>(false);
@@ -23,7 +24,7 @@ const ReviewRequest = ({ isOpen, setShowModal }: AppProps) => {
         setProcess(true);
         const data = {
             classAssignment: assignmentid,
-            gradeExpectation: reviewRequestData.gradeExpectation,
+            scoreExpectation: parseInt(reviewRequestData.scoreExpectation),
             explanation: reviewRequestData.explanation,
         };
 
@@ -32,15 +33,17 @@ const ReviewRequest = ({ isOpen, setShowModal }: AppProps) => {
                 id,
                 data
             );
-            console.log(repsonse.data);
+            console.log(repsonse.data.data);
+            setReviewData(repsonse.data.data);
             setProcess(false);
+            setShowModal(false);
         } catch (error) {
             console.log(error);
             setProcess(false);
             setIsAddError(true);
         }
         setReviewRequestData({
-            gradeExpectation: 0,
+            scoreExpectation: "",
             explanation: "",
         });
     };
@@ -67,8 +70,8 @@ const ReviewRequest = ({ isOpen, setShowModal }: AppProps) => {
                         <div className="md:col-span-5">
                             <label>Grade expectation *</label>
                             <input
-                                name="gradeExpectation"
-                                value={reviewRequestData.gradeExpectation}
+                                name="scoreExpectation"
+                                value={reviewRequestData.scoreExpectation}
                                 onChange={(e) => onHandleReviewRequestChange(e)}
                                 className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                             />

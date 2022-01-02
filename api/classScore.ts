@@ -56,6 +56,10 @@ const classScoreApi = {
     updateOneClassScoreDraft(classId: any, classScoreId: any, data: any) {
         const url = `${apiURL}/${classId}/score/class-score/draft/${classScoreId}`;
         return put(url, data, localStorage.getItem("token") ?? "");
+    },
+    getOneAssignmentScoreOfOneStudent(classId: any, classAssignmentId: any) {
+        const url = `${apiURL}/${classId}/score/class-score/assignment/${classAssignmentId}/student`;
+        return get(url, localStorage.getItem("token") ?? "");
     }
 };
 
