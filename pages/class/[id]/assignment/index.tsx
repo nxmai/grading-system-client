@@ -1,5 +1,6 @@
 import classAssignmentApi from "api/classAssignment";
 import classApi from "api/classes";
+import Button from "components/Button";
 import Header from "components/Header";
 import AddingForm from "components/structure/AddingForm";
 import FormCreator from "components/structure/FormCreator";
@@ -22,6 +23,7 @@ const GradeStructure = () => {
     const [classUserRole, setClassUserRole] = useState<ClassUserRole>({
         role: "student",
     });
+    const [isTeacherEdit, setIsTeacherEdit] = useState(false);
 
     async function getClassAssignmentByClassId() {
         try {
@@ -54,6 +56,10 @@ const GradeStructure = () => {
         await getClassAssignmentByClassId();
     };
 
+    const turnEditFeatureForTeacherRole = () => {
+        setIsTeacherEdit(!isTeacherEdit);
+    };
+
     useEffect(() => {
         async function getUserRoleByClassID() {
             try {
@@ -69,12 +75,6 @@ const GradeStructure = () => {
         getClassAssignmentByClassId();
     }, [id]);
 
-    const onOpenGradeReview = (id: any) => {
-        console.log('review', id);
-        
-        console.log(gradeStructure);
-    };
-
     return (
         <div>
             <Header />
@@ -82,12 +82,33 @@ const GradeStructure = () => {
                 <div className="w-[700px] h-[84px] flex justify-center p-6 flex-col rounded-xl mt-4 mb-2 shadow-md border-t-4 border-blue-500">
                     <p className="font-bold">Grade Composition</p>
                     {classUserRole.role == "teacher" ? (
-                        <p>Edit your class grade structure</p>
+                        isTeacherEdit ? (
+                            <p>Edit your class grade structure</p>
+                        ) : (
+                            <p>View review request from your student</p>
+                        )
                     ) : (
                         <p>View your grade by click to an assignment</p>
                     )}
                 </div>
             </div>
+            {classUserRole.role == "teacher" ? (
+                <div className="flex justify-center mt-4">
+                    <div className="w-[700px] flex justify-end">
+                        <Button
+                            type="button"
+                            variants="primary"
+                            className="pl-6 pr-6 sm:mt-0 sm:w-auto sm:text-sm "
+                            onClick={turnEditFeatureForTeacherRole}
+                        >
+                            {isTeacherEdit ? "Close Edit" : "Edit Structure"}
+                        </Button>
+                    </div>
+                </div>
+            ) : (
+                ""
+            )}
+
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="assignment">
                     {(provided) => (
@@ -97,7 +118,8 @@ const GradeStructure = () => {
                             className="flex flex-col items-center"
                         >
                             {gradeStructure?.map((item, index) => {
-                                return classUserRole.role == "teacher" ? (
+                                return classUserRole.role == "teacher" &&
+                                    isTeacherEdit ? (
                                     <Draggable
                                         draggableId={item._id}
                                         index={index}
@@ -118,12 +140,28 @@ const GradeStructure = () => {
                                                     userRole={
                                                         classUserRole.role
                                                     }
+                                                    isTeacherEdit={
+                                                        isTeacherEdit
+                                                    }
                                                 />
                                             </div>
                                         )}
                                     </Draggable>
                                 ) : (
-                                    <div className="cursor-pointer w-[700px]" onClick={() => router.push(`/class/${id}/assignment/${item._id}`)}>
+                                    <div
+                                        className="cursor-pointer w-[700px]"
+                                        onClick={
+                                            classUserRole.role == "teacher"
+                                                ? () =>
+                                                      router.push(
+                                                          `/class/${id}/assignment/${item._id}/request`
+                                                      )
+                                                : () =>
+                                                      router.push(
+                                                          `/class/${id}/assignment/${item._id}`
+                                                      )
+                                        }
+                                    >
                                         <Draggable
                                             draggableId={item._id}
                                             index={index}
@@ -145,6 +183,9 @@ const GradeStructure = () => {
                                                         userRole={
                                                             classUserRole.role
                                                         }
+                                                        isTeacherEdit={
+                                                            isTeacherEdit
+                                                        }
                                                     />
                                                 </div>
                                             )}
@@ -157,7 +198,7 @@ const GradeStructure = () => {
                     )}
                 </Droppable>
             </DragDropContext>
-            {classUserRole.role == "teacher" ? (
+            {classUserRole.role == "teacher" && isTeacherEdit ? (
                 <AddingForm
                     fetchClassAssignment={fetchClassAssignment}
                     classId={id}

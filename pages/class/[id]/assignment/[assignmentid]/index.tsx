@@ -2,7 +2,7 @@ import assignmentReviewApi from "api/assignmentReview";
 import classAssignmentApi from "api/classAssignment";
 import classScoreApi from "api/classScore";
 import Button from "components/Button";
-import ReviewRequest from "components/grade/review/ReviewRequest";
+import ReviewRequest from "components/grade/review/ReviewRequestModal";
 import Header from "components/Header";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -121,6 +121,21 @@ const SingleAssignment = () => {
                 ) : (
                     ""
                 )}
+
+                <div className="flex justify-end gap-2 mt-4">
+                    <Button 
+                        type="button"
+                        variants="primary"
+                        className="pl-6 pr-6 sm:mt-0 sm:w-auto sm:text-sm">
+                            Accept Score
+                    </Button>
+                    <Button 
+                        type="button"
+                        variants="error"
+                        className="pl-6 pr-6 sm:mt-0 sm:w-auto sm:text-sm">
+                            Ignore Score
+                    </Button>
+                </div>
             </div>
         </div>
     );

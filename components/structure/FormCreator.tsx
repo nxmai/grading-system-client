@@ -7,6 +7,7 @@ type FormCreatorProps = {
     assignmentT: any;
     classId: any;
     userRole: string;
+    isTeacherEdit: Boolean;
 };
 
 const FormCreator = ({
@@ -14,6 +15,7 @@ const FormCreator = ({
     assignmentT,
     classId,
     userRole,
+    isTeacherEdit
 }: FormCreatorProps) => {
     const [didEdit, setDidEdit] = useState<Boolean>(false);
 
@@ -115,7 +117,7 @@ const FormCreator = ({
                     />
                 </div>
                 <div className="flex gap-2 justify-end">
-                    {userRole == "teacher" ? (
+                    {userRole == "teacher" && isTeacherEdit ? (
                         !didEdit ? (
                             <Button
                                 type="button"
@@ -138,7 +140,7 @@ const FormCreator = ({
                     ) : (
                         ""
                     )}
-                    {userRole == "teacher" ? (
+                    {userRole == "teacher" && isTeacherEdit ? (
                         <Button
                             type="button"
                             variants="error"

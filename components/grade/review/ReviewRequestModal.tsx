@@ -83,7 +83,7 @@ const ReviewRequest = ({ isOpen, setShowModal, setReviewData }: AppProps) => {
                                 rows={3}
                                 value={reviewRequestData.explanation}
                                 onChange={(e) => onHandleReviewRequestChange(e)}
-                                className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                className="border mt-1 rounded px-4 w-full bg-gray-50 h-auto"
                             />
                         </div>
                     </div>
