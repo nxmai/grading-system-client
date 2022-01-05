@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import classApi from "api/classes";
+import classInviteUserApi from "api/classInviteUser";
 
 export default function ConfirmInviteClass() {
     const router = useRouter();
@@ -9,7 +9,7 @@ export default function ConfirmInviteClass() {
 
     async function onActionClick() {
         try {
-            const res = await classApi.confirmInviteUserLink(id);
+            const res = await classInviteUserApi.confirmInviteUserLink(id);
             console.log(res);
         router.push(`/class/${id}`);
         } catch (err: any) {

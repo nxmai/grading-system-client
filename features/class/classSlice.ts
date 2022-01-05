@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import classApi from "api/classes";
+import classInviteUserApi from "api/classInviteUser";
 import { RootState } from "app/store";
 
 export interface ClassState {
@@ -24,6 +25,14 @@ export const addClass = createAsyncThunk(
   "class/addClass",
   async (classInfo: any) => {
     const response = await classApi.createClass(classInfo);
+    return response.data;
+  }
+);
+
+export const joinClass = createAsyncThunk(
+  "class/joinClass",
+  async (classInfo: any) => {
+    const response = await classInviteUserApi.confirmInviteUserLink(classInfo.code);
     return response.data;
   }
 );

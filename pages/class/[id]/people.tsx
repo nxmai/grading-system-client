@@ -1,8 +1,9 @@
 import React, { useEffect, useState, FC, Fragment } from "react";
 import classApi from "../../../api/classes";
+import classInviteUserApi from "api/classInviteUser";
 import Header from "../../../components/Header";
 import { useRouter } from "next/router";
-import { LockOpenIcon, UserAddIcon, DocumentDuplicateIcon } from "@heroicons/react/solid";
+import { LockOpenIcon, UserAddIcon, DocumentDuplicateIcon, XIcon } from "@heroicons/react/solid";
 import InviteUserModal from "components/class/InviteUserModal";
 
 interface InformationProps {
@@ -44,6 +45,7 @@ const ClassPeople = () => {
 
     const [teacherList, setTeacherList] = useState([]);
     const [studentList, setStudentList] = useState([]);
+    const [inviteUserList, setInviteUserList] = useState([]);
     const [isLinkCreated, setLinkInvite] = useState<string>("");
     const [isOpenInviteUserModal, setOpenInviteUserModal] = useState<boolean>(false);
 
@@ -78,8 +80,13 @@ const ClassPeople = () => {
 
         async function getInviteUserLink() {
             try {
-                const res = await classApi.getInviteUserLinkByClassId(id);
-                setLinkInvite(res?.data?.linkText);
+                const res = await classInviteUserApi.getInviteUserLinkByClassId(id);
+                const linkText = res?.data?.linkText;
+                if (linkText) {
+                    setLinkInvite(linkText);
+                    fetchInviteUser();
+                }
+                
             } catch (error: any) {
                 console.log(error.message);
             }
@@ -91,9 +98,14 @@ const ClassPeople = () => {
         getInviteUserLink();
     }, [id]);
 
+   async function fetchInviteUser() {
+        const res = await classInviteUserApi.getInviteUserByInvieLinkText(id, id);
+        setInviteUserList(res?.data?.data);
+   }
+
     async function createLinkInviteUser() {
         try {
-            const res = await classApi.createInviteUserLink(id);
+            const res = await classInviteUserApi.createInviteUserLink(id);
             setLinkInvite(res?.data?.linkText);
         } catch (err: any) {
             console.log(err);
@@ -108,35 +120,20 @@ const ClassPeople = () => {
         setOpenInviteUserModal(true);
     }
 
+    async function deleteInviteUser(inviteUserId: any) {
+        try {
+            const res = await classInviteUserApi.deleteInviteUser(id, inviteUserId);
+            fetchInviteUser();
+        } catch (err: any) {
+            console.log(err);
+        }
+    }
+
     return (
         <Fragment>
             <Header />
             <div className="w-[760px] ml-[calc(50%-380px)] mr-[calc(50%-380px)]">
-                {
-                    classUserRole.role == "teacher" && (
-                        <section className="mt-4">
-                            <div className="flex flex-wrap items-center">
-                                <p className="text-3xl text-blue-700 pb-4 pt-4">Invite User</p>
-                                {!isLinkCreated ? (
-                                    <LockOpenIcon onClick={createLinkInviteUser}
-                                        className="ml-4 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
-                                ) : (
-                                    <>
-                                        <p className="ml-4 items-end">{isLinkCreated}</p>
-                                        <InviteUserModal isOpen={isOpenInviteUserModal} setShowModal={setOpenInviteUserModal} classId={id} />
-                                        <DocumentDuplicateIcon
-                                            onClick={copyLinkInviteUser}
-                                            className="ml-2 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
-                                        <UserAddIcon
-                                            onClick={inviteUser}
-                                            className="ml-4 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
-                                    </>
-                                )}
-                            </div>
-                            <hr className="border-blue-600" />
-                        </section>
-                    )
-                }
+                
                 <section className="mt-4">
                     <p className="text-3xl text-blue-700 pb-4 pt-4">Teachers</p>
                     <hr className="border-blue-600" />
@@ -163,6 +160,64 @@ const ClassPeople = () => {
                         </div>
                     ))}
                 </section>
+                {
+                    classUserRole.role == "teacher" && (
+                        <section className="mt-4">
+                            <div className="flex flex-wrap items-center">
+                                <p className="text-3xl text-blue-700 pb-2 pt-4">Invite User</p>
+                                {!isLinkCreated ? (
+                                    <LockOpenIcon onClick={createLinkInviteUser}
+                                        className="ml-4 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
+                                ) : (
+                                    <>
+                                        <InviteUserModal isOpen={isOpenInviteUserModal} setShowModal={setOpenInviteUserModal} classId={id} fetchInviteUser={fetchInviteUser}/>
+                                        <UserAddIcon
+                                            onClick={inviteUser}
+                                            className="ml-4 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
+                                    </>
+                                )}
+                            </div>
+                            {
+                                isLinkCreated && (
+                                    <>
+                                        <div className="flex">
+                                            <p className="ml-4 items-end">CODE: {isLinkCreated}</p>
+                                            <DocumentDuplicateIcon
+                                                onClick={copyLinkInviteUser}
+                                                className="ml-2 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
+                                        </div>
+                                        <div className="flex">
+                                            <a className="ml-4 items-end hover:text-blue-500"
+                                                target="_blank"
+                                                href={`${classInviteUserApi.inviteLinkPrefix}/${isLinkCreated}`} rel="noreferrer"
+                                            >
+                                                LINK: {classInviteUserApi.inviteLinkPrefix}/{isLinkCreated}
+                                            </a>
+                                            <DocumentDuplicateIcon
+                                                onClick={copyLinkInviteUser}
+                                                className="ml-2 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
+                                        </div>
+                                    </>
+                                )
+                            }
+
+                            <hr className="mt-2 border-blue-600" />
+                            {inviteUserList?.map((student: any, index) => (
+                                <div key={index}>
+                                    <div className="flex items-center gap-4 p-4 justify-between">
+                                        <p>{student.email} 
+                                            <span className="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                {student.role}
+                                            </span></p>
+                                        <XIcon onClick={()=> deleteInviteUser(student._id)}
+                                                className="ml-4 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-red-600 cursor-pointer" />
+                                    </div>
+                                    <hr />
+                                </div>
+                            ))}
+                        </section>
+                    )
+                }
             </div>
         </Fragment>
     );

@@ -1,14 +1,16 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Modal from "components/Modal";
 import classApi from "../../api/classes";
+import classInviteUserApi from "api/classInviteUser";
 
 type AppProps = {
     isOpen: boolean;
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
     classId: any;
+    fetchInviteUser: VoidFunction
 };
 
-export default function InviteUserModal({ isOpen, setShowModal, classId }: AppProps) {
+export default function InviteUserModal({ isOpen, setShowModal, classId, fetchInviteUser }: AppProps) {
     const [email, setEmail] = useState<string>("");
     const [role, setRole] = useState<string>("student");
     const [inputError, setInputError] = useState<String>("");
@@ -16,7 +18,7 @@ export default function InviteUserModal({ isOpen, setShowModal, classId }: AppPr
 
     function onActionClick() {
         setProcess(true);
-        classApi.inviteUserWithInviteLink(classId, {
+        classInviteUserApi.inviteUserWithInviteLink(classId, {
             email,
             role,
         }).then(_ => {
@@ -26,6 +28,7 @@ export default function InviteUserModal({ isOpen, setShowModal, classId }: AppPr
             setInputError(error);
         }).finally(()=>{
             setProcess(false);
+            fetchInviteUser();
         });
     }
     return (
