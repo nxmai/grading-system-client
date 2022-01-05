@@ -27,6 +27,8 @@ const Requests = () => {
             }
         };
 
+        
+        
         getAllReviewRequests();
     }, [id]);
 
@@ -45,7 +47,7 @@ const Requests = () => {
 
         getSingleAssignment();
     }, [id]);
-    console.log(allReviewRequests);
+    // console.log(allReviewRequests);
     return (
         <div>
             <Header />

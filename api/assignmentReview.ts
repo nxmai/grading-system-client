@@ -13,7 +13,7 @@ const assignmentReviewApi = {
         const url = `${apiURL}/${classId}/review/request/${assignmentId}/get-all`;
         return get(url, localStorage.getItem("token") ?? "");
     },
-    getOneAssignmentReviewRequestForTeacher(classId: any, assignmentId: any, classStudentId: any) {
+    getOneAssignmentReviewRequest(classId: any, assignmentId: any, classStudentId: any) {
         const url = `${apiURL}/${classId}/review/request/${assignmentId}/get-one/${classStudentId}`;
         return get(url, localStorage.getItem("token") ?? "");
     }

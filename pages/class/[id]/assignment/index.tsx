@@ -24,6 +24,7 @@ const GradeStructure = () => {
         role: "student",
     });
     const [isTeacherEdit, setIsTeacherEdit] = useState(false);
+    const [studentClassId, setStudentClassId] = useState("");
 
     async function getClassAssignmentByClassId() {
         try {
@@ -70,6 +71,19 @@ const GradeStructure = () => {
                 return router.push("/");
             }
         }
+        const getStudentClassId = async () => {
+            try {
+                const response =
+                    await classApi.getStudentClassId(
+                        id,
+                    );
+                setStudentClassId(response.data);
+                console.log(response);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getStudentClassId();
 
         getUserRoleByClassID();
         getClassAssignmentByClassId();
@@ -158,7 +172,7 @@ const GradeStructure = () => {
                                                       )
                                                 : () =>
                                                       router.push(
-                                                          `/class/${id}/assignment/${item._id}`
+                                                          `/class/${id}/assignment/${item._id}/request/${studentClassId}`
                                                       )
                                         }
                                     >

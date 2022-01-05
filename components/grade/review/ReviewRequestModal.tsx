@@ -9,7 +9,7 @@ type AppProps = {
     setReviewData: any;
 };
 
-const ReviewRequest = ({ isOpen, setShowModal, setReviewData }: AppProps) => {
+const ReviewRequestModal = ({ isOpen, setShowModal, setReviewData }: AppProps) => {
     const [isProcess, setProcess] = useState<boolean>(false);
     const [reviewRequestData, setReviewRequestData] = useState({
         scoreExpectation: "",
@@ -94,4 +94,4 @@ const ReviewRequest = ({ isOpen, setShowModal, setReviewData }: AppProps) => {
     );
 };
 
-export default ReviewRequest;
+export default ReviewRequestModal;

@@ -40,6 +40,10 @@ const classApi = {
     confirmInviteUserLink(inviteLink: any) {
         const url =`${apiURL}/approve/${inviteLink}`;
         return post(url, {}, localStorage.getItem("token") ?? "");
+    },
+    getStudentClassId(classId: any) {
+        const url = `${apiURL}/${classId}/review/request/class-studentid`;
+        return get(url, localStorage.getItem("token") ?? "");
     }
 };
 

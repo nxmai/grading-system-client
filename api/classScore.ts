@@ -57,8 +57,8 @@ const classScoreApi = {
         const url = `${apiURL}/${classId}/score/class-score/draft/${classScoreId}`;
         return put(url, data, localStorage.getItem("token") ?? "");
     },
-    getOneAssignmentScoreOfOneStudent(classId: any, classAssignmentId: any) {
-        const url = `${apiURL}/${classId}/score/class-score/assignment/${classAssignmentId}/student`;
+    getOneAssignmentScoreOfOneStudent(classId: any, classAssignmentId: any, classStudentId: any) {
+        const url = `${apiURL}/${classId}/score/class-score/assignment/${classAssignmentId}/${classStudentId}`;
         return get(url, localStorage.getItem("token") ?? "");
     }
 };
