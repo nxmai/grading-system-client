@@ -133,31 +133,7 @@ const ClassPeople = () => {
         <Fragment>
             <Header />
             <div className="w-[760px] ml-[calc(50%-380px)] mr-[calc(50%-380px)]">
-                {
-                    classUserRole.role == "teacher" && (
-                        <section className="mt-4">
-                            <div className="flex flex-wrap items-center">
-                                <p className="text-3xl text-blue-700 pb-4 pt-4">Invite User</p>
-                                {!isLinkCreated ? (
-                                    <LockOpenIcon onClick={createLinkInviteUser}
-                                        className="ml-4 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
-                                ) : (
-                                    <>
-                                        <p className="ml-4 items-end">{isLinkCreated}</p>
-                                        <InviteUserModal isOpen={isOpenInviteUserModal} setShowModal={setOpenInviteUserModal} classId={id} fetchInviteUser={fetchInviteUser}/>
-                                        <DocumentDuplicateIcon
-                                            onClick={copyLinkInviteUser}
-                                            className="ml-2 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
-                                        <UserAddIcon
-                                            onClick={inviteUser}
-                                            className="ml-4 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
-                                    </>
-                                )}
-                            </div>
-                            <hr className="border-blue-600" />
-                        </section>
-                    )
-                }
+                
                 <section className="mt-4">
                     <p className="text-3xl text-blue-700 pb-4 pt-4">Teachers</p>
                     <hr className="border-blue-600" />
@@ -184,23 +160,64 @@ const ClassPeople = () => {
                         </div>
                     ))}
                 </section>
-                {isLinkCreated && <section className="mt-4">
-                    <p className="text-3xl text-blue-700 pb-4 pt-4">Invite User</p>
-                    <hr className="border-blue-600" />
-                    {inviteUserList?.map((student: any, index) => (
-                        <div key={index}>
-                            <div className="flex items-center gap-4 p-4 justify-between">
-                                <p>{student.email} 
-                                    <span className="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        {student.role}
-                                    </span></p>
-                                <XIcon onClick={()=> deleteInviteUser(student._id)}
-                                        className="ml-4 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-red-600 cursor-pointer" />
+                {
+                    classUserRole.role == "teacher" && (
+                        <section className="mt-4">
+                            <div className="flex flex-wrap items-center">
+                                <p className="text-3xl text-blue-700 pb-2 pt-4">Invite User</p>
+                                {!isLinkCreated ? (
+                                    <LockOpenIcon onClick={createLinkInviteUser}
+                                        className="ml-4 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
+                                ) : (
+                                    <>
+                                        <InviteUserModal isOpen={isOpenInviteUserModal} setShowModal={setOpenInviteUserModal} classId={id} fetchInviteUser={fetchInviteUser}/>
+                                        <UserAddIcon
+                                            onClick={inviteUser}
+                                            className="ml-4 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
+                                    </>
+                                )}
                             </div>
-                            <hr />
-                        </div>
-                    ))}
-                </section>}
+                            {
+                                isLinkCreated && (
+                                    <>
+                                        <div className="flex">
+                                            <p className="ml-4 items-end">CODE: {isLinkCreated}</p>
+                                            <DocumentDuplicateIcon
+                                                onClick={copyLinkInviteUser}
+                                                className="ml-2 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
+                                        </div>
+                                        <div className="flex">
+                                            <a className="ml-4 items-end hover:text-blue-500"
+                                                target="_blank"
+                                                href={`${classInviteUserApi.inviteLinkPrefix}/${isLinkCreated}`} rel="noreferrer"
+                                            >
+                                                LINK: {classInviteUserApi.inviteLinkPrefix}/{isLinkCreated}
+                                            </a>
+                                            <DocumentDuplicateIcon
+                                                onClick={copyLinkInviteUser}
+                                                className="ml-2 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-blue-600 cursor-pointer" />
+                                        </div>
+                                    </>
+                                )
+                            }
+
+                            <hr className="mt-2 border-blue-600" />
+                            {inviteUserList?.map((student: any, index) => (
+                                <div key={index}>
+                                    <div className="flex items-center gap-4 p-4 justify-between">
+                                        <p>{student.email} 
+                                            <span className="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                {student.role}
+                                            </span></p>
+                                        <XIcon onClick={()=> deleteInviteUser(student._id)}
+                                                className="ml-4 h-6 w-6 text-blue-500 focus:text-blue-800 hover:text-red-600 cursor-pointer" />
+                                    </div>
+                                    <hr />
+                                </div>
+                            ))}
+                        </section>
+                    )
+                }
             </div>
         </Fragment>
     );

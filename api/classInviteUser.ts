@@ -1,4 +1,4 @@
-import { apiURL, get, post, del } from "./generic";
+import { apiURL, get, post, del, clientURL } from "./generic";
 
 const classInviteUserApi = {
     getInviteUserLinkByClassId(classId: any) {
@@ -24,7 +24,8 @@ const classInviteUserApi = {
     deleteInviteUser(classId: any, inviteUserClassId: any) {
         const url = `${apiURL}/${classId}/invite-link/${classId}/invite/${inviteUserClassId}`;
         return del(url, localStorage.getItem("token") ?? "");
-    }
+    },
+    inviteLinkPrefix: `${clientURL}/confirm`
 };
 
 export default classInviteUserApi;

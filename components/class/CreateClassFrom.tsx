@@ -1,5 +1,5 @@
 import { useAppDispatch } from "app/hooks";
-import { addClass } from "features/class/classSlice";
+import { addClass, joinClass } from "features/class/classSlice";
 import React, { useState, FC, useEffect, useRef } from "react";
 
 interface CreateClassFormProps {
@@ -55,6 +55,12 @@ const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal }) => {
     }
   };
 
+  const onJoinClass = () => {
+    setClassNameError("");
+    dispatch(joinClass(classInfo));
+    closeModal();
+  };
+
   const onClassNameChange = (e: any) => {
     const { name, value } = e.target;
     setClassInfo({ ...classInfo, [name]: value });
@@ -64,6 +70,12 @@ const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal }) => {
   const onClassSubjectChange = (e: any) => {
     const { name, value } = e.target;
     setClassInfo({ ...classInfo, [name]: value });
+  };
+
+  const onClassCodeChange = (e: any) => {
+    const { name, value } = e.target;
+    setClassInfo({ ...classInfo, [name]: value });
+    //value.length == 0 ? setClassNameError("Please input your class name") : setClassNameError("");
   };
 
   return (
@@ -127,6 +139,30 @@ const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal }) => {
               onClick={onCreateClass}
             >
               Create
+            </button>
+          </div>
+          <hr className="mt-4"/>
+          <span className="mb-8">Or Join by Code</span>
+          <div className="mt-4 mb-6">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Code
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              id="Code"
+              type="text"
+              name="code"
+              placeholder="Code"
+              onChange={onClassCodeChange}
+            />
+          </div>
+          <div className="flex items-center justify-end gap-4">
+            <button
+              className="bg-blue-500 border hover:bg-blue-700 duration-300 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="button"
+              onClick={onJoinClass}
+            >
+              Join
             </button>
           </div>
         </form>
