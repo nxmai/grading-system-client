@@ -16,6 +16,14 @@ const assignmentReviewApi = {
     getOneAssignmentReviewRequest(classId: any, assignmentId: any, classStudentId: any) {
         const url = `${apiURL}/${classId}/review/request/${assignmentId}/get-one/${classStudentId}`;
         return get(url, localStorage.getItem("token") ?? "");
+    },
+    getReviewChatByReviewRequestId(classId: any, assignmentId: any, reviewRequestId: any) {
+        const url = `${apiURL}/${classId}/review/request/${assignmentId}/chat/${reviewRequestId}`;
+        return get(url, localStorage.getItem("token") ?? "");
+    },
+    createReviewChat(classId: any, assignmentId: any, reviewRequestId: any, content: string) {
+        const url = `${apiURL}/${classId}/review/request/${assignmentId}/chat/${reviewRequestId}`;
+        return post(url, {content}, localStorage.getItem("token") ?? "");
     }
 };
 
