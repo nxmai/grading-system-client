@@ -1,4 +1,8 @@
 import axios from "axios";
+import { io } from "socket.io-client";
+
+const socketUrl = process.env.NEXT_PUBLIC_SOCKET_SERVER_URL || 'ws://localhost:5000';
+export const socket = io(socketUrl);
 
 export const baseURL = 
     process.env.NEXT_PUBLIC_SERVER_URL1 || "http://localhost:5000";

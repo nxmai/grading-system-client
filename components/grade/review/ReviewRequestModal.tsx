@@ -2,6 +2,7 @@ import Modal from "components/Modal";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import assignmentReviewApi from "api/assignmentReview";
+import { socket } from 'api/generic';
 
 type AppProps = {
     isOpen: boolean;
@@ -21,6 +22,7 @@ const ReviewRequest = ({ isOpen, setShowModal, setReviewData }: AppProps) => {
     const { id, assignmentid } = router.query;
 
     const onActionClick = async () => {
+        socket.emit("message", {classId: id, assignmentId: assignmentid, reviewRequestData });
         setProcess(true);
         const data = {
             classAssignment: assignmentid,
