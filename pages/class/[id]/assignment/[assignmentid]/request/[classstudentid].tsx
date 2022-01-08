@@ -85,7 +85,11 @@ function ReviewRequest() {
         getSingleAssignment();
     }, [id]);
 
-    console.log(reviewRequestData);
+    const handleAcceptScore = () => {
+        if(classstudentid) {
+            console.log(classstudentid);
+        }
+    };
 
     return (
         <div>
@@ -177,6 +181,7 @@ function ReviewRequest() {
                             type="button"
                             variants="primary"
                             className="pl-6 pr-6 sm:mt-0 sm:w-auto sm:text-sm"
+                            onClick={handleAcceptScore}
                         >
                             Accept Score
                         </Button>
