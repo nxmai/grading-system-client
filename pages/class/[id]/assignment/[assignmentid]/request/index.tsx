@@ -7,7 +7,8 @@ import assignmentReviewApi from "api/assignmentReview";
 
 const Requests = () => {
     const [assignmentInfo, setAssignmentInfo] = useState<any>({ title: "" });
-    const [allReviewRequests, setAllReviewRequests] = useState<any>([]);
+    const [allReviewRequestsWaiting, setAllReviewRequestsWaiting] = useState<any>([]);
+    const [allDoneRequest, setAllDoneRequest] = useState<any>([]);
 
     const router = useRouter();
     const { id, assignmentid } = router.query;
@@ -20,15 +21,15 @@ const Requests = () => {
                         id,
                         assignmentid
                     );
+                const allRequestIsDone = response.data.data.filter((item: any) => item.isAccept != null);
+                setAllDoneRequest(allRequestIsDone);
 
-                setAllReviewRequests(response.data.data);
+                const allRequestWaiting = response.data.data.filter((item: any) => item.isAccept == null);
+                setAllReviewRequestsWaiting(allRequestWaiting);
             } catch (error) {
                 console.log(error);
             }
         };
-
-        
-        
         getAllReviewRequests();
     }, [id]);
 
@@ -48,6 +49,8 @@ const Requests = () => {
         getSingleAssignment();
     }, [id]);
     // console.log(allReviewRequests);
+
+    console.log(allDoneRequest);
     return (
         <div>
             <Header />
@@ -75,7 +78,21 @@ const Requests = () => {
                     </div>
                 </div>
                 <div className="flex items-center flex-col">
-                    {allReviewRequests.map((request: any) => (
+                    <p className="mb-2 mt-6 font-bold text-blue-800">Requests need to be review: </p>
+                    {allReviewRequestsWaiting.map((request: any) => (
+                        <RequestComp
+                            key={request._id}
+                            studentId={request.classStudentId.studentId}
+                            name={request.classStudentId.fullName}
+                            time={request.createdAt}
+                            classStudentId={request.classStudentId._id}
+                        />
+                    ))}
+                </div>
+                
+                <div className="flex items-center flex-col">
+                    <p className="mb-2 mt-6 font-bold text-blue-800">You are already review these requests: </p>
+                    {allDoneRequest.map((request: any) => (
                         <RequestComp
                             key={request._id}
                             studentId={request.classStudentId.studentId}

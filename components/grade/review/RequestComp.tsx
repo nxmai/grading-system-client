@@ -14,7 +14,7 @@ const RequestComp = ({ studentId, name, time, classStudentId }: AppProps) => {
 
     return (
         <div
-            className="text-sm text-left pt-4 pb-4 pl-10 pr-10 border rounded-lg shadow-lg w-[700px] flex justify-between bg-white cursor-pointer"
+            className="text-sm text-left pt-4 pb-4 pl-10 pr-10 mb-4 border rounded-lg shadow-lg w-[700px] flex justify-between bg-white cursor-pointer"
             onClick={() =>
                 router.push(`/class/${id}/assignment/${assignmentid}/request/${classStudentId}`)
             }
