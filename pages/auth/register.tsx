@@ -92,7 +92,7 @@ function Register() {
                                     cookiePolicy={'single_host_origin'}
                                     isSignedIn={true}
                                 >Sign up with Google</GoogleLogin>
-                                <a className='underline' href="/login">Back to log in</a>
+                                <a className='underline' href="/auth/login">Back to log in</a>
                             </div>
                         </div>
                     </div>

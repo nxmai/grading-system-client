@@ -1,4 +1,4 @@
-import { apiURL, get, put } from "./generic";
+import { apiURL, get, post, put } from "./generic";
 
 const userApi = {
     getMe () {
@@ -16,6 +16,18 @@ const userApi = {
     updatePW (data: any) {
         const url = `${apiURL}/user/updatePassword`;
         return put(url, data, localStorage.getItem("token") ?? "");
+    },
+    getNotifications() {
+        const url = `${apiURL}/user/notification`;
+        return get(url, localStorage.getItem("token") ?? "");
+    },
+    addNotification(data: any) {
+        const url = `${apiURL}/user/notification`;
+        return post(url, data, localStorage.getItem("token") ?? "");
+    },
+    updateNotificationRead(data: any) {
+        const url = `${apiURL}/user/notification/read`;
+        return post(url, data, localStorage.getItem("token") ?? "");
     },
 };
 
