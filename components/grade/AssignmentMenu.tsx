@@ -4,6 +4,9 @@ import { DotsVerticalIcon } from "@heroicons/react/solid";
 import UploadScoreAssignment from "./UploadScoreAssignmentModal";
 import DownLoadScoreAssignment from "./DownloadScoreAssignmentModal";
 import ReturnScoreAssignment from "./ReturnScoreAssignmentModal";
+import classApi from "api/classes";
+import userApi from "api/user";
+import classAssignmentApi from "api/classAssignment";
 
 type AppProps = {
     classId: any;
@@ -11,10 +14,33 @@ type AppProps = {
     reRender: VoidFunction;
 }
 
+async function createNotifications(classId: any, assignmentId: any) {
+    const data: any = [];
+    const getStudents = await classApi.getStudentsInClass(classId);
+    const students = getStudents?.data;
+    const getMe = await userApi.getMe();
+    const user = getMe?.data;
+    const getClass = await classApi.getClassById(classId);
+    const classDetail = getClass?.data;
+    const getAssignment = await classAssignmentApi.getAssignmentById(classId, assignmentId);
+    const assignment = getAssignment?.data;
+    students.forEach((student: any) => data.push({
+        user: student._id,
+        content: `${user.firstName} ${user.lastName} finalized all grades of ${assignment.title} in ${classDetail.name} `,
+        link: `/class/${classId}/assignment/${assignmentId}`,
+    }));
+    await userApi.addNotification(data);
+}
+
 export default function AssignmentMenu({classId, assignmentId, reRender }: AppProps) {
     const [openUploadScoreAssignment, setOpenUploadScoreAssignment] = useState<boolean>(false);
     const [openDownloadScoreAssignment, setOpenDownloadScoreAssignment] = useState<boolean>(false);
     const [openReturnScoreAssignment, setOpenReturnScoreAssignment] = useState<boolean>(false);
+
+    function returnScoreOnClick () {
+        setOpenDownloadScoreAssignment(true);
+        createNotifications(classId, assignmentId);
+    }
 
     return (
         <Fragment>
@@ -84,7 +110,7 @@ export default function AssignmentMenu({classId, assignmentId, reRender }: AppPr
                             <Menu.Item>
                                 {({ active }) => (
                                     <button
-                                        onClick={() => setOpenReturnScoreAssignment(true)}
+                                        onClick={returnScoreOnClick}
                                         className={`${active ? "bg-blue-50" : "text-gray-900"
                                             } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                                     >

@@ -10,6 +10,7 @@ import classScoreApi from "api/classScore";
 import ReviewRequestModal from "components/grade/review/ReviewRequestModal";
 import { useAppSelector } from "app/hooks";
 import { selectUser } from "features/user/userSlice";
+import GoToInputStudentCardModal from "components/class/GoToInputStudentCardModal";
 
 type ClassUserRole = {
     role: "teacher" | "student";
@@ -31,6 +32,7 @@ function ReviewRequest() {
     const router = useRouter();
     const { id, assignmentid, classstudentid } = router.query;
     useEffect(() => {
+
         const getSingleAssignment = async () => {
             try {
                 const response = await classAssignmentApi.getAssignmentById(
@@ -53,11 +55,12 @@ function ReviewRequest() {
                     );
                 const revDetail = response.data.data;
                 if (revDetail) {
-                    const reps = await assignmentReviewApi.getReviewChatByReviewRequestId(
-                        id,
-                        assignmentid,
-                        revDetail._id
-                    );
+                    const reps =
+                        await assignmentReviewApi.getReviewChatByReviewRequestId(
+                            id,
+                            assignmentid,
+                            revDetail._id
+                        );
                     setListChat(reps?.data?.data);
                 }
                 setReviewRequestData(revDetail);
@@ -92,19 +95,53 @@ function ReviewRequest() {
         };
 
         getAssignmentScore();
-
         getUserRoleByClassID();
         getReviewRequestDetail();
         getSingleAssignment();
     }, [id]);
 
+    const handleAcceptScore = async () => {
+        if (classstudentid) {
+            try {
+                console.log(id, assignmentid, classstudentid);
+                const reps =
+                    await assignmentReviewApi.acceptScoreRequestByStudent(
+                        id,
+                        assignmentid,
+                        classstudentid
+                    );
+                console.log(reps.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
+    const handleIgnoreScore = async () => {
+        if (classstudentid) {
+            try {
+                console.log(id, assignmentid, classstudentid);
+                const reps =
+                    await assignmentReviewApi.ignoreScoreRequestByStudent(
+                        id,
+                        assignmentid,
+                        classstudentid
+                    );
+                console.log(reps.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
     async function fetchReviewChat() {
         try {
-            const reps = await assignmentReviewApi.getReviewChatByReviewRequestId(
-                id,
-                assignmentid,
-                reviewRequestData._id
-            );
+            const reps =
+                await assignmentReviewApi.getReviewChatByReviewRequestId(
+                    id,
+                    assignmentid,
+                    reviewRequestData._id
+                );
             setListChat(reps?.data?.data);
         } catch (error) {
             console.log(error);
@@ -125,6 +162,7 @@ function ReviewRequest() {
     return (
         <div>
             <Header />
+            
             <ReviewRequestModal
                 isOpen={openReviewRequest}
                 setShowModal={setOpenReviewRequest}
@@ -176,7 +214,8 @@ function ReviewRequest() {
                     ""
                 )}
 
-                {(classUserRole.role == "student" && reviewRequestData) || classUserRole.role=="teacher" ? (
+                {(classUserRole.role == "student" && reviewRequestData) ||
+                classUserRole.role == "teacher" ? (
                     <div>
                         <label className="text-sm font-bold text-blue-800">
                             Grade expectation
@@ -207,58 +246,73 @@ function ReviewRequest() {
                 )}
 
                 {classUserRole.role == "teacher" ? (
-                    <div className="flex justify-end gap-2 mt-4">
-                        <Button
-                            type="button"
-                            variants="primary"
-                            className="pl-6 pr-6 sm:mt-0 sm:w-auto sm:text-sm"
-                        >
-                            Accept Score
-                        </Button>
-                        <Button
-                            type="button"
-                            variants="error"
-                            className="pl-6 pr-6 sm:mt-0 sm:w-auto sm:text-sm"
-                        >
-                            Ignore Score
-                        </Button>
-                    </div>
+                    reviewRequestData.isAccept == null ? (
+                        <div className="flex justify-end gap-2 mt-4">
+                            <Button
+                                type="button"
+                                variants="primary"
+                                className="pl-6 pr-6 sm:mt-0 sm:w-auto sm:text-sm"
+                                onClick={handleAcceptScore}
+                            >
+                                Accept Score
+                            </Button>
+                            <Button
+                                type="button"
+                                variants="error"
+                                className="pl-6 pr-6 sm:mt-0 sm:w-auto sm:text-sm"
+                                onClick={handleIgnoreScore}
+                            >
+                                Ignore Score
+                            </Button>
+                        </div>
+                    ) : (
+                        <p className="mt-2 mb-4 font-bold text-red-600 text-lg text-right">You already submit review</p>
+                    )
                 ) : (
                     ""
                 )}
 
-                <div className="text-sm font-bold text-blue-800 mt-2">Chat with teacher</div>
+                <div className="text-sm font-bold text-blue-800 mt-2">
+                    Chat with teacher
+                </div>
                 <div className="mt-2 mb-4 w-full h-[1px] bg-blue-700"></div>
-                
-                {
-                    listChat.map((chatInfo : any, i)=> {
-                        if (chatInfo?.user?._id !== user?._id) {
-                            return (
-                                <div className="flex py-2">
-                                <img className="w-6 h-6 rounded-3xl" alt="avt" src={chatInfo?.user?.photoUrl}/><p className=" px-2">{chatInfo?.content}</p>
-                                </div>
-                            );
-                        } else {
-                            return (
-                                <div className="flex flex-row-reverse py-2">
-                                    <img className="w-6 h-6 rounded-3xl" alt="avt" src={chatInfo?.user?.photoUrl}/><p className=" px-2">{chatInfo?.content}</p>
-                                </div>
-                            );
-                        }
-                    })
-                }
+
+                {listChat.map((chatInfo: any, i) => {
+                    if (chatInfo?.user?._id !== user?._id) {
+                        return (
+                            <div className="flex py-2">
+                                <img
+                                    className="w-6 h-6 rounded-3xl"
+                                    alt="avt"
+                                    src={chatInfo?.user?.photoUrl}
+                                />
+                                <p className=" px-2">{chatInfo?.content}</p>
+                            </div>
+                        );
+                    } else {
+                        return (
+                            <div className="flex flex-row-reverse py-2">
+                                <img
+                                    className="w-6 h-6 rounded-3xl"
+                                    alt="avt"
+                                    src={chatInfo?.user?.photoUrl}
+                                />
+                                <p className=" px-2">{chatInfo?.content}</p>
+                            </div>
+                        );
+                    }
+                })}
 
                 <div className=" mt-4 flex justify-end space-x-4">
-                
-                <input
-                    className="shadow appearance-none border w-max py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="chatText"
-                    name="chatText"
-                    type="text"
-                    placeholder="type chat ..."
-                    value={chatText}
-                    onChange={e => setChatText(e.target.value)}
-                />
+                    <input
+                        className="shadow appearance-none border w-max py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="chatText"
+                        name="chatText"
+                        type="text"
+                        placeholder="type chat ..."
+                        value={chatText}
+                        onChange={(e) => setChatText(e.target.value)}
+                    />
                     <Button onClick={sendChat}>Send</Button>
                 </div>
                 <div className="mt-4"></div>

@@ -42,7 +42,7 @@ export default function ClassGrades() {
         if (!id) return;
         getScoreBoard();
     }, [id]);
-    console.log(studentList);
+    // console.log(studentList);
 
     return (
         <>

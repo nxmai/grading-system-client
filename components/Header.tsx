@@ -5,6 +5,7 @@ import CreateClassForm from "./class/CreateClassFrom";
 import { GoogleLogout } from "react-google-login";
 import { fetchUserInfo, selectUser } from "features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "app/hooks";
+import NotificationMenu from "./notification/NotificationMenu";
 
 const clientId =
     "416191100698-anqr49onakr79lg2tldn7cnv4t62rqnk.apps.googleusercontent.com";
@@ -15,33 +16,12 @@ const clientId =
 
 const Header: FC = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
-    //TODO: change to context api or redux
-    // const [userInfo, setUserInfo] = useState({
-    //     firstName: "",
-    //     lastName: "",
-    //     studentCardID: "",
-    //     photoUrl: "",
-    //     active: "",
-    //     email: "",
-    // });
 
     const userInfo = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(fetchUserInfo());
-    },[dispatch]);
-    // useEffect(() => {
-    //     async function getUser() {
-    //         try {
-    //             const res = await userApi.getMe();
-    //             setUserInfo(res.data);
-    //         } catch (error: any) {
-    //             console.log(error?.message);
-    //         }
-    //     }
-
-    //     getUser();
-    // }, []);
+    }, [dispatch]);
 
     const openModal = () => {
         setIsModalVisible(true);
@@ -178,7 +158,7 @@ const Header: FC = () => {
                     ) : (
                         ""
                     )}
-
+                    <NotificationMenu />
                     <div className="group relative">
                         {userInfo.photoUrl !== "" ? (
                             <img src={userInfo.photoUrl} alt="avt" className="w-10 rounded-full" />
@@ -225,7 +205,7 @@ const Header: FC = () => {
             {isModalVisible ? (
                 <CreateClassForm
                     closeModal={closeModal}
-                    // createClass={createClass}
+                // createClass={createClass}
                 />
             ) : (
                 ""
