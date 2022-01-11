@@ -24,6 +24,14 @@ const assignmentReviewApi = {
     createReviewChat(classId: any, assignmentId: any, reviewRequestId: any, content: string) {
         const url = `${apiURL}/${classId}/review/request/${assignmentId}/chat/${reviewRequestId}`;
         return post(url, {content}, localStorage.getItem("token") ?? "");
+    },
+    acceptScoreRequestByStudent(classId: any, assignmentId: any, classStudentId: any) {
+        const url = `${apiURL}/${classId}/review/request/${assignmentId}/accept-score/${classStudentId}`;
+        return put(url, {}, localStorage.getItem("token") ?? "");
+    },
+    ignoreScoreRequestByStudent(classId: any, assignmentId: any, classStudentId: any) {
+        const url = `${apiURL}/${classId}/review/request/${assignmentId}/ignore-score/${classStudentId}`;
+        return put(url, {}, localStorage.getItem("token") ?? "");
     }
 };
 
