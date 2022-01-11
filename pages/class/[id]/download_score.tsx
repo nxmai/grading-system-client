@@ -11,12 +11,13 @@ export default function DownloadScore() {
     function onClickDownloadScore() {
         classScoreApi.downloadFullTable(id).then((res) => {
             triggerDownloadScv("download", res);
+        }).then(()=>{
+            router.replace(`/class/${id}/grade`);
         });
     }
     useEffect(()=>{
         onClickDownloadScore();
-    }, []);
+    });
     
-    router.replace(`/class/${id}/grade`);
     return (<></>);
 }

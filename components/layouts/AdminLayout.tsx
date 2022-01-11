@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import type { ReactElement } from 'react'
-import Error from 'next/error'
+import type { ReactElement } from 'react';
+import Error from 'next/error';
 
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
@@ -17,7 +17,7 @@ type LayoutProps = {
 export default function AdminLayout({ children }: LayoutProps) {
     const user = useAppSelector(selectUser);
     if (user.role != "admin"){
-        return <Error statusCode={404} />
+        return <Error statusCode={404} />;
     } else {
         return (
             <>
@@ -32,6 +32,6 @@ export default function AdminLayout({ children }: LayoutProps) {
                     </div>
                 </div>
             </>
-        )
+        );
     }
 }

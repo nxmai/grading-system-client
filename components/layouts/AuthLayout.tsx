@@ -34,18 +34,18 @@ export default function AuthLayout({ children }: LayoutProps) {
                     active: reps.active,
                     email: reps.email,
                     role: reps.role
-                }
-                dispatch(setInit(userPayload))
+                };
+                dispatch(setInit(userPayload));
                 setIsLoading(false);
                 return children;
             } catch(err) {
                 router.push('/auth/login');
             }
-        }
+        };
         initUser();
     }, []);
     if (isLoading) {
-        return <div>Loading</div>
+        return <div>Loading</div>;
     } else {
         return children;
     }
