@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import Header from "components/Header";
@@ -10,6 +10,7 @@ import ReturnMenu from "components/grade/ReturnMenu";
 import classAssignmentApi from "api/classAssignment";
 import classScoreApi from "api/classScore";
 import StudentScoreRow from "components/grade/StudentScoreRows";
+import AuthLayout from "components/layouts/AuthLayout";
 
 export default function ClassGrades() {
     const router = useRouter();
@@ -96,3 +97,11 @@ export default function ClassGrades() {
         </>
     );
 }
+
+ClassGrades.getLayout = function getLayout(page: ReactElement) {
+    return (
+        <AuthLayout >
+            {page}
+        </AuthLayout>
+    );
+};

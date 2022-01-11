@@ -1,35 +1,27 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import 'tailwindcss/tailwind.css';
+import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import type { ReactElement, ReactNode } from 'react';
+
 import { Provider } from 'react-redux';
 import { store } from 'app/store';
+
+import 'tailwindcss/tailwind.css';
 import '../styles/globals.css';
 
-function MyApp({ Component, pageProps }: AppProps) {
-  const router = useRouter();
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      const listAllowUrl = [
-        "/auth/login",
-        "/auth/register",
-      ];
-      const url = router.asPath;
-      console.log(url);
-      listAllowUrl.forEach(e => {
-        if (url.indexOf(e) === -1) {
-          return;
-        }
-      });
-      router.push('/auth/login');
-    }
-  }, []);
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout ?? ((page) => page);
 
   return <Provider store={store}>
-    <Component {...pageProps} />
+    {getLayout(<Component {...pageProps} />)}
   </Provider>;
 }
 export default MyApp;

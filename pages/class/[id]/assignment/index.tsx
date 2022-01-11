@@ -2,10 +2,11 @@ import classAssignmentApi from "api/classAssignment";
 import classApi from "api/classes";
 import Button from "components/Button";
 import Header from "components/Header";
+import AuthLayout from "components/layouts/AuthLayout";
 import AddingForm from "components/structure/AddingForm";
 import FormCreator from "components/structure/FormCreator";
 import { useRouter } from "next/router";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactElement } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 type ClassUserRole = {
@@ -225,3 +226,11 @@ const GradeStructure = () => {
 };
 
 export default GradeStructure;
+
+GradeStructure.getLayout = function getLayout(page: ReactElement) {
+    return (
+        <AuthLayout >
+            {page}
+        </AuthLayout>
+    );
+};

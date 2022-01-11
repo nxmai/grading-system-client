@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import Header from "../../../components/Header";
 import { useRouter } from "next/router";
 import classApi from "../../../api/classes";
@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import GradeStructureMenu from "components/class/GradeStructureMenu";
 import classAssignmentApi from "api/classAssignment";
+import AuthLayout from "components/layouts/AuthLayout";
 
 const ClassDetail = () => {
     const router = useRouter();
@@ -122,3 +123,11 @@ const ClassDetail = () => {
 };
 
 export default ClassDetail;
+
+ClassDetail.getLayout = function getLayout(page: ReactElement) {
+    return (
+        <AuthLayout >
+            {page}
+        </AuthLayout>
+    );
+};

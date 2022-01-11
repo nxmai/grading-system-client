@@ -1,11 +1,11 @@
-import type { NextPage } from "next";
-import React, { useEffect } from "react";
+import React, { ReactElement, useEffect } from "react";
 import ClassCard from "../components/class/ClassCard";
 import Header from "../components/Header";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { fetchClassesFromAPI, selectClass } from "features/class/classSlice";
+import AuthLayout from "components/layouts/AuthLayout";
 
-const Home: NextPage = () => {
+export default function Home() {
     const classes = useAppSelector(selectClass);
     const dispatch = useAppDispatch();
     useEffect(()=>{
@@ -26,4 +26,10 @@ const Home: NextPage = () => {
     );
 };
 
-export default Home;
+Home.getLayout = function getLayout(page: ReactElement) {
+    return (
+        <AuthLayout >
+            {page}
+        </AuthLayout>
+    );
+};

@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import classInviteUserApi from "api/classInviteUser";
+import AuthLayout from "components/layouts/AuthLayout";
 
 export default function ConfirmInviteClass() {
     const router = useRouter();
@@ -59,3 +60,11 @@ export default function ConfirmInviteClass() {
         </div>
     );
 }
+
+ConfirmInviteClass.getLayout = function getLayout(page: ReactElement) {
+    return (
+        <AuthLayout >
+            {page}
+        </AuthLayout>
+    );
+};

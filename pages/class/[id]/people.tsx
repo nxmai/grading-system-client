@@ -1,10 +1,11 @@
-import React, { useEffect, useState, FC, Fragment } from "react";
+import React, { useEffect, useState, FC, Fragment, ReactElement } from "react";
 import classApi from "../../../api/classes";
 import classInviteUserApi from "api/classInviteUser";
 import Header from "../../../components/Header";
 import { useRouter } from "next/router";
 import { LockOpenIcon, UserAddIcon, DocumentDuplicateIcon, XIcon } from "@heroicons/react/solid";
 import InviteUserModal from "components/class/InviteUserModal";
+import AuthLayout from "components/layouts/AuthLayout";
 
 interface InformationProps {
     firstName: String;
@@ -224,3 +225,11 @@ const ClassPeople = () => {
 };
 
 export default ClassPeople;
+
+ClassPeople.getLayout = function getLayout(page: ReactElement) {
+    return (
+        <AuthLayout >
+            {page}
+        </AuthLayout>
+    );
+};

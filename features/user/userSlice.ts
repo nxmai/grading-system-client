@@ -1,21 +1,34 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import userApi from "api/user";
 import { RootState } from "app/store";
 
+export type UserModel = {
+  _id: string,
+  firstName: string,
+  lastName: string,
+  studentCardID: string,
+  photoUrl: string,
+  active: boolean,
+  email: string,
+  role: "admin" | "user" | "guest",
+}
+
 export interface UserState {
-  data: any;
+  data: UserModel;
   token?: string;
   isLogin: boolean;
 }
 
 const initialState: UserState = {
   data: {
+    _id: "",
     firstName: "",
     lastName: "",
     studentCardID: "",
     photoUrl: "",
-    active: "",
+    active: false,
     email: "",
+    role: "guest",
   },
   token: "",
   isLogin: false,
@@ -48,7 +61,12 @@ export const updateStudentCardID = createAsyncThunk(
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    setInit: (state, action: PayloadAction<UserModel>) => {
+      state.isLogin = true;
+      state.data = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchUserInfo.fulfilled, (state, action) => {
@@ -63,6 +81,8 @@ export const userSlice = createSlice({
       });
   },
 });
+
+export const { setInit } = userSlice.actions;
 
 export const selectUser = (state: RootState) => state.user.data;
 
