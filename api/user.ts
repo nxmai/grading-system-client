@@ -29,6 +29,18 @@ const userApi = {
         const url = `${apiURL}/user/notification/read`;
         return post(url, data, localStorage.getItem("token") ?? "");
     },
+    getAll() {
+        const url = `${apiURL}/user/all`;
+        return get(url, localStorage.getItem("token") ?? "");
+    },
+    updateOne(id: any, data: any) {
+        const url = `${apiURL}/user/all/update/${id}`;
+        return post(url, data, localStorage.getItem("token") ?? "");
+    },
+    searchBy(filter: any) {
+        const url = `${apiURL}/user/search?`;
+        return get(url, localStorage.getItem("token") ?? "");
+    }
 };
 
 export default userApi;
