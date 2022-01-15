@@ -24,7 +24,6 @@ export default function NotificationMenu() {
 
     useEffect(() => { fetchNotifications(); }, []);
 
-    console.log(notifications);
     return (
         <Fragment>
             <Menu as="div" className="relative inline-block text-left">
@@ -40,32 +39,35 @@ export default function NotificationMenu() {
                         </span> : <></>}
                     </button>
                 </Menu.Button>
-                <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                >
-                    <Menu.Items className="absolute right-0 w-[300px] max-h-[550px] overflow-y-scroll origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        <div className="px-1 py-1 ">
-                            {notifications.map((notification: any, index) =>
-                                <Menu.Item key={index}>
-                                    <button
-                                        onClick={() => isRead(notification._id)}
-                                        className={`${notification.isRead ? "text-gray-700" : "text-gray-900 bg-blue-50"
-                                            } group flex rounded-md flex-col items-start text-left w-full mb-[2px] px-2 py-2 text-sm`}
-                                    >
-                                        <a href={notification.link}>{notification.content}</a>
-                                        <p className="text-gray-500 text-xs">{new Date(notification.createdAt).toDateString()}</p>
-                                    </button>
-                                </Menu.Item>
-                            ).reverse()}
-                        </div>
-                    </Menu.Items>
-                </Transition>
+                {notifications.length != 0 ?
+                    <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                    >
+                        <Menu.Items className="absolute right-0 w-[300px] max-h-[550px] overflow-y-scroll origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <div className="px-1 py-1 ">
+                                {notifications.map((notification: any, index) =>
+                                    <Menu.Item key={index}>
+                                        <button
+                                            onClick={() => isRead(notification._id)}
+                                            className={`${notification.isRead ? "text-gray-700" : "text-gray-900 bg-blue-50"
+                                                } group flex rounded-md flex-col items-start text-left w-full mb-[2px] px-2 py-2 text-sm`}
+                                        >
+                                            <a href={notification.link}>{notification.content}</a>
+                                            <p className="text-gray-500 text-xs">{new Date(notification.createdAt).toDateString()}</p>
+                                        </button>
+                                    </Menu.Item>
+                                ).reverse()}
+                            </div>
+                        </Menu.Items>
+                    </Transition> : <></>}
+
+
             </Menu>
         </Fragment>
     );
