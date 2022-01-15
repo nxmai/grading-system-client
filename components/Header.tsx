@@ -6,6 +6,7 @@ import { GoogleLogout } from "react-google-login";
 import { fetchUserInfo, selectUser } from "features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import NotificationMenu from "./notification/NotificationMenu";
+import classApi from "api/classes";
 
 const clientId =
     "416191100698-anqr49onakr79lg2tldn7cnv4t62rqnk.apps.googleusercontent.com";
@@ -16,6 +17,7 @@ const clientId =
 
 const Header: FC = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [studentClassId, setStudentClassId] = useState("");
 
     const userInfo = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
@@ -38,6 +40,19 @@ const Header: FC = () => {
 
     const router = useRouter();
     const { id } = router.query;
+
+    useEffect(() => {
+        const getStudentClassId = async () => {
+            try {
+                const response = await classApi.getStudentClassId(id);
+                setStudentClassId(response.data);
+                console.log(response);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getStudentClassId();
+    }, [id]);
 
     return (
         <div>
@@ -91,7 +106,8 @@ const Header: FC = () => {
                                 }
                                 className={
                                     "w-24 h-full flex justify-center items-center cursor-pointer font-semibold hover:bg-blue-100 border-b-2 " +
-                                    (router.pathname === "/class/[id]/assignment"
+                                    (router.pathname ===
+                                    "/class/[id]/assignment"
                                         ? "text-[#1967D2]  border-blue-700"
                                         : "text-gray-400  border-white hover:border-blue-100")
                                 }
@@ -111,27 +127,35 @@ const Header: FC = () => {
                             >
                                 People
                             </li>
-                            <li
-                                onClick={() =>
-                                    router.push(`/class/${id}/grade`)
-                                }
-                                className={
-                                    "group relative w-24 h-full flex justify-center items-center cursor-pointer font-semibold hover:bg-blue-100 border-b-2 " +
-                                    (router.pathname === "/class/[id]/grade"
-                                        ? "text-[#1967D2]  border-blue-700"
-                                        : "text-gray-400  border-white hover:border-blue-100")
-                                }
-                            >
-                                Grade
-                                <ul className="hidden group-hover:block absolute border-2 bg-white rounded-lg shadow-md w-[150px] top-[60px] right-[-5px] p-[10px]">
-                                    <li
-                                        className="hover:bg-blue-50 cursor-pointer p-2"
-                                        onClick={() => router.push(`/class/${id}/download_score`)}
-                                    >
-                                        Donwload Full Score
-                                    </li>
-                                </ul>
-                            </li>
+                            {studentClassId != "" ? (
+                                <li
+                                    onClick={() =>
+                                        router.push(`/class/${id}/grade`)
+                                    }
+                                    className={
+                                        "group relative w-24 h-full flex justify-center items-center cursor-pointer font-semibold hover:bg-blue-100 border-b-2 " +
+                                        (router.pathname === "/class/[id]/grade"
+                                            ? "text-[#1967D2]  border-blue-700"
+                                            : "text-gray-400  border-white hover:border-blue-100")
+                                    }
+                                >
+                                    Grade
+                                    <ul className="hidden group-hover:block absolute border-2 bg-white rounded-lg shadow-md w-[150px] top-[60px] right-[-5px] p-[10px]">
+                                        <li
+                                            className="hover:bg-blue-50 cursor-pointer p-2"
+                                            onClick={() =>
+                                                router.push(
+                                                    `/class/${id}/download_score`
+                                                )
+                                            }
+                                        >
+                                            Donwload Full Score
+                                        </li>
+                                    </ul>
+                                </li>
+                            ) : (
+                                ""
+                            )}
                         </ul>
                     </div>
                 ) : (
@@ -160,8 +184,12 @@ const Header: FC = () => {
                     )}
                     <NotificationMenu />
                     <div className="group relative">
-                        {userInfo.photoUrl? (
-                            <img src={userInfo.photoUrl} alt="avt" className="w-10 rounded-full" />
+                        {userInfo.photoUrl ? (
+                            <img
+                                src={userInfo.photoUrl}
+                                alt="avt"
+                                className="w-10 rounded-full"
+                            />
                         ) : (
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -205,7 +233,7 @@ const Header: FC = () => {
             {isModalVisible ? (
                 <CreateClassForm
                     closeModal={closeModal}
-                // createClass={createClass}
+                    // createClass={createClass}
                 />
             ) : (
                 ""
