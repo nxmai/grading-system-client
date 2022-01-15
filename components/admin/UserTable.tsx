@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import { UserModel } from "features/user/userSlice";
 import userApi from "api/user";
 import UserMenu from "components/admin/UserMenu";
+import { useRouter } from "next/router";
 
 export default function UserTable() {
+    const router = useRouter();
     const [userList, setUserList] = useState<Array<UserModel>>([]);
-
-    const fetchListUser = async function () {
+    const queryInit = router.query;
+    const fetchListUser = async function (filter: any) {
         try {
-            const usrs = await userApi.getAll();
+            const usrs = await userApi.getAll(filter);
             setUserList(usrs.data);
         } catch (err) {
             console.log(']> err: ', err);
@@ -17,8 +19,43 @@ export default function UserTable() {
     };
 
     useEffect(() => {
-        fetchListUser();
-    }, []);
+        // console.log("]> query", router.query);
+        const queryInit = router.query;
+        const obj ={
+            role: queryInit.role,
+            active: queryInit.active,
+            black_type: queryInit.black_type,
+            __sort: queryInit.__sort,
+            __search: queryInit.__search
+        };
+        fetchListUser(ObjToQueryString(obj));
+      }, [router.query]);
+
+    const ObjToQueryString = function (obj: any) {
+        var str = [];
+        for (var p in obj)
+            if (obj.hasOwnProperty(p) && obj[p] != undefined && obj[p] != "") {
+                if (p == "active") obj[p] = parseInt(obj[p], 10);
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            }
+        return str.join("&");
+    };
+
+    const onChangeFilter = (e: any) => {
+        const { name, value } = e.target;
+        const queryInit = router.query;
+        const obj ={
+            role: queryInit.role,
+            active: queryInit.active,
+            black_type: queryInit.black_type,
+            __sort: queryInit.__sort,
+            __search: queryInit.__search,
+            [name]: value,
+        };
+        const queryStr = "?"+ ObjToQueryString(obj);
+        router.push(queryStr, undefined, { shallow: true });
+    };
+    
     return (
         <div className="container mx-auto">
             <div className="py-8">
@@ -28,10 +65,14 @@ export default function UserTable() {
                 <div className="my-2 flex sm:flex-row flex-col">
                     <div className="flex flex-row mb-1 sm:mb-0">
                         <div className="relative">
-                            <select className="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                                <option>All</option>
-                                <option>User</option>
-                                <option>Admin</option>
+                            <select className="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                name="role"
+                                onChange={onChangeFilter}
+                                value={queryInit.role}
+                            >
+                                <option value={""}>All</option>
+                                <option value={"user"}>User</option>
+                                <option value={"admin"}>Admin</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                 <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -40,10 +81,14 @@ export default function UserTable() {
                             </div>
                         </div>
                         <div className="relative">
-                            <select className="appearance-none h-full rounded-r border-t sm:rounded-r-none border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
-                                <option>All</option>
-                                <option>Active</option>
-                                <option>Inactive</option>
+                            <select className="appearance-none h-full rounded-r border-t sm:rounded-r-none border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
+                                name="active"
+                                onChange={onChangeFilter}
+                                value={queryInit.active}
+                            >
+                                <option value={""}>All</option>
+                                <option value={1}>Active</option>
+                                <option value={0}>Inactive</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                 <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -52,10 +97,29 @@ export default function UserTable() {
                             </div>
                         </div>
                         <div className="relative">
-                            <select className="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
-                                <option>None</option>
-                                <option>Block</option>
-                                <option>Ban</option>
+                            <select className="appearance-none h-full rounded-r border-t sm:rounded-r-none border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
+                                name="black_type"
+                                onChange={onChangeFilter}
+                                value={queryInit.black_type}
+                            >
+                                <option value={"none"}>None</option>
+                                <option value={"block"}>Block</option>
+                                <option value={"ban"}>Ban</option>
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div className="relative">
+                            <select className="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
+                                name="__sort"
+                                onChange={onChangeFilter}
+                                value={queryInit.__sort}
+                            >
+                                <option value={"-createdAt"}>Increate</option>
+                                <option value={"createdAt"}>Decreate</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                 <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -71,7 +135,10 @@ export default function UserTable() {
                                 </path>
                             </svg>
                         </span>
-                        <input placeholder="Search" className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+                        <input placeholder="Search" className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" 
+                            name="__search"
+                            onChange={onChangeFilter}
+                        />
                     </div>
                 </div>
                 <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -181,3 +248,5 @@ export default function UserTable() {
         </div>
     );
 }
+
+// https://nextjs.org/docs/routing/shallow-routing
