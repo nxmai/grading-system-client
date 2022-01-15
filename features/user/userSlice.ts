@@ -11,6 +11,7 @@ export type UserModel = {
   active: boolean,
   email: string,
   role: "admin" | "user" | "guest",
+  black_type: "ban" | "block" | "none",
 }
 
 export interface UserState {
@@ -29,6 +30,7 @@ const initialState: UserState = {
     active: false,
     email: "",
     role: "guest",
+    black_type: "none"
   },
   token: "",
   isLogin: false,

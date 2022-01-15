@@ -33,7 +33,8 @@ export default function AuthLayout({ children }: LayoutProps) {
                     photoUrl: reps.photoUrl,
                     active: reps.active,
                     email: reps.email,
-                    role: reps.role
+                    role: reps.role,
+                    black_type: reps.black_type,
                 };
                 dispatch(setInit(userPayload));
                 setIsLoading(false);
