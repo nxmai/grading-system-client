@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
@@ -58,6 +59,9 @@ function Login() {
                                             onChange={e => { setPassword(e.target.value); }}
                                             className='w-[90%] text-[#29B5B8] font-semibold focus:outline-none' type="password" required />
                                     </div>
+                                    <Link href="/auth/forgot-password">
+                                        <a className='text-blue-400 font-normal hover:underline'>Forgot password?</a>
+                                    </Link>
                                 </div>
                             </div>
                             <div className="flex flex-col gap-4 items-center">
@@ -72,10 +76,10 @@ function Login() {
                                     onSuccess={responseGoogle}
                                     onFailure={responseGoogle}
                                     cookiePolicy={'single_host_origin'}
-                                    isSignedIn={true}   
+                                    isSignedIn={true}
                                 >Sign in with Google</GoogleLogin>
                                 <Link href="/auth/register">
-                                    <a className='underline'>Don`t have an account?</a>
+                                    <a className='underline'>Don't have an account?</a>
                                 </Link>
                             </div>
                         </div>

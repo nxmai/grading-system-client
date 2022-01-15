@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
@@ -26,8 +27,8 @@ function Register() {
         if (firstName.length && lastName.length && email.length && password.length) {
             authApi.register({ firstName, lastName, email, password })
                 .then(({ data }) => {
-                    localStorage.setItem('token', `${data}`);
-                    router.push('/');
+                    authApi.sendConfirmation(data);
+                    router.push('/auth/confirmation');
                 })
                 .catch(error => { console.log(error); });
         } else {
@@ -88,11 +89,13 @@ function Register() {
                                     clientId={clientId}
                                     buttonText='Login'
                                     onSuccess={responseGoogle}
-                                    onFailure={responseGoogle}
+                                    // onFailure={responseGoogle}
                                     cookiePolicy={'single_host_origin'}
                                     isSignedIn={true}
                                 >Sign up with Google</GoogleLogin>
-                                <a className='underline' href="/auth/login">Back to log in</a>
+                                <Link href='/auth/login'>
+                                    <a className='underline'>Back to Log in</a>
+                                </Link>
                             </div>
                         </div>
                     </div>
