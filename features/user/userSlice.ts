@@ -14,6 +14,13 @@ export type UserModel = {
   black_type: "ban" | "block" | "none",
 }
 
+export type ClassModal = {
+    _id: string,
+    name: string,
+    subject: string,
+    description: string,
+  }
+
 export interface UserState {
   data: UserModel;
   token?: string;
