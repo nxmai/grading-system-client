@@ -37,16 +37,11 @@ export default function AssignmentMenu({classId, assignmentId, reRender }: AppPr
     const [openDownloadScoreAssignment, setOpenDownloadScoreAssignment] = useState<boolean>(false);
     const [openReturnScoreAssignment, setOpenReturnScoreAssignment] = useState<boolean>(false);
 
-    function returnScoreOnClick () {
-        setOpenDownloadScoreAssignment(true);
-        createNotifications(classId, assignmentId);
-    }
-
     return (
         <Fragment>
             <UploadScoreAssignment isOpen={openUploadScoreAssignment} setShowModal={setOpenUploadScoreAssignment} classId={classId} assignmentId={assignmentId} reRender={reRender}/>
             <DownLoadScoreAssignment isOpen={openDownloadScoreAssignment} setShowModal={setOpenDownloadScoreAssignment} classId={classId} assignmentId={assignmentId}/>
-            <ReturnScoreAssignment isOpen={openReturnScoreAssignment} setShowModal={setOpenReturnScoreAssignment} />
+            <ReturnScoreAssignment isOpen={openReturnScoreAssignment} setShowModal={setOpenReturnScoreAssignment} classId={classId} assignmentId={assignmentId}/>
             
             <Menu as="div" className="relative inline-block text-left">
                 <Menu.Button>
@@ -110,7 +105,7 @@ export default function AssignmentMenu({classId, assignmentId, reRender }: AppPr
                             <Menu.Item>
                                 {({ active }) => (
                                     <button
-                                        onClick={returnScoreOnClick}
+                                        onClick={() => setOpenReturnScoreAssignment(true)}
                                         className={`${active ? "bg-blue-50" : "text-gray-900"
                                             } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                                     >

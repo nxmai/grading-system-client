@@ -33,7 +33,7 @@ const classScoreApi = {
     },
     markReturnedByAssignmentId(classId: any, assignmentId: any) {
         const url = `${apiURL}/${classId}/score/class-score/assignment/${assignmentId}/mark-returned-all`;
-        return downloadFile(url, localStorage.getItem("token") ?? "");
+        return put(url, {}, localStorage.getItem("token") ?? "");
     },
 
     getAssignmentScoreByClassId(classId: any) {

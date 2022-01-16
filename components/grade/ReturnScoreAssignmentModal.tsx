@@ -1,16 +1,28 @@
 import React, { useEffect, useState } from "react";
 import Modal from "components/Modal";
+import classScoreApi from "api/classScore";
 
 type AppProps = {
     isOpen: boolean;
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+    classId: any; 
+    assignmentId: any;
 };
 
-export default function ReturnScoreAssignmentModal({ isOpen, setShowModal }: AppProps) {
+export default function ReturnScoreAssignmentModal({ isOpen, setShowModal, classId, assignmentId }: AppProps) {
     const [isProcess, setProcess] = useState<boolean>(false);
 
     function onActionClick() {
         setProcess(true);
+
+        classScoreApi.markReturnedByAssignmentId(classId, assignmentId)
+        .then(_ => {
+            setShowModal(false);
+        }).catch((error: any)=>{
+            console.log(error);
+        }).finally(()=>{
+            setProcess(false);
+        });
     }
 
     return (
