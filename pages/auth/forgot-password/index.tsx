@@ -1,17 +1,25 @@
 /* eslint-disable react/no-unescaped-entities */
+import authApi from 'api/auth';
+import MailWaiting from 'components/user/MailWaiting';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
 function ForgotPassword() {
     const [email, setEmail] = useState("");
+    const [isSended, setIsSended] = useState(false);
+
+    function reSend() {
+
+    }
 
     function onSubmit() {
-
+        authApi.sendInstruction({ email });
+        setIsSended(true);
     }
 
     return (
         <>
-            <div className='h-screen flex justify-center items-center text-sm font-semibold leading-none tracking-tight text-[#19283E]'>
+            {!isSended ? <div className='h-screen flex justify-center items-center text-sm font-semibold leading-none tracking-tight text-[#19283E]'>
                 <div className="relative w-[370px] h-[450px] flex justify-center items-center bg-[#FEFAF3] rounded-[15px] shadow-md">
                     <div className="w-[200px] h-[200px] bg-[#A5A6F6] bg-opacity-75 rounded-full absolute left-[-100px] top-[-70px] z-[-1]"></div>
                     <div className="w-[200px] h-[300px] bg-[#29B5B8] bg-opacity-50 absolute right-[-70px] bottom-[-60px] z-[-1]"></div>
@@ -42,7 +50,7 @@ function ForgotPassword() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> : <MailWaiting title={`We've just sent you an email to renew your password.`} onSubmit={reSend} />}
         </>
     );
 }

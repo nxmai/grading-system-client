@@ -38,7 +38,7 @@ export default function AssignmentMenu({classId, assignmentId, reRender }: AppPr
     const [openReturnScoreAssignment, setOpenReturnScoreAssignment] = useState<boolean>(false);
 
     function returnScoreOnClick () {
-        setOpenDownloadScoreAssignment(true);
+        setOpenReturnScoreAssignment(true);
         createNotifications(classId, assignmentId);
     }
 

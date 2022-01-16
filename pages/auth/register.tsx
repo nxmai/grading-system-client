@@ -18,7 +18,6 @@ function Register() {
             .then(({ data }) => {
                 localStorage.setItem('token', `${data}`);
                 router.push('/');
-                alert('Log in success! 🎉');
             })
             .catch(error => { console.log(error); });
     };
@@ -89,7 +88,7 @@ function Register() {
                                     clientId={clientId}
                                     buttonText='Login'
                                     onSuccess={responseGoogle}
-                                    // onFailure={responseGoogle}
+                                    onFailure={responseGoogle}
                                     cookiePolicy={'single_host_origin'}
                                     isSignedIn={true}
                                 >Sign up with Google</GoogleLogin>

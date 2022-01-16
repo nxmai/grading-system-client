@@ -25,6 +25,10 @@ const userApi = {
         const url = `${apiURL}/user/notification`;
         return post(url, data, localStorage.getItem("token") ?? "");
     },
+    responseToStudentGradeReviewNotification(data: any) {
+        const url = `${apiURL}/user/notification/response-to-student-grade-review`;
+        return post(url, data, localStorage.getItem("token") ?? "");
+    },
     updateNotificationRead(data: any) {
         const url = `${apiURL}/user/notification/read`;
         return post(url, data, localStorage.getItem("token") ?? "");

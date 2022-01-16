@@ -6,8 +6,8 @@ import React from 'react';
 function SuccessComfirmation() {
     const router = useRouter();
     function onSubmit() {
-        const { id } = router.query;
-        authApi.confirmEmail(id)
+        const { token } = router.query;
+        authApi.confirmEmail(token)
             .then(({ data }) => {
                 localStorage.setItem('token', `${data}`);
                 router.push('/');

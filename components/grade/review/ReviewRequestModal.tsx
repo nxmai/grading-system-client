@@ -6,7 +6,7 @@ import classApi from "api/classes";
 import userApi from "api/user";
 import classAssignmentApi from "api/classAssignment";
 
-async function createNotifications(classId: any, assignmentId: any) {
+async function createNotifications(classId: any, assignmentId: any, classStudentId: any) {
     // const notification = {
     //     user: teacherId,
     //     content: `${userName} has requested a grade review of ${assignmentName} in ${className}`
@@ -24,7 +24,7 @@ async function createNotifications(classId: any, assignmentId: any) {
     teachers.forEach((teacher: any) => data.push({
         user: teacher._id,
         content: `${user.firstName} ${user.lastName} requested a grade review of ${assignment.title} in ${classDetail.name}`,
-        link: `/class/${classId}/assignment/${assignmentId}/request`,
+        link: `/class/${classId}/assignment/${assignmentId}/request/${classStudentId}`,
     }));
     await userApi.addNotification(data);
 }
@@ -47,7 +47,6 @@ const ReviewRequestModal = ({ isOpen, setShowModal, setReviewData }: AppProps) =
     const { id, assignmentid } = router.query;
 
     const onActionClick = async () => {
-        createNotifications(id, assignmentid);
         setProcess(true);
         const data = {
             classAssignment: assignmentid,
@@ -61,7 +60,7 @@ const ReviewRequestModal = ({ isOpen, setShowModal, setReviewData }: AppProps) =
                 data
             );
             console.log(repsonse.data.data);
-            // add notification here with repsonse.data.data
+            createNotifications(id, assignmentid, repsonse.data.data.classStudentId);
             setReviewData(repsonse.data.data);
             setProcess(false);
             setShowModal(false);

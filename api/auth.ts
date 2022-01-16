@@ -21,6 +21,14 @@ const authApi = {
         const url = `${apiURL}/auth/confirmation/${token}`;
         return get(url, "");
     },
+    sendInstruction(userData: any) {
+        const url = `${apiURL}/auth/renew-password/send-instruction`;
+        return post(url, userData);
+    },
+    renewPassword(token: any, userData: any) {
+        const url = `${apiURL}/auth/renew-password/${token}`;
+        return post(url, userData);
+    },
 };
 
 export default authApi;
