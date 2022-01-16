@@ -182,7 +182,8 @@ function ReviewRequest() {
                 {classUserRole.role == "student" ? (
                     <div className="flex justify-between items-center mt-4">
                         <p className="">You get: {assignmentScore?.score}/10</p>
-                        {assignmentScore?.score ? (
+                        {!assignmentScore ||
+                        (assignmentScore?.score && !reviewRequestData) ? (
                             <Button
                                 type="button"
                                 variants="primary"
@@ -250,9 +251,31 @@ function ReviewRequest() {
                     ""
                 )}
 
+                {classUserRole.role == "student" && reviewRequestData?.isAccept ? (
+                    reviewRequestData.isAccept ? (
+                        <p className="mt-2 mb-4 font-bold text-red-600 text-lg text-right">
+                            Teacher accept your request grade
+                        </p>
+                    ) : (
+                        <p className="mt-2 mb-4 font-bold text-red-600 text-lg text-right">
+                            Teacher ignore your request grade
+                        </p>
+                    )
+                ) : (
+                    ""
+                )}
+
                 {classUserRole.role == "teacher" ? (
                     reviewRequestData.isAccept == null ? (
                         <div className="flex justify-end gap-2 mt-4">
+                            <Button
+                                type="button"
+                                variants="secondary"
+                                className="pl-6 pr-6 sm:mt-0 sm:w-auto sm:text-sm"
+                                onClick={() => setOpenReviewRequest(true)}
+                            >
+                                Accept other Score
+                            </Button>
                             <Button
                                 type="button"
                                 variants="primary"
