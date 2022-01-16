@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import classAssignmentApi from "api/classAssignment";
 import assignmentReviewApi from "api/assignmentReview";
 import classApi from "api/classes";
+import userApi from "api/user";
 import classScoreApi from "api/classScore";
 import ReviewRequestModal from "components/grade/review/ReviewRequestModal";
 import { useAppSelector } from "app/hooks";
@@ -112,6 +113,7 @@ function ReviewRequest() {
                         classstudentid
                     );
                 console.log(reps.data);
+                userApi.responseToStudentGradeReviewNotification({ classId: id, assignmentId: assignmentid, classStudentId: classstudentid, trigger: user._id });
             } catch (error) {
                 console.log(error);
             }
@@ -225,7 +227,7 @@ function ReviewRequest() {
                 )}
 
                 {(classUserRole.role == "student" && reviewRequestData) ||
-                classUserRole.role == "teacher" ? (
+                    classUserRole.role == "teacher" ? (
                     <div>
                         <label className="text-sm font-bold text-blue-800">
                             Grade expectation
