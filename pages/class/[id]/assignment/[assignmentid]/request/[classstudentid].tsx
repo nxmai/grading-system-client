@@ -11,6 +11,7 @@ import ReviewRequestModal from "components/grade/review/ReviewRequestModal";
 import { useAppSelector } from "app/hooks";
 import { selectUser } from "features/user/userSlice";
 import GoToInputStudentCardModal from "components/class/GoToInputStudentCardModal";
+import AcceptNewScoreModal from "components/grade/review/AcceptNewScoreModal";
 
 type ClassUserRole = {
     role: "teacher" | "student";
@@ -26,6 +27,7 @@ function ReviewRequest() {
     const [assignmentScore, setAssignmentScore] = useState<any>({});
 
     const [openReviewRequest, setOpenReviewRequest] = useState<boolean>(false);
+    const [openReplyRequest, setOpenReplyRequest] = useState<boolean>(false);
     const [listChat, setListChat] = useState([]);
     const [chatText, setChatText] = useState<string>("");
 
@@ -158,8 +160,6 @@ function ReviewRequest() {
         fetchReviewChat();
     }
 
-    console.log(reviewRequestData);
-
     return (
         <div>
             <Header />
@@ -168,6 +168,10 @@ function ReviewRequest() {
                 isOpen={openReviewRequest}
                 setShowModal={setOpenReviewRequest}
                 setReviewData={setReviewRequestData}
+            />
+            <AcceptNewScoreModal
+                isOpen={openReplyRequest}
+                setShowModal={setOpenReplyRequest}
             />
 
             <div className="ml-[calc(50%-450px)] mr-[calc(50%-450px)] mt-6 ">
@@ -251,11 +255,28 @@ function ReviewRequest() {
                     ""
                 )}
 
-                {classUserRole.role == "student" && reviewRequestData?.isAccept ? (
+                {classUserRole.role == "student" &&
+                reviewRequestData?.isAccept ? (
                     reviewRequestData.isAccept ? (
-                        <p className="mt-2 mb-4 font-bold text-red-600 text-lg text-right">
-                            Teacher accept your request grade
-                        </p>
+                        reviewRequestData?.scoreFromTeacher ? (
+                            <div>
+                                <p className="mt-2 mb-4 font-bold text-red-600 text-lg text-right">
+                                    Teacher mark final grade with other score
+                                </p>
+                                <p>Reply from teacher with your new grade: </p>
+                                <input
+                                    type="text"
+                                    name="title"
+                                    className="h-10 mb-8 border mt-1 rounded px-4 w-full focus:outline-none bg-gray-50"
+                                    disabled
+                                    value={reviewRequestData?.replyFromTeacher}
+                                />
+                            </div>
+                        ) : (
+                            <p className="mt-2 mb-4 font-bold text-red-600 text-lg text-right">
+                                Teacher accept your request grade
+                            </p>
+                        )
                     ) : (
                         <p className="mt-2 mb-4 font-bold text-red-600 text-lg text-right">
                             Teacher ignore your request grade
@@ -272,7 +293,7 @@ function ReviewRequest() {
                                 type="button"
                                 variants="secondary"
                                 className="pl-6 pr-6 sm:mt-0 sm:w-auto sm:text-sm"
-                                onClick={() => setOpenReviewRequest(true)}
+                                onClick={() => setOpenReplyRequest(true)}
                             >
                                 Accept other Score
                             </Button>
@@ -294,9 +315,24 @@ function ReviewRequest() {
                             </Button>
                         </div>
                     ) : (
-                        <p className="mt-2 mb-4 font-bold text-red-600 text-lg text-right">
-                            You already submit review
-                        </p>
+                        <div>
+                            <p className="mt-2 mb-4 font-bold text-red-600 text-lg text-right">
+                                {reviewRequestData?.scoreFromTeacher
+                                    ? "You already submit review with other score and some reply"
+                                    : "You already submit review"}
+                            </p>
+                            {reviewRequestData?.scoreFromTeacher ? (
+                                <input
+                                    type="text"
+                                    name="title"
+                                    className="h-10 mb-8 border mt-1 rounded px-4 w-full focus:outline-none bg-gray-50"
+                                    disabled
+                                    value={reviewRequestData?.replyFromTeacher}
+                                />
+                            ) : (
+                                ""
+                            )}
+                        </div>
                     )
                 ) : (
                     ""

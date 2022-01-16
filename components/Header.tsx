@@ -21,9 +21,9 @@ type ClassUserRole = {
 
 const Header: FC = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [classUserRole, setClassUserRole] = useState<ClassUserRole>({
-        role: "teacher",
-    });
+    // const [classUserRole, setClassUserRole] = useState<ClassUserRole>({
+    //     role: "teacher",
+    // });
 
     const userInfo = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
@@ -47,6 +47,7 @@ const Header: FC = () => {
     const router = useRouter();
     const { id } = router.query;
 
+    
     // useEffect(() => {
     //     async function getUserRoleByClassID() {
     //         try {
@@ -133,7 +134,7 @@ const Header: FC = () => {
                             >
                                 People
                             </li>
-                            {classUserRole.role != "student" ? (
+                            {/* {classUserRole?.role != "student" ? ( */}
                                 <li
                                     onClick={() =>
                                         router.push(`/class/${id}/grade`)
@@ -159,9 +160,9 @@ const Header: FC = () => {
                                         </li>
                                     </ul>
                                 </li>
-                             ) : (
+                             {/* ) : (
                                 ""
-                            )} 
+                            )}  */}
                         </ul>
                     </div>
                 ) : (

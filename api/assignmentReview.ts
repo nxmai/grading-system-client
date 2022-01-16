@@ -32,7 +32,11 @@ const assignmentReviewApi = {
     ignoreScoreRequestByStudent(classId: any, assignmentId: any, classStudentId: any) {
         const url = `${apiURL}/${classId}/review/request/${assignmentId}/ignore-score/${classStudentId}`;
         return put(url, {}, localStorage.getItem("token") ?? "");
-    }
+    },
+    acceptNewScoreRequestFromTeacher(classId: any, assignmentId: any, classStudentId: any, data: any) {
+        const url = `${apiURL}/${classId}/review/request/${assignmentId}/accept-newscore/${classStudentId}`;
+        return put(url, data, localStorage.getItem("token") ?? "");
+    },
 };
 
 export default assignmentReviewApi;
