@@ -32,7 +32,6 @@ function ReviewRequest() {
     const router = useRouter();
     const { id, assignmentid, classstudentid } = router.query;
     useEffect(() => {
-
         const getSingleAssignment = async () => {
             try {
                 const response = await classAssignmentApi.getAssignmentById(
@@ -159,10 +158,12 @@ function ReviewRequest() {
         fetchReviewChat();
     }
 
+    console.log(reviewRequestData);
+
     return (
         <div>
             <Header />
-            
+
             <ReviewRequestModal
                 isOpen={openReviewRequest}
                 setShowModal={setOpenReviewRequest}
@@ -180,15 +181,19 @@ function ReviewRequest() {
 
                 {classUserRole.role == "student" ? (
                     <div className="flex justify-between items-center mt-4">
-                        <p className="">You get: {assignmentScore.score}/10</p>
-                        <Button
-                            type="button"
-                            variants="primary"
-                            className="pl-6 pr-6 sm:mt-0 sm:w-auto sm:text-sm"
-                            onClick={() => setOpenReviewRequest(true)}
-                        >
-                            Complain
-                        </Button>
+                        <p className="">You get: {assignmentScore?.score}/10</p>
+                        {assignmentScore?.score ? (
+                            <Button
+                                type="button"
+                                variants="primary"
+                                className="pl-6 pr-6 sm:mt-0 sm:w-auto sm:text-sm"
+                                onClick={() => setOpenReviewRequest(true)}
+                            >
+                                Complain
+                            </Button>
+                        ) : (
+                            ""
+                        )}
                     </div>
                 ) : (
                     ""
@@ -266,7 +271,9 @@ function ReviewRequest() {
                             </Button>
                         </div>
                     ) : (
-                        <p className="mt-2 mb-4 font-bold text-red-600 text-lg text-right">You already submit review</p>
+                        <p className="mt-2 mb-4 font-bold text-red-600 text-lg text-right">
+                            You already submit review
+                        </p>
                     )
                 ) : (
                     ""

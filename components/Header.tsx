@@ -15,9 +15,15 @@ const clientId =
 //     createClass: () => void;
 // }
 
+type ClassUserRole = {
+    role: "teacher" | "student";
+};
+
 const Header: FC = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [studentClassId, setStudentClassId] = useState("");
+    const [classUserRole, setClassUserRole] = useState<ClassUserRole>({
+        role: "student",
+    });
 
     const userInfo = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
@@ -42,16 +48,16 @@ const Header: FC = () => {
     const { id } = router.query;
 
     useEffect(() => {
-        const getStudentClassId = async () => {
+        async function getUserRoleByClassID() {
             try {
-                const response = await classApi.getStudentClassId(id);
-                setStudentClassId(response.data);
-                console.log(response);
-            } catch (error) {
-                console.log(error);
+                const res = await classApi.getUserRoleByClassId(id);
+                setClassUserRole({ ...res?.data });
+            } catch (error: any) {
+                console.log(error.message);
+                return router.push("/");
             }
-        };
-        getStudentClassId();
+        }
+        getUserRoleByClassID();
     }, [id]);
 
     return (
@@ -127,7 +133,7 @@ const Header: FC = () => {
                             >
                                 People
                             </li>
-                            {studentClassId != "" ? (
+                            {classUserRole.role != "student" ? (
                                 <li
                                     onClick={() =>
                                         router.push(`/class/${id}/grade`)
@@ -153,9 +159,9 @@ const Header: FC = () => {
                                         </li>
                                     </ul>
                                 </li>
-                            ) : (
+                             ) : (
                                 ""
-                            )}
+                            )} 
                         </ul>
                     </div>
                 ) : (
