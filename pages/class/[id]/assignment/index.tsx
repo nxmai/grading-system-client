@@ -74,10 +74,7 @@ const GradeStructure = () => {
         }
         const getStudentClassId = async () => {
             try {
-                const response =
-                    await classApi.getStudentClassId(
-                        id,
-                    );
+                const response = await classApi.getStudentClassId(id);
                 setStudentClassId(response.data);
                 console.log(response);
             } catch (error) {
@@ -171,10 +168,12 @@ const GradeStructure = () => {
                                                       router.push(
                                                           `/class/${id}/assignment/${item._id}/request`
                                                       )
-                                                : () =>
+                                                : studentClassId != ""
+                                                ? () =>
                                                       router.push(
                                                           `/class/${id}/assignment/${item._id}/request/${studentClassId}`
                                                       )
+                                                : () => router.push(`/user/me`)
                                         }
                                     >
                                         <Draggable
@@ -228,9 +227,5 @@ const GradeStructure = () => {
 export default GradeStructure;
 
 GradeStructure.getLayout = function getLayout(page: ReactElement) {
-    return (
-        <AuthLayout >
-            {page}
-        </AuthLayout>
-    );
+    return <AuthLayout>{page}</AuthLayout>;
 };

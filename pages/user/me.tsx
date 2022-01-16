@@ -1,20 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
 import UserMenu from "components/user/UserMenu";
-import React, { useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import Header from "components/Header";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { fetchUserInfo, selectUser } from "features/user/userSlice";
+import AuthLayout from "components/layouts/AuthLayout";
 
 export default function UserMe() {
     const userInfo = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
 
-    const [rerender, setRerender] = useState<boolean>(false);
-    function reRenderPage() { setRerender(!rerender);}
+    // const [rerender, setRerender] = useState<boolean>(false);
+    // function reRenderPage() { setRerender(!rerender);}
 
-    useEffect(() => {
-        dispatch(fetchUserInfo());
-    }, [dispatch]);
+    // useEffect(() => {
+    //     dispatch(fetchUserInfo());
+    // }, [dispatch]);
 
     return (
         <div>
@@ -98,3 +99,11 @@ export default function UserMe() {
         </div>
     );
 }
+
+// UserMe.getLayout = function getLayout(page: ReactElement) {
+//     return (
+//         <AuthLayout >
+//             {page}
+//         </AuthLayout>
+//     );
+// };
