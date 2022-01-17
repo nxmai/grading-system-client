@@ -11,6 +11,7 @@ function Login() {
     const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [inputError, setInputError] = useState<String>("");
 
     const onSubmit = () => {
         if (email.length && password.length) {
@@ -21,7 +22,7 @@ function Login() {
                 })
                 .catch(error => { console.log(error); });
         } else {
-            alert("Not enough info");
+            setInputError("Please fill in all required fields");
         }
     };
 
@@ -63,6 +64,13 @@ function Login() {
                                         <a className='text-blue-400 font-normal hover:underline'>Forgot password?</a>
                                     </Link>
                                 </div>
+                            </div>
+                            <div className="md:col-span-5 pl-[35px]">
+                                {inputError ? (
+                                    <p className="text-red-500 text-xs">
+                                        {inputError}
+                                    </p>
+                                ) : <></>}
                             </div>
                             <div className="flex flex-col gap-4 items-center">
                                 <button
