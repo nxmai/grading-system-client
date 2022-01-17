@@ -28,7 +28,7 @@ const ClassDetail = () => {
             const res = await classApi.getClassById(id);
             setClassData({ ...res?.data });
         } catch (error: any) {
-            console.log(error.message);
+            console.log(error);
             // return router.push("/");
         }
     }
@@ -53,7 +53,9 @@ const ClassDetail = () => {
     
     return (
         <>
-            <Header />
+            <Header attemptHandle={function (): boolean {
+                throw new Error("Function not implemented.");
+            } } />
             <div className="ml-[calc(50%-500px)] mr-[calc(50%-500px)] mt-6 ">
                 <section className="flex relative h-[240px] w-[1000px] ">
                     {/* <img

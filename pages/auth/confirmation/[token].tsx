@@ -24,7 +24,7 @@ function SuccessComfirmation() {
                     <div className="w-[200px] h-[300px] bg-[#29B5B8] bg-opacity-50 absolute right-[-70px] bottom-[-60px] z-[-1]"></div>
                     <div className="w-[320px] h-[250px] bg-white rounded-[5px]">
                         <div className='h-full w-full flex flex-col justify-around py-10'>
-                            {inputError !== "" ?
+                            {!inputError ?
                                 <>
                                     <h1 className='pl-[35px] font-bold text-[34px] leading-[40px]'>Congrats 🎉</h1>
                                     <h1 className='pl-[35px] text-normal text-gray-400'>Thank you for choosing us.</h1>

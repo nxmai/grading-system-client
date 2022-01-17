@@ -1,14 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { FC } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface ClassCardProps {
   classInfo: any;
+  attemptHandle: () => boolean;
 }
 
-const ClassCard: FC<ClassCardProps> = ({ classInfo }) => {
+const ClassCard: FC<ClassCardProps> = ({ classInfo, attemptHandle }) => {
+  const router = useRouter();
+  function onClick() {
+    if (!attemptHandle()) {
+      router.push(`class/${classInfo._id}`);
+    }
+  }
   return (
-    <Link href={"/class/" + classInfo._id} passHref>
+    <div onClick={onClick}>
       <div className="w-[320px] rounded overflow-hidden shadow-lg cursor-pointer">
         <div className="relative h-28 z-[-1]">
           <img
@@ -61,7 +69,7 @@ const ClassCard: FC<ClassCardProps> = ({ classInfo }) => {
           </svg>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

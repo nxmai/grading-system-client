@@ -53,7 +53,9 @@ const Requests = () => {
     console.log(allDoneRequest);
     return (
         <div>
-            <Header />
+            <Header attemptHandle={function (): boolean {
+                throw new Error("Function not implemented.");
+            } } />
             <div className="ml-[calc(50%-450px)] mr-[calc(50%-450px)]">
                 <div className=" mt-6 flex justify-center mb-4">
                     <div className="w-[700px] h-[84px] flex justify-center p-6 flex-col rounded-xl mb-2 shadow-md border-t-4 border-blue-500">

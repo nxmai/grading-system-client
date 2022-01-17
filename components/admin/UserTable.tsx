@@ -286,10 +286,15 @@ export default function UserTable() {
                                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <p className="text-gray-900 whitespace-no-wrap">
                                                     {user.role != "admin" ? (
+<<<<<<< HEAD
+                                                        <UserMenu user={user}/>
+                                                    ) : <></>}
+=======
                                                         <UserMenu user={user} />
                                                     ) : (
                                                         ""
                                                     )}
+>>>>>>> 55480b08a458ded87b84de2f43ca70a33dad4cd4
                                                 </p>
                                             </td>
                                         </tr>
