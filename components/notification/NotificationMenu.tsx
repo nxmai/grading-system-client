@@ -13,11 +13,13 @@ export default function NotificationMenu() {
 
     const [notifications, setNotifications] = useState([]);
     async function isRead(notificationId: any) {
-        await userApi.updateNotificationRead({ notificationId }).then(result => fetchNotifications());
+        await userApi.updateNotificationRead({ notificationId });
+        fetchNotifications();
     }
 
     async function fetchNotifications() {
-        await userApi.getNotifications().then(result => setNotifications(result.data));
+        const result = await userApi.getNotifications();
+        setNotifications(result.data);
     }
 
     socket.on(`${userInfo._id}`, data => fetchNotifications());
@@ -31,9 +33,9 @@ export default function NotificationMenu() {
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
                     </svg>
-                    {notifications.filter((notification: any) => !notification.isRead).length !== 0 ? <span className="absolute inset-0 object-right-top -mr-6">
+                    {notifications?.filter((notification: any) => !notification.isRead).length !== 0 ? <span className="absolute inset-0 object-right-top -mr-6">
                         <div className="inline-flex items-center px-1.5 py-0.5 border-white rounded-full text-xs font-semibold bg-red-500 text-white">
-                            {notifications.filter((notification: any) => !notification.isRead).length}
+                            {notifications?.filter((notification: any) => !notification.isRead).length}
                         </div>
                     </span> : <></>}
                 </Menu.Button>

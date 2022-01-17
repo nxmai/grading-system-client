@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Button from "components/Button";
 import Header from "components/Header";
-import React, { useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import classAssignmentApi from "api/classAssignment";
 import assignmentReviewApi from "api/assignmentReview";
@@ -13,6 +13,8 @@ import { useAppSelector } from "app/hooks";
 import { selectUser } from "features/user/userSlice";
 import GoToInputStudentCardModal from "components/class/GoToInputStudentCardModal";
 import AcceptNewScoreModal from "components/grade/review/AcceptNewScoreModal";
+import Home from "pages";
+import AuthLayout from "components/layouts/AuthLayout";
 
 type ClassUserRole = {
     role: "teacher" | "student";
@@ -77,7 +79,7 @@ function ReviewRequest() {
                 setClassUserRole({ ...res?.data });
             } catch (error: any) {
                 console.log(error.message);
-                return router.push("/");
+                // return router.push("/");
             }
         }
 
@@ -105,15 +107,15 @@ function ReviewRequest() {
     const handleAcceptScore = async () => {
         if (classstudentid) {
             try {
-                console.log(id, assignmentid, classstudentid);
+                // console.log(id, assignmentid, classstudentid);
                 const reps =
                     await assignmentReviewApi.acceptScoreRequestByStudent(
                         id,
                         assignmentid,
                         classstudentid
                     );
-                console.log(reps.data);
-                userApi.responseToStudentGradeReviewNotification({ classId: id, assignmentId: assignmentid, classStudentId: classstudentid, trigger: user._id });
+                // console.log(reps.data);
+                await userApi.responseToStudentGradeReviewNotification({ classId: id, assignmentId: assignmentid, classStudentId: classstudentid });
             } catch (error) {
                 console.log(error);
             }
@@ -123,14 +125,15 @@ function ReviewRequest() {
     const handleIgnoreScore = async () => {
         if (classstudentid) {
             try {
-                console.log(id, assignmentid, classstudentid);
+                // console.log(id, assignmentid, classstudentid);
                 const reps =
                     await assignmentReviewApi.ignoreScoreRequestByStudent(
                         id,
                         assignmentid,
                         classstudentid
                     );
-                console.log(reps.data);
+                // console.log(reps.data);
+                await userApi.responseToStudentGradeReviewNotification({ classId: id, assignmentId: assignmentid, classStudentId: classstudentid });
             } catch (error) {
                 console.log(error);
             }
@@ -390,3 +393,11 @@ function ReviewRequest() {
 }
 
 export default ReviewRequest;
+
+Home.getLayout = function getLayout(page: ReactElement) {
+    return (
+        <AuthLayout >
+            {page}
+        </AuthLayout>
+    );
+};

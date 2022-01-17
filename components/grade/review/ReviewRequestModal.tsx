@@ -2,32 +2,7 @@ import Modal from "components/Modal";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import assignmentReviewApi from "api/assignmentReview";
-import classApi from "api/classes";
 import userApi from "api/user";
-import classAssignmentApi from "api/classAssignment";
-
-async function createNotifications(classId: any, assignmentId: any, classStudentId: any) {
-    // const notification = {
-    //     user: teacherId,
-    //     content: `${userName} has requested a grade review of ${assignmentName} in ${className}`
-    //     link: `/class/${classId}/assignment/${assignmentId}/request/${requestId}`
-    // }
-    const data: any = [];
-    const getTeachers = await classApi.getTeachersInClass(classId);
-    const teachers = getTeachers?.data;
-    const getMe = await userApi.getMe();
-    const user = getMe?.data;
-    const getClass = await classApi.getClassById(classId);
-    const classDetail = getClass?.data;
-    const getAssignment = await classAssignmentApi.getAssignmentById(classId, assignmentId);
-    const assignment = getAssignment?.data;
-    teachers.forEach((teacher: any) => data.push({
-        user: teacher._id,
-        content: `${user.firstName} ${user.lastName} requested a grade review of ${assignment.title} in ${classDetail.name}`,
-        link: `/class/${classId}/assignment/${assignmentId}/request/${classStudentId}`,
-    }));
-    await userApi.addNotification(data);
-}
 
 type AppProps = {
     isOpen: boolean;
@@ -59,8 +34,7 @@ const ReviewRequestModal = ({ isOpen, setShowModal, setReviewData }: AppProps) =
                 id,
                 data
             );
-            console.log(repsonse.data.data);
-            createNotifications(id, assignmentid, repsonse.data.data.classStudentId);
+            userApi.requestGradeReviewNotification({ classId: id, assignmentId: assignmentid, classStudentId: repsonse.data.data.classStudentId });
             setReviewData(repsonse.data.data);
             setProcess(false);
             setShowModal(false);

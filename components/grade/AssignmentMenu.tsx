@@ -14,24 +14,6 @@ type AppProps = {
     reRender: VoidFunction;
 }
 
-async function createNotifications(classId: any, assignmentId: any) {
-    const data: any = [];
-    const getStudents = await classApi.getStudentsInClass(classId);
-    const students = getStudents?.data;
-    const getMe = await userApi.getMe();
-    const user = getMe?.data;
-    const getClass = await classApi.getClassById(classId);
-    const classDetail = getClass?.data;
-    const getAssignment = await classAssignmentApi.getAssignmentById(classId, assignmentId);
-    const assignment = getAssignment?.data;
-    students.forEach((student: any) => data.push({
-        user: student._id,
-        content: `${user.firstName} ${user.lastName} finalized all grades of ${assignment.title} in ${classDetail.name} `,
-        link: `/class/${classId}/assignment/${assignmentId}`,
-    }));
-    await userApi.addNotification(data);
-}
-
 export default function AssignmentMenu({classId, assignmentId, reRender }: AppProps) {
     const [openUploadScoreAssignment, setOpenUploadScoreAssignment] = useState<boolean>(false);
     const [openDownloadScoreAssignment, setOpenDownloadScoreAssignment] = useState<boolean>(false);

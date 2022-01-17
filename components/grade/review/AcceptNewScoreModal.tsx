@@ -33,8 +33,7 @@ const AcceptNewScoreModal = ({ isOpen, setShowModal }: AppProps) => {
                 teacherReply
             );
             console.log(repsonse.data.data);
-            // add notification here with repsonse.data.data
-            // setReviewData();
+            await userApi.responseToStudentGradeReviewNotification({ classId: id, assignmentId: assignmentid, classStudentId: classstudentid });
             setProcess(false);
             setShowModal(false);
         } catch (error) {

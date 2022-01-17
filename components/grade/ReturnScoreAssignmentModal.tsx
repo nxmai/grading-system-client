@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Modal from "components/Modal";
 import classScoreApi from "api/classScore";
+import userApi from "api/user";
 
 type AppProps = {
     isOpen: boolean;
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-    classId: any; 
+    classId: any;
     assignmentId: any;
 };
 
@@ -16,13 +17,14 @@ export default function ReturnScoreAssignmentModal({ isOpen, setShowModal, class
         setProcess(true);
 
         classScoreApi.markReturnedByAssignmentId(classId, assignmentId)
-        .then(_ => {
-            setShowModal(false);
-        }).catch((error: any)=>{
-            console.log(error);
-        }).finally(()=>{
-            setProcess(false);
-        });
+            .then(_ => {
+                userApi.returnScoreNotification({ classId, assignmentId });
+                setShowModal(false);
+            }).catch((error: any) => {
+                console.log(error);
+            }).finally(() => {
+                setProcess(false);
+            });
     }
 
     return (
