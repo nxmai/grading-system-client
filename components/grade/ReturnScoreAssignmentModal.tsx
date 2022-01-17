@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Modal from "components/Modal";
 import classScoreApi from "api/classScore";
 import userApi from "api/user";
+import { useAppDispatch } from "app/hooks";
+import { updateGrade } from "features/class/classSlice";
 
 type AppProps = {
     isOpen: boolean;
@@ -12,6 +14,7 @@ type AppProps = {
 
 export default function ReturnScoreAssignmentModal({ isOpen, setShowModal, classId, assignmentId }: AppProps) {
     const [isProcess, setProcess] = useState<boolean>(false);
+    const dispatch = useAppDispatch();
 
     function onActionClick() {
         setProcess(true);
@@ -24,6 +27,7 @@ export default function ReturnScoreAssignmentModal({ isOpen, setShowModal, class
                 console.log(error);
             }).finally(() => {
                 setProcess(false);
+                dispatch(updateGrade());
             });
     }
 

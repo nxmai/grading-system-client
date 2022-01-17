@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react";
 import { UserModel } from "features/user/userSlice";
 import userApi from "api/user";
@@ -26,7 +27,7 @@ export default function UserTable() {
             active: queryInit.active,
             black_type: queryInit.black_type,
             __sort: queryInit.__sort,
-            __search: queryInit.__search,
+            t__search: queryInit.t__search,
         };
         fetchListUser(ObjToQueryString(obj));
     }, [router.query]);
@@ -51,14 +52,14 @@ export default function UserTable() {
             active: queryInit.active,
             black_type: queryInit.black_type,
             __sort: queryInit.__sort,
-            __search: queryInit.__search,
+            t__search: queryInit.t__search,
             [name]: value,
         };
         console.log(obj);
         const queryStr = "?" + ObjToQueryString(obj);
         router.push(queryStr, undefined, { shallow: true });
     };
-    console.log(userList);
+    // console.log(userList);
     return (
         <div className="container mx-auto">
             <div className="py-8">
@@ -165,7 +166,7 @@ export default function UserTable() {
                         <input
                             placeholder="Search"
                             className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
-                            name="__search"
+                            name="t__search"
                             onChange={onChangeFilter}
                         />
                     </div>
