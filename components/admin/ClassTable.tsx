@@ -14,10 +14,11 @@ export default function ClassTable() {
     const [classToOpen, setClassToOpen] = useState({});
 
     const queryInit = router.query;
-    const fetchListUser = async function (filter: any) {
+
+    const fetchListClasses = async function (filter: any) {
         try {
-            const res = await classApi.getAllClasses(filter);
-            setClassList(res.data);
+            const clasess = await classApi.getAllClasses(filter);
+            setClassList(clasess.data);
         } catch (err) {
             console.log("]> err: ", err);
             setClassList([]);
@@ -25,27 +26,18 @@ export default function ClassTable() {
     };
 
     useEffect(() => {
-        // console.log("]> query", router.query);
         const queryInit = router.query;
         const obj = {
             __sort: queryInit.__sort,
             t__search: queryInit.t__search,
         };
-        fetchListUser(ObjToQueryString(obj));
-
-        // const get = async () => {
-        //     const res = await classApi.getAllClasses();
-        //     setClassList(res.data);
-        // };
-
-        // get();
+        fetchListClasses(ObjToQueryString(obj));
     }, [router.query]);
 
     const ObjToQueryString = function (obj: any) {
         var str = [];
         for (var p in obj)
             if (obj.hasOwnProperty(p) && obj[p] != undefined && obj[p] != "") {
-                if (p == "active") obj[p] = parseInt(obj[p], 10);
                 str.push(
                     encodeURIComponent(p) + "=" + encodeURIComponent(obj[p])
                 );
@@ -61,7 +53,6 @@ export default function ClassTable() {
             t__search: queryInit.t__search,
             [name]: value,
         };
-        console.log(obj);
         const queryStr = "?" + ObjToQueryString(obj);
         router.push(queryStr, undefined, { shallow: true });
     };

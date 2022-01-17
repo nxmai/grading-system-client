@@ -8,10 +8,6 @@ function ForgotPassword() {
     const [email, setEmail] = useState("");
     const [isSended, setIsSended] = useState(false);
 
-    function reSend() {
-
-    }
-
     function onSubmit() {
         authApi.sendInstruction({ email });
         setIsSended(true);
@@ -50,7 +46,7 @@ function ForgotPassword() {
                         </div>
                     </div>
                 </div>
-            </div> : <MailWaiting title={`We've just sent you an email to renew your password.`} onSubmit={reSend} />}
+            </div> : <MailWaiting title={`We've just sent you an email to renew your password.`} onSubmit={onSubmit} />}
         </>
     );
 }

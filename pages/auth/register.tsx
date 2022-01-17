@@ -1,3 +1,4 @@
+import MailWaiting from 'components/user/MailWaiting';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
@@ -12,6 +13,8 @@ function Register() {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [isSended, setIsSended] = useState(false);
+    const [inputError, setInputError] = useState<String>("");
 
     const responseGoogle = (response: any) => {
         authApi.googleAuth(response)
@@ -19,7 +22,7 @@ function Register() {
                 localStorage.setItem('token', `${data}`);
                 router.push('/');
             })
-            .catch(error => { console.log(error); });
+            .catch(error => setInputError(error.message));
     };
 
     const onSubmit = () => {
@@ -27,17 +30,17 @@ function Register() {
             authApi.register({ firstName, lastName, email, password })
                 .then(({ data }) => {
                     authApi.sendConfirmation(data);
-                    router.push('/auth/confirmation');
+                    setIsSended(true);
                 })
                 .catch(error => { console.log(error); });
         } else {
-            alert("Not enough info");
+            setInputError("Please fill in all required fields");
         }
     };
 
     return (
         <>
-            <div className='h-screen flex justify-center items-center text-sm font-semibold leading-none tracking-tight text-[#19283E]'>
+            {isSended ? <MailWaiting title={`We've just sent you an email confirmation.`} onSubmit={onSubmit} /> : <div className='h-screen flex justify-center items-center text-sm font-semibold leading-none tracking-tight text-[#19283E]'>
                 <div className="relative w-[370px] h-[600px] flex justify-center items-center bg-[#FEFAF3] rounded-[15px] shadow-md">
                     <div className="w-[200px] h-[200px] bg-[#A5A6F6] bg-opacity-75 rounded-full absolute left-[-100px] top-[-70px] z-[-1]"></div>
                     <div className="w-[200px] h-[300px] bg-[#29B5B8] bg-opacity-50 absolute right-[-70px] bottom-[-60px] z-[-1]"></div>
@@ -78,6 +81,13 @@ function Register() {
                                     </div>
                                 </div>
                             </div>
+                            <div className="md:col-span-5 pl-[35px]">
+                                {inputError !== "" ? (
+                                    <p className="text-red-500 text-xs">
+                                        * {inputError}
+                                    </p>
+                                ) : <></>}
+                            </div>
                             <div className="flex flex-col gap-4 items-center">
                                 <button
                                     type='submit'
@@ -99,7 +109,7 @@ function Register() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
         </>
     );
 }
