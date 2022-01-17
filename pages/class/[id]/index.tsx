@@ -22,7 +22,7 @@ const ClassDetail = () => {
         coverUrl: "",
         description: "",
     });
-
+    
     async function getClass() {
         try {
             const res = await classApi.getClassById(id);
@@ -32,7 +32,7 @@ const ClassDetail = () => {
             // return router.push("/");
         }
     }
-
+    
     async function getClassAssignmentByClassId() {
         try {
             if (id == undefined) return;

@@ -6,6 +6,7 @@ import { GoogleLogout } from "react-google-login";
 import { fetchUserInfo, selectUser } from "features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import NotificationMenu from "./notification/NotificationMenu";
+import classApi from "api/classes";
 
 const clientId =
     "416191100698-anqr49onakr79lg2tldn7cnv4t62rqnk.apps.googleusercontent.com";
@@ -23,7 +24,22 @@ const Header: FC<HeaderProps> = ({ attemptHandle }) => {
 
     const userInfo = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
+    const [classUserRole, setClassUserRole] = useState<ClassUserRole>({
+        role: "student",
+    });
+
+    async function getUserRoleByClassID() {
+        try {
+            const res = await classApi.getUserRoleByClassId(id);
+            setClassUserRole({ ...res?.data });
+        } catch (error: any) {
+            console.log(error.message);
+            // return router.push("/");
+        }
+    }
+
     useEffect(() => {
+        getUserRoleByClassID();
         dispatch(fetchUserInfo());
     }, [dispatch]);
 
@@ -32,7 +48,7 @@ const Header: FC<HeaderProps> = ({ attemptHandle }) => {
             setIsModalVisible(true);
         }
     };
-
+console.log(classUserRole);
     const closeModal = () => {
         setIsModalVisible(false);
     };
@@ -118,35 +134,35 @@ const Header: FC<HeaderProps> = ({ attemptHandle }) => {
                             >
                                 People
                             </li>
-                            {/* {classUserRole?.role != "student" ? ( */}
-                            <li
-                                onClick={() =>
-                                    router.push(`/class/${id}/grade`)
-                                }
-                                className={
-                                    "group relative w-24 h-full flex justify-center items-center cursor-pointer font-semibold hover:bg-blue-100 border-b-2 " +
-                                    (router.pathname === "/class/[id]/grade"
-                                        ? "text-[#1967D2]  border-blue-700"
-                                        : "text-gray-400  border-white hover:border-blue-100")
-                                }
-                            >
-                                Grade
-                                <ul className="hidden group-hover:block absolute border-2 bg-white rounded-lg shadow-md w-[150px] top-[60px] right-[-5px] p-[10px]">
-                                    <li
-                                        className="hover:bg-blue-50 cursor-pointer p-2"
-                                        onClick={() =>
-                                            router.push(
-                                                `/class/${id}/download_score`
-                                            )
-                                        }
-                                    >
-                                        Donwload Full Score
-                                    </li>
-                                </ul>
-                            </li>
-                            {/* ) : (
+                            {classUserRole?.role != "student" ? (
+                                <li
+                                    onClick={() =>
+                                        router.push(`/class/${id}/grade`)
+                                    }
+                                    className={
+                                        "group relative w-24 h-full flex justify-center items-center cursor-pointer font-semibold hover:bg-blue-100 border-b-2 " +
+                                        (router.pathname === "/class/[id]/grade"
+                                            ? "text-[#1967D2]  border-blue-700"
+                                            : "text-gray-400  border-white hover:border-blue-100")
+                                    }
+                                >
+                                    Grade
+                                    <ul className="hidden group-hover:block absolute border-2 bg-white rounded-lg shadow-md w-[150px] top-[60px] right-[-5px] p-[10px]">
+                                        <li
+                                            className="hover:bg-blue-50 cursor-pointer p-2"
+                                            onClick={() =>
+                                                router.push(
+                                                    `/class/${id}/download_score`
+                                                )
+                                            }
+                                        >
+                                            Donwload Full Score
+                                        </li>
+                                    </ul>
+                                </li>
+                            ) : (
                                 ""
-                            )}  */}
+                            )}  
                         </ul>
                     </div>
                 ) : (
