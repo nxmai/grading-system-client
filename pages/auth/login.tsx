@@ -20,8 +20,8 @@ function Login() {
                     localStorage.setItem('token', `${data}`);
                     router.push('/');
                 })
-                .catch(error => { console.log(error); });
-        } else {
+                .catch(error => setInputError(error.message));
+            } else {
             setInputError("Please fill in all required fields");
         }
     };
