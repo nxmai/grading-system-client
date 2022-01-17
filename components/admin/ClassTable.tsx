@@ -14,10 +14,11 @@ export default function ClassTable() {
     const [classToOpen, setClassToOpen] = useState({});
 
     const queryInit = router.query;
-    const fetchListUser = async function (filter: any) {
+
+    const fetchListClasses = async function (filter: any) {
         try {
-            const res = await classApi.getAllClasses();
-            setClassList(res.data);
+            const clasess = await classApi.getAllClasses(filter);
+            setClassList(clasess.data);
         } catch (err) {
             console.log("]> err: ", err);
             setClassList([]);
@@ -25,30 +26,18 @@ export default function ClassTable() {
     };
 
     useEffect(() => {
-        // console.log("]> query", router.query);
-        // const queryInit = router.query;
-        // const obj = {
-        //     role: queryInit.role,
-        //     active: queryInit.active,
-        //     black_type: queryInit.black_type,
-        //     __sort: queryInit.__sort,
-        //     __search: queryInit.__search,
-        // };
-        // fetchListUser(ObjToQueryString(obj));
-
-        const get = async () => {
-            const res = await classApi.getAllClasses();
-            setClassList(res.data);
+        const queryInit = router.query;
+        const obj = {
+            __sort: queryInit.__sort,
+            t__search: queryInit.t__search,
         };
-
-        get();
+        fetchListClasses(ObjToQueryString(obj));
     }, [router.query]);
 
     const ObjToQueryString = function (obj: any) {
         var str = [];
         for (var p in obj)
             if (obj.hasOwnProperty(p) && obj[p] != undefined && obj[p] != "") {
-                if (p == "active") obj[p] = parseInt(obj[p], 10);
                 str.push(
                     encodeURIComponent(p) + "=" + encodeURIComponent(obj[p])
                 );
@@ -60,14 +49,10 @@ export default function ClassTable() {
         const { name, value } = e.target;
         const queryInit = router.query;
         const obj = {
-            role: queryInit.role,
-            active: queryInit.active,
-            black_type: queryInit.black_type,
             __sort: queryInit.__sort,
-            __search: queryInit.__search,
+            t__search: queryInit.t__search,
             [name]: value,
         };
-        console.log(obj);
         const queryStr = "?" + ObjToQueryString(obj);
         router.push(queryStr, undefined, { shallow: true });
     };
@@ -126,7 +111,7 @@ export default function ClassTable() {
                         <input
                             placeholder="Search"
                             className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
-                            name="__search"
+                            name="t__search"
                             onChange={onChangeFilter}
                         />
                     </div>

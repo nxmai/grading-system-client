@@ -5,8 +5,8 @@ const classApi = {
         const url = `${apiURL}`;
         return get(url, localStorage.getItem("token") ?? "");
     },
-    getAllClasses() {
-        const url = `${apiURL}/getall`;
+    getAllClasses(filter: any) {
+        const url = `${apiURL}/getall?${filter}`;
         return get(url, localStorage.getItem("token") ?? "");
     },
     createClass(classData: any) {
