@@ -64,7 +64,6 @@ const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal }) => {
   const onClassNameChange = (e: any) => {
     const { name, value } = e.target;
     setClassInfo({ ...classInfo, [name]: value });
-    //value.length == 0 ? setClassNameError("Please input your class name") : setClassNameError("");
   };
 
   const onClassSubjectChange = (e: any) => {
@@ -75,7 +74,6 @@ const CreateClassForm: FC<CreateClassFormProps> = ({ closeModal }) => {
   const onClassCodeChange = (e: any) => {
     const { name, value } = e.target;
     setClassInfo({ ...classInfo, [name]: value });
-    //value.length == 0 ? setClassNameError("Please input your class name") : setClassNameError("");
   };
 
   return (

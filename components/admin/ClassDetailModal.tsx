@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useState } from "react";
 import Modal from "components/Modal";
 
 type AppProps = {
@@ -17,7 +17,6 @@ export default function ClassDetailModal({
     console.log(classInfo);
 
     function onActionClick() {
-        // setProcess(true);
         setShowModal(false);
     }
 

@@ -9,14 +9,10 @@ type AppProps = {
 }
 
 export default function UserMenu({ user }: AppProps) {
-    // const [openUploadScoreAssignment, setOpenUploadScoreAssignment] = useState<boolean>(false);
-    // const [openDownloadScoreAssignment, setOpenDownloadScoreAssignment] = useState<boolean>(false);
     const [openUpdateUser, setOpenUpdateUser] = useState<boolean>(false);
 
     return (
         <Fragment>
-            {/* <UploadScoreAssignment isOpen={openUploadScoreAssignment} setShowModal={setOpenUploadScoreAssignment} classId={classId} assignmentId={assignmentId} reRender={reRender}/>
-            <DownLoadScoreAssignment isOpen={openDownloadScoreAssignment} setShowModal={setOpenDownloadScoreAssignment} classId={classId} assignmentId={assignmentId}/> */}
             <UserUpdateModal isOpen={openUpdateUser} setShowModal={setOpenUpdateUser} userInfo={user}/>
             <Menu as="div" className="relative inline-block text-left z-20 bg-white">
                 <Menu.Button>

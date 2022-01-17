@@ -2,9 +2,7 @@ import Modal from "components/Modal";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import assignmentReviewApi from "api/assignmentReview";
-import classApi from "api/classes";
 import userApi from "api/user";
-import classAssignmentApi from "api/classAssignment";
 
 type AppProps = {
     isOpen: boolean;
@@ -12,9 +10,18 @@ type AppProps = {
     setRenderAction: any;
 };
 
-const AcceptNewScoreModal = ({ isOpen, setShowModal, setRenderAction }: AppProps) => {
+const AcceptNewScoreModal = ({
+    isOpen,
+    setShowModal,
+    setRenderAction,
+}: AppProps) => {
     const [isProcess, setProcess] = useState<boolean>(false);
     const [teacherReply, setTeacherReply] = useState({
+        scoreFromTeacher: "",
+        replyFromTeacher: "",
+    });
+
+    const [teacherReplyError, setTeacherReplyError] = useState({
         scoreFromTeacher: "",
         replyFromTeacher: "",
     });
@@ -22,18 +29,43 @@ const AcceptNewScoreModal = ({ isOpen, setShowModal, setRenderAction }: AppProps
     const router = useRouter();
     const { id, assignmentid, classstudentid } = router.query;
 
+    const validateForm = () => {
+        let valid = true;
+        const data = { scoreFromTeacher: "", replyFromTeacher: "" };
+        if (teacherReply.scoreFromTeacher.length == 0) {
+            data.scoreFromTeacher = "* Input grade to submit";
+            valid = false;
+        }
+        if (teacherReply.replyFromTeacher.length == 0) {
+            data.replyFromTeacher = "* Input your reply to submit";
+            valid = false;
+        }
+        setTeacherReplyError(data);
+        return valid;
+    };
+
+    console.log(teacherReplyError);
+
     const onActionClick = async () => {
+        if (!validateForm()) {
+            return;
+        }
         setProcess(true);
-        
+
         try {
-            const repsonse = await assignmentReviewApi.acceptNewScoreRequestFromTeacher(
-                id,
-                assignmentid,
-                classstudentid,
-                teacherReply
-            );
+            const repsonse =
+                await assignmentReviewApi.acceptNewScoreRequestFromTeacher(
+                    id,
+                    assignmentid,
+                    classstudentid,
+                    teacherReply
+                );
             console.log(repsonse.data.data);
-            await userApi.responseToStudentGradeReviewNotification({ classId: id, assignmentId: assignmentid, classStudentId: classstudentid });
+            await userApi.responseToStudentGradeReviewNotification({
+                classId: id,
+                assignmentId: assignmentid,
+                classStudentId: classstudentid,
+            });
             setProcess(false);
             setShowModal(false);
             setRenderAction();
@@ -41,10 +73,6 @@ const AcceptNewScoreModal = ({ isOpen, setShowModal, setRenderAction }: AppProps
             console.log(error);
             setProcess(false);
         }
-        // setReviewRequestData({
-        //     scoreExpectation: "",
-        //     explanation: "",
-        // });
     };
 
     const onHandleReviewRequestChange = (e: any) => {
@@ -52,11 +80,16 @@ const AcceptNewScoreModal = ({ isOpen, setShowModal, setRenderAction }: AppProps
         setTeacherReply({ ...teacherReply, [name]: value });
     };
 
+    const handleOnClose = () => {
+        setShowModal(false);
+        setTeacherReplyError({ scoreFromTeacher: "", replyFromTeacher: "" });
+    };
+
     return (
         <Modal
             open={isOpen}
             onSubmit={onActionClick}
-            onClose={() => setShowModal(false)}
+            onClose={handleOnClose}
             options={{
                 title: "Add other score and reply request for student",
                 submitText: "Add",
@@ -72,9 +105,17 @@ const AcceptNewScoreModal = ({ isOpen, setShowModal, setRenderAction }: AppProps
                                 name="scoreFromTeacher"
                                 value={teacherReply.scoreFromTeacher}
                                 onChange={(e) => onHandleReviewRequestChange(e)}
-                                className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                className={
+                                    teacherReplyError.scoreFromTeacher
+                                        ? "h-10 border mt-1 rounded px-4 w-full bg-gray-50 border-red-600"
+                                        : "h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                }
                             />
+                            <p className="text-xs m-1 text-red-600 italic">
+                                {teacherReplyError.scoreFromTeacher}
+                            </p>
                         </div>
+
                         <div className="md:col-span-5">
                             <label>Reply *</label>
                             <textarea
@@ -82,8 +123,15 @@ const AcceptNewScoreModal = ({ isOpen, setShowModal, setRenderAction }: AppProps
                                 rows={3}
                                 value={teacherReply.replyFromTeacher}
                                 onChange={(e) => onHandleReviewRequestChange(e)}
-                                className="border mt-1 rounded px-4 w-full bg-gray-50 h-auto"
+                                className={
+                                    teacherReplyError.replyFromTeacher
+                                        ? "border mt-1 rounded px-4 w-full bg-gray-50 h-auto border-red-600"
+                                        : "border mt-1 rounded px-4 w-full bg-gray-50 h-auto"
+                                }
                             />
+                            <p className="text-xs m-1 text-red-600 italic">
+                                {teacherReplyError.replyFromTeacher}
+                            </p>
                         </div>
                     </div>
                 </div>
