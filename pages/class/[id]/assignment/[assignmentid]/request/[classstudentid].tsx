@@ -34,6 +34,8 @@ function ReviewRequest() {
     const [listChat, setListChat] = useState([]);
     const [chatText, setChatText] = useState<string>("");
 
+    const [rerenderWhensubmit, setRerenderWhensubmit] = useState(false);
+
     const router = useRouter();
     const { id, assignmentid, classstudentid } = router.query;
     useEffect(() => {
@@ -102,7 +104,11 @@ function ReviewRequest() {
         getUserRoleByClassID();
         getReviewRequestDetail();
         getSingleAssignment();
-    }, [id]);
+    }, [id, rerenderWhensubmit]);
+
+    const setRerender = () => {
+        setRerenderWhensubmit(!rerenderWhensubmit);
+    };
 
     const handleAcceptScore = async () => {
         if (classstudentid) {
@@ -114,6 +120,7 @@ function ReviewRequest() {
                         assignmentid,
                         classstudentid
                     );
+                    setRerender();
                 // console.log(reps.data);
                 await userApi.responseToStudentGradeReviewNotification({ classId: id, assignmentId: assignmentid, classStudentId: classstudentid });
             } catch (error) {
@@ -133,6 +140,7 @@ function ReviewRequest() {
                         classstudentid
                     );
                 // console.log(reps.data);
+                setRerender();
                 await userApi.responseToStudentGradeReviewNotification({ classId: id, assignmentId: assignmentid, classStudentId: classstudentid });
             } catch (error) {
                 console.log(error);
@@ -177,6 +185,7 @@ function ReviewRequest() {
             <AcceptNewScoreModal
                 isOpen={openReplyRequest}
                 setShowModal={setOpenReplyRequest}
+                setRenderAction={setRerender}
             />
 
             <div className="ml-[calc(50%-450px)] mr-[calc(50%-450px)] mt-6 ">
