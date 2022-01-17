@@ -66,8 +66,8 @@ function Login() {
                                 </div>
                             </div>
                             {inputError ? <div className="md:col-span-5 pl-[35px]">
-                                <p className="text-red-500 text-xs">
-                                    {inputError}
+                                <p className="text-red-500 text-xs italic">
+                                    *{inputError}
                                 </p>
                             </div> : <></>}
                             <div className="flex flex-col gap-4 items-center">
