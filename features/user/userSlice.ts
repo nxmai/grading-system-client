@@ -20,6 +20,7 @@ export type ClassModal = {
     name: string,
     subject: string,
     description: string,
+    createdAt: string,
   }
 
 export interface UserState {

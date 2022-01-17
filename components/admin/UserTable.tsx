@@ -140,8 +140,8 @@ export default function UserTable() {
                                 onChange={onChangeFilter}
                                 value={queryInit.__sort}
                             >
-                                <option value={"-createdAt"}>Increate</option>
-                                <option value={"createdAt"}>Decreate</option>
+                                <option value={"-createdAt"}>Increase</option>
+                                <option value={"createdAt"}>Decrease</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                 <svg

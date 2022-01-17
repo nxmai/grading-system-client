@@ -24,6 +24,7 @@ export default function ClassTable() {
             setClassList([]);
         }
     };
+    console.log(classList);
 
     useEffect(() => {
         const queryInit = router.query;
@@ -131,7 +132,7 @@ export default function ClassTable() {
                                         Subject
                                     </th>
                                     <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        Status
+                                        Created At
                                     </th>
                                 </tr>
                             </thead>
@@ -160,13 +161,7 @@ export default function ClassTable() {
                                             </td>
 
                                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                {/* <p className="text-gray-900 whitespace-no-wrap">
-                                                    {class.role != "admin" ? (
-                                                        <UserMenu />
-                                                    ) : (
-                                                        ""
-                                                    )}
-                                                </p> */}
+                                                {item.createdAt.slice(0,10)}
                                             </td>
                                         </tr>
                                     );
