@@ -11,6 +11,8 @@ import classAssignmentApi from "api/classAssignment";
 import classScoreApi from "api/classScore";
 import StudentScoreRow from "components/grade/StudentScoreRows";
 import AuthLayout from "components/layouts/AuthLayout";
+import { useAppSelector } from "app/hooks";
+import { selectGradeUpdate } from "features/class/classSlice";
 
 export default function ClassGrades() {
     const router = useRouter();
@@ -24,25 +26,35 @@ export default function ClassGrades() {
         Array<{ title: string; grade: Number; _id: string }>
     >([]);
 
-    async function getScoreBoard() {
-        try {
-            const studentListRes = await classScoreApi.getStudentsInClass( id );
-            const assignmentsRes = await classAssignmentApi.getClassAssignmentsByClassId(id);
-            const studentList = studentListRes.data.data;
-            const assignments = assignmentsRes.data;
+    
 
-            setAssignments(assignments);
-            setStudentList(studentList);
-        } catch (error: any) {
-            console.log(error.message);
-        }
-    }
+    const gradeUpdate = useAppSelector(selectGradeUpdate);
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     if (!id) return;
+    //     getScoreBoard();
+    // }, [id]);
+    // // console.log(studentList);
+
+    useEffect(()=>{
+        console.log(']>update grade: ',gradeUpdate);
         if (!id) return;
+        async function getScoreBoard() {
+            try {
+                const studentListRes = await classScoreApi.getStudentsInClass( id );
+                const assignmentsRes = await classAssignmentApi.getClassAssignmentsByClassId(id);
+                const studentList = studentListRes.data.data;
+                const assignments = assignmentsRes.data;
+    
+                setAssignments(assignments);
+                setStudentList(studentList);
+            } catch (error: any) {
+                console.log(error.message);
+            }
+        }
+
         getScoreBoard();
-    }, [id]);
-    // console.log(studentList);
+    },[gradeUpdate, id]);
 
     return (
         <>

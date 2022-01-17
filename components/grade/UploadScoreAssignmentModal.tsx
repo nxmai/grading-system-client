@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Modal from "components/Modal";
 import classScoreApi from "api/classScore";
+import { useAppDispatch } from "app/hooks";
+import { updateGrade } from "features/class/classSlice";
 
 type AppProps = {
     isOpen: boolean;
@@ -14,6 +16,7 @@ export default function UploadScoreAssignmentModal({ isOpen, setShowModal, class
     const [file, setFile] = useState<File>();
     const [inputError, setInputError] = useState<String>("");
     const [isProcess, setProcess] = useState<boolean>(false);
+    const dispatch = useAppDispatch();
 
     function onActionClick() {
         setProcess(true);
@@ -34,7 +37,8 @@ export default function UploadScoreAssignmentModal({ isOpen, setShowModal, class
             setInputError(error);
         }).finally(()=>{
             setProcess(false);
-            reRender();
+            // reRender();
+            dispatch(updateGrade());
         });
     }
 
