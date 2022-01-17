@@ -38,7 +38,7 @@ function SuccessComfirmation() {
                     localStorage.setItem('token', `${data}`);
                     router.push('/');
                 })
-                .catch(error => setInputError(error.message));
+                .catch(error => setInputError(error));
         }
 
     }

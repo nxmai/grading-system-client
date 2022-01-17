@@ -20,8 +20,8 @@ function Login() {
                     localStorage.setItem('token', `${data}`);
                     router.push('/');
                 })
-                .catch(error => { console.log(error); });
-        } else {
+                .catch(error => setInputError(error));
+            } else {
             setInputError("Please fill in all required fields");
         }
     };
@@ -65,13 +65,11 @@ function Login() {
                                     </Link>
                                 </div>
                             </div>
-                            <div className="md:col-span-5 pl-[35px]">
-                                {inputError ? (
-                                    <p className="text-red-500 text-xs">
-                                        {inputError}
-                                    </p>
-                                ) : <></>}
-                            </div>
+                            {inputError ? <div className="md:col-span-5 pl-[35px]">
+                                <p className="text-red-500 text-xs italic">
+                                    *{inputError}
+                                </p>
+                            </div> : <></>}
                             <div className="flex flex-col gap-4 items-center">
                                 <button
                                     type='submit'
