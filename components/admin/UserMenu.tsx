@@ -1,31 +1,23 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { DotsVerticalIcon } from "@heroicons/react/solid";
-// import UploadScoreAssignment from "./UploadScoreAssignmentModal";
-// import DownLoadScoreAssignment from "./DownloadScoreAssignmentModal";
-// import ReturnScoreAssignment from "./ReturnScoreAssignmentModal";
+import { UserModel } from "features/user/userSlice";
+import UserUpdateModal from "./UserUpdateModal";
 
 type AppProps = {
-    role: string;
-    // assignmentId: any;
-    // reRender: VoidFunction;
+    user: UserModel
 }
 
-export default function UserMenu() {
+export default function UserMenu({ user }: AppProps) {
     // const [openUploadScoreAssignment, setOpenUploadScoreAssignment] = useState<boolean>(false);
     // const [openDownloadScoreAssignment, setOpenDownloadScoreAssignment] = useState<boolean>(false);
-    // const [openReturnScoreAssignment, setOpenReturnScoreAssignment] = useState<boolean>(false);
-
-    // function returnScoreOnClick () {
-    //     setOpenDownloadScoreAssignment(true);
-    // }
+    const [openUpdateUser, setOpenUpdateUser] = useState<boolean>(false);
 
     return (
         <Fragment>
             {/* <UploadScoreAssignment isOpen={openUploadScoreAssignment} setShowModal={setOpenUploadScoreAssignment} classId={classId} assignmentId={assignmentId} reRender={reRender}/>
-            <DownLoadScoreAssignment isOpen={openDownloadScoreAssignment} setShowModal={setOpenDownloadScoreAssignment} classId={classId} assignmentId={assignmentId}/>
-            <ReturnScoreAssignment isOpen={openReturnScoreAssignment} setShowModal={setOpenReturnScoreAssignment} />
-             */}
+            <DownLoadScoreAssignment isOpen={openDownloadScoreAssignment} setShowModal={setOpenDownloadScoreAssignment} classId={classId} assignmentId={assignmentId}/> */}
+            <UserUpdateModal isOpen={openUpdateUser} setShowModal={setOpenUpdateUser} userInfo={user}/>
             <Menu as="div" className="relative inline-block text-left z-20 bg-white">
                 <Menu.Button>
                     <DotsVerticalIcon className="h-5 w-5 text-blue-500" />
@@ -82,6 +74,28 @@ export default function UserMenu() {
                                             />
                                         )}
                                         Map/Unmap student id
+                                    </button>
+                                )}
+                            </Menu.Item>
+                            <Menu.Item>
+                                {({ active }) => (
+                                    <button
+                                        onClick={() => setOpenUpdateUser(true)}
+                                        className={`${active ? "bg-blue-50" : "text-gray-900"
+                                            } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                                    >
+                                        {active ? (
+                                            <EditActiveIcon
+                                                className="w-5 h-5 mr-2"
+                                                aria-hidden="true"
+                                            />
+                                        ) : (
+                                            <EditInactiveIcon
+                                                className="w-5 h-5 mr-2"
+                                                aria-hidden="true"
+                                            />
+                                        )}
+                                        Update
                                     </button>
                                 )}
                             </Menu.Item>
