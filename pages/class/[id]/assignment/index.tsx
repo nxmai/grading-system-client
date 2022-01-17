@@ -89,7 +89,9 @@ const GradeStructure = () => {
 
     return (
         <div>
-            <Header />
+            <Header attemptHandle={function (): boolean {
+                throw new Error("Function not implemented.");
+            } } />
             <div className="flex justify-center">
                 <div className="w-[700px] h-[84px] flex justify-center p-6 flex-col rounded-xl mt-4 mb-2 shadow-md border-t-4 border-blue-500">
                     <p className="font-bold">Grade Composition</p>

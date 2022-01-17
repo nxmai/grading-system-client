@@ -175,7 +175,9 @@ function ReviewRequest() {
 
     return (
         <div>
-            <Header />
+            <Header attemptHandle={function (): boolean {
+                throw new Error("Function not implemented.");
+            } } />
 
             <ReviewRequestModal
                 isOpen={openReviewRequest}

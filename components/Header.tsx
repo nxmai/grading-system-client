@@ -6,23 +6,20 @@ import { GoogleLogout } from "react-google-login";
 import { fetchUserInfo, selectUser } from "features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import NotificationMenu from "./notification/NotificationMenu";
-import classApi from "api/classes";
-import ErrorMessage from "./user/ErrorMessage";
 
 const clientId =
     "416191100698-anqr49onakr79lg2tldn7cnv4t62rqnk.apps.googleusercontent.com";
 
-// interface HeaderProps {
-//     createClass: () => void;
-// }
+interface HeaderProps {
+    attemptHandle: () => boolean;
+}
 
 type ClassUserRole = {
     role: "teacher" | "student";
 };
 
-const Header: FC = () => {
+const Header: FC<HeaderProps> = ({ attemptHandle }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
 
     const userInfo = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
@@ -31,9 +28,7 @@ const Header: FC = () => {
     }, [dispatch]);
 
     const addClassOnClick = () => {
-        if (userInfo.black_type == 'block') {
-            setErrorMessage(`Your account was blocked 🔒`);
-        } else {
+        if (!attemptHandle()) {
             setIsModalVisible(true);
         }
     };
@@ -103,7 +98,7 @@ const Header: FC = () => {
                                 className={
                                     "w-24 h-full flex justify-center items-center cursor-pointer font-semibold hover:bg-blue-100 border-b-2 " +
                                     (router.pathname ===
-                                    "/class/[id]/assignment"
+                                        "/class/[id]/assignment"
                                         ? "text-[#1967D2]  border-blue-700"
                                         : "text-gray-400  border-white hover:border-blue-100")
                                 }
@@ -124,32 +119,32 @@ const Header: FC = () => {
                                 People
                             </li>
                             {/* {classUserRole?.role != "student" ? ( */}
-                                <li
-                                    onClick={() =>
-                                        router.push(`/class/${id}/grade`)
-                                    }
-                                    className={
-                                        "group relative w-24 h-full flex justify-center items-center cursor-pointer font-semibold hover:bg-blue-100 border-b-2 " +
-                                        (router.pathname === "/class/[id]/grade"
-                                            ? "text-[#1967D2]  border-blue-700"
-                                            : "text-gray-400  border-white hover:border-blue-100")
-                                    }
-                                >
-                                    Grade
-                                    <ul className="hidden group-hover:block absolute border-2 bg-white rounded-lg shadow-md w-[150px] top-[60px] right-[-5px] p-[10px]">
-                                        <li
-                                            className="hover:bg-blue-50 cursor-pointer p-2"
-                                            onClick={() =>
-                                                router.push(
-                                                    `/class/${id}/download_score`
-                                                )
-                                            }
-                                        >
-                                            Donwload Full Score
-                                        </li>
-                                    </ul>
-                                </li>
-                             {/* ) : (
+                            <li
+                                onClick={() =>
+                                    router.push(`/class/${id}/grade`)
+                                }
+                                className={
+                                    "group relative w-24 h-full flex justify-center items-center cursor-pointer font-semibold hover:bg-blue-100 border-b-2 " +
+                                    (router.pathname === "/class/[id]/grade"
+                                        ? "text-[#1967D2]  border-blue-700"
+                                        : "text-gray-400  border-white hover:border-blue-100")
+                                }
+                            >
+                                Grade
+                                <ul className="hidden group-hover:block absolute border-2 bg-white rounded-lg shadow-md w-[150px] top-[60px] right-[-5px] p-[10px]">
+                                    <li
+                                        className="hover:bg-blue-50 cursor-pointer p-2"
+                                        onClick={() =>
+                                            router.push(
+                                                `/class/${id}/download_score`
+                                            )
+                                        }
+                                    >
+                                        Donwload Full Score
+                                    </li>
+                                </ul>
+                            </li>
+                            {/* ) : (
                                 ""
                             )}  */}
                         </ul>
@@ -178,7 +173,7 @@ const Header: FC = () => {
                     ) : (
                         ""
                     )}
-                    <NotificationMenu />
+                    {userInfo.black_type != "block" ? <NotificationMenu /> : <></>}
                     <div className="group relative">
                         {userInfo.photoUrl ? (
                             <img
@@ -229,10 +224,9 @@ const Header: FC = () => {
             {isModalVisible ? (
                 <CreateClassForm
                     closeModal={closeModal}
-                    // createClass={createClass}
+                // createClass={createClass}
                 />
             ) : <></>}
-            {errorMessage !== "" ? <ErrorMessage title="Sorry" subTitle={errorMessage} closeModal={() => setErrorMessage("")} /> : <></>}
         </div>
     );
 };

@@ -58,7 +58,9 @@ export default function ClassGrades() {
 
     return (
         <>
-            <Header />
+            <Header attemptHandle={function (): boolean {
+                throw new Error("Function not implemented.");
+            } } />
 
             <div className="flex flex-col">
                 <table className="min-w-full divide-y divide-gray-200">

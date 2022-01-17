@@ -10,7 +10,6 @@ const socket = io(socketUrl);
 
 export default function NotificationMenu() {
     const userInfo = useAppSelector(selectUser);
-
     const [notifications, setNotifications] = useState([]);
     async function isRead(notificationId: any) {
         await userApi.updateNotificationRead({ notificationId });
@@ -39,7 +38,7 @@ export default function NotificationMenu() {
                         </div>
                     </span> : <></>}
                 </Menu.Button>
-                {notifications.length != 0 ?
+                {notifications.length != 0 && userInfo.black_type != "block"?
                     <Transition
                         as={Fragment}
                         enter="transition ease-out duration-100"
@@ -68,41 +67,5 @@ export default function NotificationMenu() {
                     </Transition> : <></>}
             </Menu>
         </Fragment>
-    );
-}
-
-function EditInactiveIcon(props: any) {
-    return (
-        <svg
-            {...props}
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <path
-                d="M4 13V16H7L16 7L13 4L4 13Z"
-                fill="#EDE9FE"
-                stroke="#3B82F6"
-                strokeWidth="2"
-            />
-        </svg>
-    );
-}
-
-function EditActiveIcon(props: any) {
-    return (
-        <svg
-            {...props}
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <path
-                d="M4 13V16H7L16 7L13 4L4 13Z"
-                fill="#3B82F6"
-                stroke="#70a7ff"
-                strokeWidth="2"
-            />
-        </svg>
     );
 }

@@ -270,9 +270,7 @@ export default function UserTable() {
                                                 <p className="text-gray-900 whitespace-no-wrap">
                                                     {user.role != "admin" ? (
                                                         <UserMenu user={user}/>
-                                                    ) : (
-                                                        ""
-                                                    )}
+                                                    ) : <></>}
                                                 </p>
                                             </td>
                                         </tr>

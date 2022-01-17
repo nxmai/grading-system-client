@@ -19,7 +19,9 @@ export default function UserMe() {
 
     return (
         <div>
-            <Header />
+            <Header attemptHandle={function (): boolean {
+                throw new Error("Function not implemented.");
+            }} />
             <section className="py-8 bg-red">
                 <div className="container mx-auto px-4 bg-red">
                     <div className="flex flex-col min-w-0 break-words bg-red w-full shadow-xl rounded-lg mt-8">
@@ -54,9 +56,11 @@ export default function UserMe() {
                                 </div>
                                 <div className="lg:w-4/12 px-4 lg:order-3 text-right lg:self-center">
                                     <div className="py-6 px-3 sm:mt-0">
-                                        <UserMenu />
+                                    {userInfo.black_type != "block" ? <UserMenu /> : <></>}
                                     </div>
                                 </div>
+                                
+
                             </div>
                             <div className="text-center mt-4">
                                 <h3 className="text-4xl font-semibold leading-normal text-gray-800 mb-2 mt-2">

@@ -84,9 +84,9 @@ function Register() {
                                 </div>
                             </div>
                             <div className="md:col-span-5 pl-[35px]">
-                                {inputError !== "" ? (
+                                {inputError ? (
                                     <p className="text-red-500 text-xs">
-                                        * {inputError}
+                                        {inputError}
                                     </p>
                                 ) : <></>}
                             </div>

@@ -132,7 +132,9 @@ const ClassPeople = () => {
 
     return (
         <Fragment>
-            <Header />
+            <Header attemptHandle={function (): boolean {
+                throw new Error("Function not implemented.");
+            } } />
             <div className="w-[760px] ml-[calc(50%-380px)] mr-[calc(50%-380px)]">
                 
                 <section className="mt-4">
