@@ -9,10 +9,10 @@ import classAssignmentApi from "api/classAssignment";
 type AppProps = {
     isOpen: boolean;
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-    // setReviewData: any;
+    setRenderAction: any;
 };
 
-const AcceptNewScoreModal = ({ isOpen, setShowModal }: AppProps) => {
+const AcceptNewScoreModal = ({ isOpen, setShowModal, setRenderAction }: AppProps) => {
     const [isProcess, setProcess] = useState<boolean>(false);
     const [teacherReply, setTeacherReply] = useState({
         scoreFromTeacher: "",
@@ -36,6 +36,7 @@ const AcceptNewScoreModal = ({ isOpen, setShowModal }: AppProps) => {
             await userApi.responseToStudentGradeReviewNotification({ classId: id, assignmentId: assignmentid, classStudentId: classstudentid });
             setProcess(false);
             setShowModal(false);
+            setRenderAction();
         } catch (error) {
             console.log(error);
             setProcess(false);

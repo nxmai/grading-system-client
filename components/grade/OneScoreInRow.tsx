@@ -22,7 +22,11 @@ export default function ScoreButton({
     scoreDraft,
 }: ScoreBtnProps) {
     const initScore = coreId ? scoreTempt : undefined;
-    const [score, setScore] = useState<number>(initScore);
+    const [score, setScore] = useState<number>();
+
+    useEffect(() => {
+        setScore(initScore);
+    }, [initScore]);
 
     function onReturnScore() {
         // update or create
