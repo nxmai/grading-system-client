@@ -19,6 +19,7 @@ export default function StudentScoreRow({classId, student}: AppProps) {
     async function getListScoreByClassIdByStudentId(){
         const data = await classScoreApi.getScoreByClassIdByStudentId(classId, student.id);
         const dataResp = data.data;
+        // console.log(dataResp);
         setListScore(dataResp?.assignmentsScore);
         setAvarage(dataResp?.avarage);
     }
