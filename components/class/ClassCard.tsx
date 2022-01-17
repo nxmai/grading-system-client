@@ -28,9 +28,7 @@ const ClassCard: FC<ClassCardProps> = ({ classInfo, attemptHandle }) => {
             <p className="text-2xl font-bold text-white">
               {classInfo.name}
             </p>
-            <p className="text-lg font-semibold text-white">
-              {classInfo.subject}
-            </p>
+            
           </div>
           {/* <div className="ml-4 mr-4 pt-2">
             <p className="text-white text-base">classInfo.classTeacher</p>
@@ -38,7 +36,7 @@ const ClassCard: FC<ClassCardProps> = ({ classInfo, attemptHandle }) => {
         </div>
 
         <div className="px-6 py-4 ">
-          <div className=" text-xl mb-2">Upcomming function</div>
+          <div className=" text-xl mb-2">{classInfo.subject}</div>
           {/* <p className="text-gray-700 text-base">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit.
           </p> */}
