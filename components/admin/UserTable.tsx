@@ -72,7 +72,7 @@ export default function UserTable() {
                     <div className="flex flex-row mb-1 sm:mb-0">
                         <div className="relative">
                             <select
-                                className="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                className=" h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 name="role"
                                 onChange={onChangeFilter}
                                 value={queryInit.role}
@@ -93,7 +93,7 @@ export default function UserTable() {
                         </div>
                         <div className="relative">
                             <select
-                                className="appearance-none h-full rounded-r border-t sm:rounded-r-none border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
+                                className="h-full rounded-r border-t sm:rounded-r-none border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
                                 name="active"
                                 onChange={onChangeFilter}
                                 value={queryInit.active}
@@ -114,7 +114,7 @@ export default function UserTable() {
                         </div>
                         <div className="relative">
                             <select
-                                className="appearance-none h-full rounded-r border-t sm:rounded-r-none border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
+                                className="h-full rounded-r border-t sm:rounded-r-none border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
                                 name="black_type"
                                 onChange={onChangeFilter}
                                 value={queryInit.black_type}
@@ -135,7 +135,7 @@ export default function UserTable() {
                         </div>
                         <div className="relative">
                             <select
-                                className="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
+                                className="h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
                                 name="__sort"
                                 onChange={onChangeFilter}
                                 value={queryInit.__sort}
@@ -203,11 +203,28 @@ export default function UserTable() {
                                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <div className="flex items-center">
                                                     <div className="flex-shrink-0 w-10 h-10">
-                                                        <img
-                                                            className="w-full h-full rounded-full"
-                                                            src={user.photoUrl}
-                                                            alt="user photo"
-                                                        />
+                                                        {user.photoUrl ? (
+                                                            <img
+                                                                className="w-full h-full rounded-full"
+                                                                src={
+                                                                    user.photoUrl
+                                                                }
+                                                                alt="user photo"
+                                                            />
+                                                        ) : (
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                className="h-full w-full cursor-pointer text-[#5F6368]"
+                                                                viewBox="1 2 17 17"
+                                                                fill="currentColor"
+                                                            >
+                                                                <path
+                                                                    fillRule="evenodd"
+                                                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                                                                    clipRule="evenodd"
+                                                                />
+                                                            </svg>
+                                                        )}
                                                     </div>
                                                     <div className="ml-3">
                                                         <p className="text-gray-900 whitespace-no-wrap">
@@ -269,7 +286,7 @@ export default function UserTable() {
                                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <p className="text-gray-900 whitespace-no-wrap">
                                                     {user.role != "admin" ? (
-                                                        <UserMenu user={user}/>
+                                                        <UserMenu user={user} />
                                                     ) : (
                                                         ""
                                                     )}

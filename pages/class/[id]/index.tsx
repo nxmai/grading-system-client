@@ -22,17 +22,17 @@ const ClassDetail = () => {
         coverUrl: "",
         description: "",
     });
-
+    
     async function getClass() {
         try {
             const res = await classApi.getClassById(id);
             setClassData({ ...res?.data });
         } catch (error: any) {
             console.log(error.message);
-            return router.push("/");
+            // return router.push("/");
         }
     }
-
+    
     async function getClassAssignmentByClassId() {
         try {
             if (id == undefined) return;

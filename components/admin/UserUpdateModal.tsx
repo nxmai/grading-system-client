@@ -3,11 +3,12 @@ import Modal from "components/Modal";
 import { UserModel } from "features/user/userSlice";
 import userApi from "api/user";
 import router from "next/router";
+import Button from "components/Button";
 
 type AppProps = {
     isOpen: boolean;
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-    userInfo: UserModel
+    userInfo: UserModel;
 };
 
 export default function UserUpdateModal({
@@ -18,15 +19,17 @@ export default function UserUpdateModal({
     const [isProcess, setProcess] = useState<boolean>(false);
 
     const [userInfoState, setUserInfoState] = useState({
-        ...userInfo
+        ...userInfo,
     });
 
     function onActionClick() {
         setProcess(true);
-        userApi.updateOne(userInfo._id, userInfoState)
+        userApi
+            .updateOne(userInfo._id, userInfoState)
             .catch((error: any) => {
                 console.log(error);
-            }).finally(() => {
+            })
+            .finally(() => {
                 router.push("", undefined, { shallow: true });
                 setProcess(false);
             });
@@ -35,7 +38,30 @@ export default function UserUpdateModal({
     const onInfoChange = (e: any) => {
         const { name, value } = e.target;
         setUserInfoState({ ...userInfoState, [name]: value });
-      };
+    };
+
+    const handleWithStudentID = () => {
+        if (userInfoState.studentCardID) {
+            const cardId = userInfoState.studentCardID;
+            setUserInfoState({
+                ...userInfoState,
+                studentCardIDScraft: cardId,
+                studentCardID: "",
+            });
+        }
+        if (userInfoState.studentCardIDScraft) {
+            const cardId = userInfoState.studentCardIDScraft;
+            setUserInfoState({
+                ...userInfoState,
+                studentCardID: cardId,
+                studentCardIDScraft: "",
+            });
+        }
+    };
+
+    useEffect(() => {}, [userInfoState]);
+
+    console.log(userInfoState);
 
     return (
         <Modal
@@ -53,45 +79,89 @@ export default function UserUpdateModal({
                     <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-6">
                         <div className="md:col-span-3">
                             <label htmlFor="firstName">First Name</label>
-                            <input type="text" name="firstName" id="firstName"
+                            <input
+                                type="text"
+                                name="firstName"
+                                id="firstName"
                                 onChange={onInfoChange}
                                 value={userInfoState.firstName}
-                                className="h-10 border mt-1 rounded px-4 w-full bg-gray-50" />
+                                className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                            />
                         </div>
                         <div className="md:col-span-3">
                             <label htmlFor="lastName">Last Name</label>
-                            <input type="text" name="lastName" id="lastName"
+                            <input
+                                type="text"
+                                name="lastName"
+                                id="lastName"
                                 onChange={onInfoChange}
                                 value={userInfoState.lastName}
-                                className="h-10 border mt-1 rounded px-4 w-full bg-gray-50" />
+                                className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                            />
                         </div>
                         <div className="md:col-span-6">
                             <label htmlFor="photoUrl">Photo url</label>
-                            <input type="text" name="photoUrl" id="photoUrl"
+                            <input
+                                type="text"
+                                name="photoUrl"
+                                id="photoUrl"
                                 onChange={onInfoChange}
                                 value={userInfoState.photoUrl}
-                                className="h-10 border mt-1 rounded px-4 w-full bg-gray-50" />
+                                className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                            />
                         </div>
                         <div className="md:col-span-6">
                             <label htmlFor="email">Email</label>
-                            <input type="text" name="email" id="email"
+                            <input
+                                type="text"
+                                name="email"
+                                id="email"
                                 onChange={onInfoChange}
                                 value={userInfoState.email}
-                                className="h-10 border mt-1 rounded px-4 w-full bg-gray-50" />
+                                className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                            />
                         </div>
+                        <div className="md:col-span-6 pt-4">
+                            <button
+                                onClick={handleWithStudentID}
+                                className={
+                                    userInfoState.studentCardID
+                                        ? "bg-red-500 hover:bg-red-700 duration-300 text-white text-sm py-2 px-4 rounded"
+                                        : "bg-blue-500 hover:bg-blue-700 duration-300 text-white text-sm py-2 px-4 rounded"
+                                }
+                            >
+                                {userInfoState.studentCardID
+                                    ? "Unmap "
+                                    : "Map "}
+                                card ID
+                            </button>
+                        </div>
+
                         <div className="md:col-span-3">
                             <label htmlFor="studentCardID">StudentID</label>
-                            <input type="text" name="studentCardID" id="studentCardID"
+                            <input
+                                type="text"
+                                name="studentCardID"
+                                id="studentCardID"
                                 onChange={onInfoChange}
+                                disabled
                                 value={userInfoState.studentCardID}
-                                className="h-10 border mt-1 rounded px-4 w-full bg-gray-50" />
+                                className="h-10 border mt-1 rounded px-4 w-full bg-gray-200"
+                            />
                         </div>
                         <div className="md:col-span-3">
-                            <label htmlFor="studentCardIDScraft">StudentId UnMap</label>
-                            <input type="text" name="studentCardIDScraft" id="studentCardIDScraft"
+                            <label htmlFor="studentCardIDScraft">
+                                StudentId UnMap
+                            </label>
+                            <input
+                                type="text"
+                                name="studentCardIDScraft"
+                                id="studentCardIDScraft"
                                 onChange={onInfoChange}
+                                disabled
                                 value={userInfoState.studentCardIDScraft}
-                                className="h-10 border mt-1 rounded px-4 w-full bg-gray-50" />
+                                className="h-10 border mt-1 rounded px-4 w-full bg-gray-200"
+                            />
                         </div>
                         <div className="md:col-span-2">
                             <label htmlFor="role">Role</label>

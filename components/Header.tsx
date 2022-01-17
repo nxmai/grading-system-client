@@ -26,7 +26,22 @@ const Header: FC = () => {
 
     const userInfo = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
+    const [classUserRole, setClassUserRole] = useState<ClassUserRole>({
+        role: "student",
+    });
+
+    async function getUserRoleByClassID() {
+        try {
+            const res = await classApi.getUserRoleByClassId(id);
+            setClassUserRole({ ...res?.data });
+        } catch (error: any) {
+            console.log(error.message);
+            // return router.push("/");
+        }
+    }
+
     useEffect(() => {
+        getUserRoleByClassID();
         dispatch(fetchUserInfo());
     }, [dispatch]);
 
@@ -37,7 +52,7 @@ const Header: FC = () => {
             setIsModalVisible(true);
         }
     };
-
+console.log(classUserRole);
     const closeModal = () => {
         setIsModalVisible(false);
     };
@@ -123,7 +138,7 @@ const Header: FC = () => {
                             >
                                 People
                             </li>
-                            {/* {classUserRole?.role != "student" ? ( */}
+                            {classUserRole?.role != "student" ? (
                                 <li
                                     onClick={() =>
                                         router.push(`/class/${id}/grade`)
@@ -149,9 +164,9 @@ const Header: FC = () => {
                                         </li>
                                     </ul>
                                 </li>
-                             {/* ) : (
+                            ) : (
                                 ""
-                            )}  */}
+                            )}  
                         </ul>
                     </div>
                 ) : (
