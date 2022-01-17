@@ -1,4 +1,4 @@
-import MailWaiting from 'components/user/MailWaiting';
+import Waiting from 'components/user/Waiting';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
@@ -40,7 +40,9 @@ function Register() {
 
     return (
         <>
-            {isSended ? <MailWaiting title={`We've just sent you an email confirmation.`} onSubmit={onSubmit} /> : <div className='h-screen flex justify-center items-center text-sm font-semibold leading-none tracking-tight text-[#19283E]'>
+            {isSended ? 
+            <Waiting title={`We've just sent you an email confirmation.`} onSubmit={onSubmit} subTitle={`Haven't received yet? 🤔`} action={'Resend'} /> 
+            : <div className='h-screen flex justify-center items-center text-sm font-semibold leading-none tracking-tight text-[#19283E]'>
                 <div className="relative w-[370px] h-[600px] flex justify-center items-center bg-[#FEFAF3] rounded-[15px] shadow-md">
                     <div className="w-[200px] h-[200px] bg-[#A5A6F6] bg-opacity-75 rounded-full absolute left-[-100px] top-[-70px] z-[-1]"></div>
                     <div className="w-[200px] h-[300px] bg-[#29B5B8] bg-opacity-50 absolute right-[-70px] bottom-[-60px] z-[-1]"></div>

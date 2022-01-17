@@ -7,6 +7,7 @@ import { fetchUserInfo, selectUser } from "features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import NotificationMenu from "./notification/NotificationMenu";
 import classApi from "api/classes";
+import ErrorMessage from "./user/ErrorMessage";
 
 const clientId =
     "416191100698-anqr49onakr79lg2tldn7cnv4t62rqnk.apps.googleusercontent.com";
@@ -21,9 +22,7 @@ type ClassUserRole = {
 
 const Header: FC = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
-    // const [classUserRole, setClassUserRole] = useState<ClassUserRole>({
-    //     role: "teacher",
-    // });
+    const [errorMessage, setErrorMessage] = useState("");
 
     const userInfo = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
@@ -31,8 +30,12 @@ const Header: FC = () => {
         dispatch(fetchUserInfo());
     }, [dispatch]);
 
-    const openModal = () => {
-        setIsModalVisible(true);
+    const addClassOnClick = () => {
+        if (userInfo.black_type == 'block') {
+            setErrorMessage(`Your account was blocked 🔒`);
+        } else {
+            setIsModalVisible(true);
+        }
     };
 
     const closeModal = () => {
@@ -46,20 +49,6 @@ const Header: FC = () => {
 
     const router = useRouter();
     const { id } = router.query;
-
-    
-    // useEffect(() => {
-    //     async function getUserRoleByClassID() {
-    //         try {
-    //             const res = await classApi.getUserRoleByClassId(id);
-    //             setClassUserRole({ ...res?.data });
-    //         } catch (error: any) {
-    //             console.log(error.message);
-    //             return router.push("/");
-    //         }
-    //     }
-    //     getUserRoleByClassID();
-    // }, [id]);
 
     return (
         <div>
@@ -170,7 +159,7 @@ const Header: FC = () => {
                 )}
                 <div className="flex gap-4 justify-end items-center">
                     {router.pathname === "/" ? (
-                        <div onClick={openModal}>
+                        <div onClick={addClassOnClick}>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-6 w-6 cursor-pointer hover:text-blue-700 text-[#5F6368]"
@@ -242,9 +231,8 @@ const Header: FC = () => {
                     closeModal={closeModal}
                     // createClass={createClass}
                 />
-            ) : (
-                ""
-            )}
+            ) : <></>}
+            {errorMessage !== "" ? <ErrorMessage title="Sorry" subTitle={errorMessage} closeModal={() => setErrorMessage("")} /> : <></>}
         </div>
     );
 };

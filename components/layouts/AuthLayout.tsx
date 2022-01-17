@@ -6,6 +6,7 @@ import { useAppDispatch } from "app/hooks";
 import { setInit } from "features/user/userSlice";
 import { useRouter } from "next/router";
 import userApi from "api/user";
+import Waiting from "components/user/Waiting";
 
 type LayoutProps = {
     children: ReactElement
@@ -15,6 +16,8 @@ export default function AuthLayout({ children }: LayoutProps) {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [errorMessage, setErrorMessage] = useState<string>("");
+
     useEffect(()=> {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -39,14 +42,17 @@ export default function AuthLayout({ children }: LayoutProps) {
                 dispatch(setInit(userPayload));
                 setIsLoading(false);
                 return children;
-            } catch(err) {
-                router.push('/auth/login');
+            } catch(err: any) {
+                setErrorMessage(err);
+                setIsLoading(false);
             }
         };
         initUser();
     }, []);
     if (isLoading) {
         return <div>Loading</div>;
+    } else if (errorMessage) {
+       return <Waiting title="Sorry" subTitle={errorMessage} onSubmit={() => router.push('/auth/login')} action="Back to log in" />;
     } else {
         return children;
     }

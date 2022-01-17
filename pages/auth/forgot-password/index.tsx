@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import authApi from 'api/auth';
-import MailWaiting from 'components/user/MailWaiting';
+import Waiting from 'components/user/Waiting';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
@@ -46,7 +46,7 @@ function ForgotPassword() {
                         </div>
                     </div>
                 </div>
-            </div> : <MailWaiting title={`We've just sent you an email to renew your password.`} onSubmit={onSubmit} />}
+            </div> : <Waiting title={`We've just sent you an email to renew your password.`} onSubmit={onSubmit} subTitle={`Haven't received yet? 🤔`} action={'Resend'} />}
         </>
     );
 }
