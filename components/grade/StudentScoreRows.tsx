@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 
 import classScoreApi from "api/classScore";
 import ScoreButton from "./OneScoreInRow";
+import { useAppSelector } from "app/hooks";
+import { selectGradeUpdate } from "features/class/classSlice";
 
 type AppProps = {
     classId: any;
@@ -12,6 +14,7 @@ type AppProps = {
 export default function StudentScoreRow({classId, student}: AppProps) {
     const [listScore, setListScore] = useState([]);
     const [avarage, setAvarage] = useState(0);
+    const gradeUpdate = useAppSelector(selectGradeUpdate);
 
     async function getListScoreByClassIdByStudentId(){
         const data = await classScoreApi.getScoreByClassIdByStudentId(classId, student.id);
@@ -22,8 +25,7 @@ export default function StudentScoreRow({classId, student}: AppProps) {
 
     useEffect(()=> {
         getListScoreByClassIdByStudentId();
-    }, []);
-    // console.log(listScore);
+    }, [gradeUpdate]);
 
     return (
         <tr key={student._id}>
