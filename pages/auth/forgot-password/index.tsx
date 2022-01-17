@@ -7,10 +7,17 @@ import React, { useState } from 'react';
 function ForgotPassword() {
     const [email, setEmail] = useState("");
     const [isSended, setIsSended] = useState(false);
+    const [inputError, setInputError] = useState<String>("");
 
     function onSubmit() {
-        authApi.sendInstruction({ email });
-        setIsSended(true);
+        if (email.length) {
+            authApi.sendInstruction({ email }).then(result => {
+                setIsSended(true);
+            })
+            .catch(error => setInputError(error));
+        } else {
+            setInputError("Please fill in this field");
+        }
     }
 
     return (
@@ -33,6 +40,11 @@ function ForgotPassword() {
                                     </div>
                                 </div>
                             </div>
+                            {inputError ? <div className="md:col-span-5 pl-[35px]">
+                                <p className="text-red-500 text-xs">
+                                    {inputError}
+                                </p>
+                            </div> : <></>}
                             <div className="flex flex-col gap-4 items-center">
                                 <button
                                     type='submit'

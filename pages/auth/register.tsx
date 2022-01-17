@@ -22,7 +22,7 @@ function Register() {
                 localStorage.setItem('token', `${data}`);
                 router.push('/');
             })
-            .catch(error => setInputError(error.message));
+            .catch(error => setInputError(error));
     };
 
     const onSubmit = () => {
@@ -83,13 +83,11 @@ function Register() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="md:col-span-5 pl-[35px]">
-                                {inputError ? (
-                                    <p className="text-red-500 text-xs">
-                                        {inputError}
-                                    </p>
-                                ) : <></>}
-                            </div>
+                            {inputError ? <div className="md:col-span-5 pl-[35px]">
+                                <p className="text-red-500 text-xs">
+                                    {inputError}
+                                </p>
+                            </div> : <></>}
                             <div className="flex flex-col gap-4 items-center">
                                 <button
                                     type='submit'
