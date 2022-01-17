@@ -6,9 +6,9 @@ import { DotsVerticalIcon } from "@heroicons/react/solid";
 // import ReturnScoreAssignment from "./ReturnScoreAssignmentModal";
 
 type AppProps = {
-    classId: any;
-    assignmentId: any;
-    reRender: VoidFunction;
+    role: string;
+    // assignmentId: any;
+    // reRender: VoidFunction;
 }
 
 export default function UserMenu() {
@@ -26,7 +26,7 @@ export default function UserMenu() {
             <DownLoadScoreAssignment isOpen={openDownloadScoreAssignment} setShowModal={setOpenDownloadScoreAssignment} classId={classId} assignmentId={assignmentId}/>
             <ReturnScoreAssignment isOpen={openReturnScoreAssignment} setShowModal={setOpenReturnScoreAssignment} />
              */}
-            <Menu as="div" className="relative inline-block text-left z-index-10">
+            <Menu as="div" className="relative inline-block text-left z-20 bg-white">
                 <Menu.Button>
                     <DotsVerticalIcon className="h-5 w-5 text-blue-500" />
                 </Menu.Button>
@@ -59,7 +59,7 @@ export default function UserMenu() {
                                                 aria-hidden="true"
                                             />
                                         )}
-                                        Download Score
+                                        Lock/Ban account
                                     </button>
                                 )}
                             </Menu.Item>
@@ -81,29 +81,7 @@ export default function UserMenu() {
                                                 aria-hidden="true"
                                             />
                                         )}
-                                        Upload Score
-                                    </button>
-                                )}
-                            </Menu.Item>
-                            <Menu.Item>
-                                {({ active }) => (
-                                    <button
-                                        // onClick={returnScoreOnClick}
-                                        className={`${active ? "bg-blue-50" : "text-gray-900"
-                                            } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                                    >
-                                        {active ? (
-                                            <EditActiveIcon
-                                                className="w-5 h-5 mr-2"
-                                                aria-hidden="true"
-                                            />
-                                        ) : (
-                                            <EditInactiveIcon
-                                                className="w-5 h-5 mr-2"
-                                                aria-hidden="true"
-                                            />
-                                        )}
-                                        Return Score
+                                        Map/Unmap student id
                                     </button>
                                 )}
                             </Menu.Item>

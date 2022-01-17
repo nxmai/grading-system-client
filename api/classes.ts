@@ -5,6 +5,10 @@ const classApi = {
         const url = `${apiURL}`;
         return get(url, localStorage.getItem("token") ?? "");
     },
+    getAllClasses() {
+        const url = `${apiURL}/getall`;
+        return get(url, localStorage.getItem("token") ?? "");
+    },
     createClass(classData: any) {
         const url = `${apiURL}`;
         return post(url, classData, localStorage.getItem("token") ?? "");

@@ -13,7 +13,7 @@ export default function UserTable() {
             const usrs = await userApi.getAll(filter);
             setUserList(usrs.data);
         } catch (err) {
-            console.log(']> err: ', err);
+            console.log("]> err: ", err);
             setUserList([]);
         }
     };
@@ -21,22 +21,24 @@ export default function UserTable() {
     useEffect(() => {
         // console.log("]> query", router.query);
         const queryInit = router.query;
-        const obj ={
+        const obj = {
             role: queryInit.role,
             active: queryInit.active,
             black_type: queryInit.black_type,
             __sort: queryInit.__sort,
-            __search: queryInit.__search
+            __search: queryInit.__search,
         };
         fetchListUser(ObjToQueryString(obj));
-      }, [router.query]);
+    }, [router.query]);
 
     const ObjToQueryString = function (obj: any) {
         var str = [];
         for (var p in obj)
             if (obj.hasOwnProperty(p) && obj[p] != undefined && obj[p] != "") {
                 if (p == "active") obj[p] = parseInt(obj[p], 10);
-                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                str.push(
+                    encodeURIComponent(p) + "=" + encodeURIComponent(obj[p])
+                );
             }
         return str.join("&");
     };
@@ -44,7 +46,7 @@ export default function UserTable() {
     const onChangeFilter = (e: any) => {
         const { name, value } = e.target;
         const queryInit = router.query;
-        const obj ={
+        const obj = {
             role: queryInit.role,
             active: queryInit.active,
             black_type: queryInit.black_type,
@@ -52,20 +54,24 @@ export default function UserTable() {
             __search: queryInit.__search,
             [name]: value,
         };
-        const queryStr = "?"+ ObjToQueryString(obj);
+        console.log(obj);
+        const queryStr = "?" + ObjToQueryString(obj);
         router.push(queryStr, undefined, { shallow: true });
     };
-    
+    console.log(userList);
     return (
         <div className="container mx-auto">
             <div className="py-8">
                 <div>
-                    <h2 className="text-2xl font-semibold leading-tight">Users</h2>
+                    <h2 className="text-2xl font-semibold leading-tight">
+                        Users
+                    </h2>
                 </div>
                 <div className="my-2 flex sm:flex-row flex-col">
                     <div className="flex flex-row mb-1 sm:mb-0">
                         <div className="relative">
-                            <select className="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            <select
+                                className="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 name="role"
                                 onChange={onChangeFilter}
                                 value={queryInit.role}
@@ -75,13 +81,18 @@ export default function UserTable() {
                                 <option value={"admin"}>Admin</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <svg
+                                    className="fill-current h-4 w-4"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20"
+                                >
                                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                                 </svg>
                             </div>
                         </div>
                         <div className="relative">
-                            <select className="appearance-none h-full rounded-r border-t sm:rounded-r-none border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
+                            <select
+                                className="appearance-none h-full rounded-r border-t sm:rounded-r-none border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
                                 name="active"
                                 onChange={onChangeFilter}
                                 value={queryInit.active}
@@ -91,13 +102,18 @@ export default function UserTable() {
                                 <option value={0}>Inactive</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <svg
+                                    className="fill-current h-4 w-4"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20"
+                                >
                                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                                 </svg>
                             </div>
                         </div>
                         <div className="relative">
-                            <select className="appearance-none h-full rounded-r border-t sm:rounded-r-none border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
+                            <select
+                                className="appearance-none h-full rounded-r border-t sm:rounded-r-none border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
                                 name="black_type"
                                 onChange={onChangeFilter}
                                 value={queryInit.black_type}
@@ -107,13 +123,18 @@ export default function UserTable() {
                                 <option value={"ban"}>Ban</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <svg
+                                    className="fill-current h-4 w-4"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20"
+                                >
                                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                                 </svg>
                             </div>
                         </div>
                         <div className="relative">
-                            <select className="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
+                            <select
+                                className="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
                                 name="__sort"
                                 onChange={onChangeFilter}
                                 value={queryInit.__sort}
@@ -122,7 +143,11 @@ export default function UserTable() {
                                 <option value={"createdAt"}>Decreate</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <svg
+                                    className="fill-current h-4 w-4"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20"
+                                >
                                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                                 </svg>
                             </div>
@@ -130,12 +155,16 @@ export default function UserTable() {
                     </div>
                     <div className="block relative">
                         <span className="h-full absolute inset-y-0 left-0 flex items-center pl-2">
-                            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current text-gray-500">
-                                <path d="M10 4a6 6 0 100 12 6 6 0 000-12zm-8 6a8 8 0 1114.32 4.906l5.387 5.387a1 1 0 01-1.414 1.414l-5.387-5.387A8 8 0 012 10z">
-                                </path>
+                            <svg
+                                viewBox="0 0 24 24"
+                                className="h-4 w-4 fill-current text-gray-500"
+                            >
+                                <path d="M10 4a6 6 0 100 12 6 6 0 000-12zm-8 6a8 8 0 1114.32 4.906l5.387 5.387a1 1 0 01-1.414 1.414l-5.387-5.387A8 8 0 012 10z"></path>
                             </svg>
                         </span>
-                        <input placeholder="Search" className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" 
+                        <input
+                            placeholder="Search"
+                            className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
                             name="__search"
                             onChange={onChangeFilter}
                         />
@@ -167,66 +196,87 @@ export default function UserTable() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {
-                                    userList.map(user => {
-                                        return (
-                                            <tr key={user._id}>
-                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                    <div className="flex items-center">
-                                                        <div className="flex-shrink-0 w-10 h-10">
-                                                            <img className="w-full h-full rounded-full" src={user.photoUrl} alt="user photo" />
-                                                        </div>
-                                                        <div className="ml-3">
-                                                            <p className="text-gray-900 whitespace-no-wrap">
-                                                                {user.firstName} {user.lastName}
-                                                            </p>
-                                                        </div>
+                                {userList.map((user) => {
+                                    return (
+                                        <tr key={user._id}>
+                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                <div className="flex items-center">
+                                                    <div className="flex-shrink-0 w-10 h-10">
+                                                        <img
+                                                            className="w-full h-full rounded-full"
+                                                            src={user.photoUrl}
+                                                            alt="user photo"
+                                                        />
                                                     </div>
-                                                </td>
-                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                    <p className="text-gray-900 whitespace-no-wrap">{user.role}</p>
-                                                </td>
-                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                    <p className="text-gray-900 whitespace-no-wrap">{user.studentCardID}</p>
-                                                </td>
-                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                    <p className="text-gray-900 whitespace-no-wrap">
-                                                        {user.email}
-                                                    </p>
-                                                </td>
-                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                    {
-                                                        user.active ? (
-                                                            <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                                                <span aria-hidden className="absolute inset-0 bg-green-200 opacity-50 rounded-full" />
-                                                                <span className="relative">Activated</span>
-                                                            </span>
-                                                        ) :
-                                                            (
-                                                                <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                                                    <span aria-hidden className="absolute inset-0 bg-red-200 opacity-50 rounded-full" />
-                                                                    <span className="relative">Disactivated</span>
-                                                                </span>
-                                                            )
-                                                    }
-                                                    {
-                                                        user.black_type != "none" && (
-                                                            <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                                                <span aria-hidden className="absolute inset-0 bg-gray-200 opacity-50 rounded-full" />
-                                                                <span className="relative">{user.black_type}</span>
-                                                            </span>
-                                                        )
-                                                    }
-                                                </td>
-                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                    <p className="text-gray-900 whitespace-no-wrap">
+                                                    <div className="ml-3">
+                                                        <p className="text-gray-900 whitespace-no-wrap">
+                                                            {user.firstName}{" "}
+                                                            {user.lastName}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                <p className="text-gray-900 whitespace-no-wrap">
+                                                    {user.role}
+                                                </p>
+                                            </td>
+                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                <p className="text-gray-900 whitespace-no-wrap">
+                                                    {user.studentCardID}
+                                                </p>
+                                            </td>
+                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                <p className="text-gray-900 whitespace-no-wrap">
+                                                    {user.email}
+                                                </p>
+                                            </td>
+                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                {user.active ? (
+                                                    <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                                        <span
+                                                            aria-hidden
+                                                            className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
+                                                        />
+                                                        <span className="relative">
+                                                            Activated
+                                                        </span>
+                                                    </span>
+                                                ) : (
+                                                    <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                                        <span
+                                                            aria-hidden
+                                                            className="absolute inset-0 bg-red-200 opacity-50 rounded-full"
+                                                        />
+                                                        <span className="relative">
+                                                            Disactivated
+                                                        </span>
+                                                    </span>
+                                                )}
+                                                {user.black_type != "none" && (
+                                                    <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                                        <span
+                                                            aria-hidden
+                                                            className="absolute inset-0 bg-gray-200 opacity-50 rounded-full"
+                                                        />
+                                                        <span className="relative">
+                                                            {user.black_type}
+                                                        </span>
+                                                    </span>
+                                                )}
+                                            </td>
+                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                <p className="text-gray-900 whitespace-no-wrap">
+                                                    {user.role != "admin" ? (
                                                         <UserMenu />
-                                                    </p>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })
-                                }
+                                                    ) : (
+                                                        ""
+                                                    )}
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
                         {/* <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
