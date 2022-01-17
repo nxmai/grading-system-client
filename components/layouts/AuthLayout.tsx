@@ -30,6 +30,7 @@ export default function AuthLayout({ children }: LayoutProps) {
                     firstName: reps.firstName,
                     lastName: reps.lastName,
                     studentCardID: reps.studentCardID,
+                    studentCardIDScraft: reps.studentCardIDScraft,
                     photoUrl: reps.photoUrl,
                     active: reps.active,
                     email: reps.email,
