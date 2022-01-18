@@ -26,9 +26,7 @@ export default function AddStudentCardNumberComp({
 
     const dispatch = useAppDispatch();
     const handleUpdateCardNumber = () => {
-        if(userInfo.studentCardID != "" || userInfo.studentCardIDScraft != "") {
-            setInputError("*Your card ID was unmap");
-        } else {
+        if(userInfo.studentCardID == "" && userInfo.studentCardIDScraft == "") {
             if (studentCardId === "") {
                 setInputError("*Please type your student card");
                 return;
@@ -42,6 +40,8 @@ export default function AddStudentCardNumberComp({
                 console.log(error);
                 setInputError("*Your student card id existed");
             }
+        } else if(userInfo.studentCardID != "" || userInfo.studentCardIDScraft != "") {
+            setInputError("*Your card ID was unmap");
         }
     };
 
