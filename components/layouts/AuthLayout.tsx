@@ -26,7 +26,6 @@ export default function AuthLayout({ children }: LayoutProps) {
         const initUser = async function() {
             try {
                 const response = await userApi.getMe();
-                console.log("]Get Me> ", response.data);
                 const reps = response.data;
                 const userPayload : UserModel = {
                     _id: reps._id,

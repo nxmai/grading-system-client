@@ -11,8 +11,7 @@ export default function ConfirmInviteClass() {
     async function onActionClick() {
         try {
             const res = await classInviteUserApi.confirmInviteUserLink(id);
-            console.log(res);
-        router.push(`/class/${id}`);
+            router.push(`/class/${id}`);
         } catch (err: any) {
             setError(err);
         }
@@ -26,7 +25,7 @@ export default function ConfirmInviteClass() {
                 <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3 text-left">
                     <div className="text-gray-600">
                         <p className="font-medium text-lg">Confirm Invite</p>
-                        <p>Confirm invite user to class</p>
+                        <p>Confirm invited user to class</p>
                     </div>
                     <div className="lg:col-span-2">
                         <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
@@ -43,13 +42,13 @@ export default function ConfirmInviteClass() {
                                 </div>
                             )}
                             <div className="md:col-span-5 text-right">
-                            <div className="inline-flex items-end pr-4">
-                                            <button 
-                                            className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded">Cancel</button>
-                                        </div>
+                                <div className="inline-flex items-end pr-4">
+                                    <button
+                                        className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded">Cancel</button>
+                                </div>
                                 <div className="inline-flex items-end">
                                     <button
-                                    onClick={onActionClick}
+                                        onClick={onActionClick}
                                         className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Confirm</button>
                                 </div>
                             </div>

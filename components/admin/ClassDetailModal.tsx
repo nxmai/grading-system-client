@@ -14,7 +14,6 @@ export default function ClassDetailModal({
 }: AppProps) {
     const [file, setFile] = useState<File>();
     const [isProcess, setProcess] = useState<boolean>(false);
-    console.log(classInfo);
 
     function onActionClick() {
         setShowModal(false);

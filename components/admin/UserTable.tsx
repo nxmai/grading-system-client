@@ -14,13 +14,12 @@ export default function UserTable() {
             const usrs = await userApi.getAll(filter);
             setUserList(usrs.data);
         } catch (err) {
-            console.log("]> err: ", err);
+            console.log(err);
             setUserList([]);
         }
     };
 
     useEffect(() => {
-        // console.log("]> query", router.query);
         const queryInit = router.query;
         const obj = {
             role: queryInit.role,
@@ -55,11 +54,9 @@ export default function UserTable() {
             t__search: queryInit.t__search,
             [name]: value,
         };
-        console.log(obj);
         const queryStr = "?" + ObjToQueryString(obj);
         router.push(queryStr, undefined, { shallow: true });
     };
-    // console.log(userList);
     return (
         <div className="container mx-auto">
             <div className="py-8">

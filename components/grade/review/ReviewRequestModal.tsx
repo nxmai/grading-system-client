@@ -16,12 +16,34 @@ const ReviewRequestModal = ({ isOpen, setShowModal, setReviewData }: AppProps) =
         scoreExpectation: "",
         explanation: "",
     });
+    const [reviewRequestDataError, setReviewRequestDataError] = useState({
+        scoreExpectation: "",
+        explanation: "",
+    });
     const [isAddError, setIsAddError] = useState<Boolean>(false);
 
     const router = useRouter();
     const { id, assignmentid } = router.query;
 
+    const validateForm = () => {
+        let valid = true;
+        const data = { scoreExpectation: "", explanation: "" };
+        if (reviewRequestData.scoreExpectation.length == 0) {
+            data.scoreExpectation = "* Input score expectation to submit";
+            valid = false;
+        }
+        if (reviewRequestData.explanation.length == 0) {
+            data.explanation = "* Input your explanation to submit";
+            valid = false;
+        }
+        setReviewRequestDataError(data);
+        return valid;
+    };
+
     const onActionClick = async () => {
+        if (!validateForm()) {
+            return;
+        }
         setProcess(true);
         const data = {
             classAssignment: assignmentid,
@@ -76,6 +98,9 @@ const ReviewRequestModal = ({ isOpen, setShowModal, setReviewData }: AppProps) =
                                 onChange={(e) => onHandleReviewRequestChange(e)}
                                 className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                             />
+                            <p className="text-xs m-1 text-red-600 italic">
+                                {reviewRequestDataError.scoreExpectation}
+                            </p>
                         </div>
                         <div className="md:col-span-5">
                             <label>Explanation *</label>
@@ -86,6 +111,9 @@ const ReviewRequestModal = ({ isOpen, setShowModal, setReviewData }: AppProps) =
                                 onChange={(e) => onHandleReviewRequestChange(e)}
                                 className="border mt-1 rounded px-4 w-full bg-gray-50 h-auto"
                             />
+                            <p className="text-xs m-1 text-red-600 italic">
+                                {reviewRequestDataError.explanation}
+                            </p>
                         </div>
                     </div>
                 </div>

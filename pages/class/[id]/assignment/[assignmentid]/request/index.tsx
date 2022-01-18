@@ -48,9 +48,7 @@ const Requests = () => {
 
         getSingleAssignment();
     }, [id]);
-    // console.log(allReviewRequests);
 
-    console.log(allDoneRequest);
     return (
         <div>
             <Header attemptHandle={function (): boolean {
