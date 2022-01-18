@@ -6,15 +6,17 @@ import { fetchClassesFromAPI, selectClass } from "features/class/classSlice";
 import AuthLayout from "components/layouts/AuthLayout";
 import { selectUser } from "features/user/userSlice";
 import ErrorMessage from "components/user/ErrorMessage";
+import { useRouter } from "next/router";
 
 export default function Home() {
     const classes = useAppSelector(selectClass);
     const [attempt, setAttempt] = useState<boolean>(false);
     const userInfo = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(fetchClassesFromAPI());
-    },[dispatch]);
+        
+    }, [dispatch]);
 
     const attemptHandle = () => {
         if (userInfo.black_type == "block") {
@@ -25,7 +27,7 @@ export default function Home() {
 
     return (
         <div className="mb-20">
-            <Header attemptHandle={attemptHandle}/>
+            <Header attemptHandle={attemptHandle} />
             <div className="flex flex-wrap gap-8 mr-16 ml-16 mt-8">
                 {classes.map((item: any, index: React.Key | null | undefined) => (
                     <div key={index}>

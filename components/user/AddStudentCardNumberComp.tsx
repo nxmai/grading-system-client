@@ -1,5 +1,5 @@
-import { useAppDispatch } from "app/hooks";
-import { updateStudentCardID } from "features/user/userSlice";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { selectUser, updateStudentCardID } from "features/user/userSlice";
 import React, { useState } from "react";
 import Modal from "components/Modal";
 
@@ -14,6 +14,7 @@ export default function AddStudentCardNumberComp({
 }: AppProps) {
     const [studentCardId, setStudentCardId] = useState<String>("");
     const [inputError, setInputError] = useState("");
+    const userInfo = useAppSelector(selectUser);
 
     const handleInputChange = (e: any) => {
         const { name, value } = e.target;
@@ -25,18 +26,22 @@ export default function AddStudentCardNumberComp({
 
     const dispatch = useAppDispatch();
     const handleUpdateCardNumber = () => {
-        if (studentCardId === "") {
-            setInputError("*Please type your student card");
-            return;
-        }
-        try {
-            dispatch(updateStudentCardID(studentCardId));
-            setInputError("");
-            setShowModal(false);
-            setStudentCardId("");
-        } catch (error) {
-            console.log(error);
-            setInputError("*Your student card id existed");
+        if(userInfo.studentCardID != "" || userInfo.studentCardIDScraft != "") {
+            setInputError("*Your card ID was unmap");
+        } else {
+            if (studentCardId === "") {
+                setInputError("*Please type your student card");
+                return;
+            }
+            try {
+                dispatch(updateStudentCardID(studentCardId));
+                setInputError("");
+                setShowModal(false);
+                setStudentCardId("");
+            } catch (error) {
+                console.log(error);
+                setInputError("*Your student card id existed");
+            }
         }
     };
 

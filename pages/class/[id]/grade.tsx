@@ -37,7 +37,6 @@ export default function ClassGrades() {
     // // console.log(studentList);
 
     useEffect(()=>{
-        console.log(']>update grade: ',gradeUpdate);
         if (!id) return;
         async function getScoreBoard() {
             try {
@@ -97,7 +96,7 @@ export default function ClassGrades() {
                                 scope="col"
                                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                             >
-                                Total
+                                Final
                             </th>
                         </tr>
                     </thead>

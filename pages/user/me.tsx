@@ -4,18 +4,9 @@ import React, { ReactElement, useEffect, useState } from "react";
 import Header from "components/Header";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { fetchUserInfo, selectUser } from "features/user/userSlice";
-import AuthLayout from "components/layouts/AuthLayout";
 
 export default function UserMe() {
     const userInfo = useAppSelector(selectUser);
-    const dispatch = useAppDispatch();
-
-    // const [rerender, setRerender] = useState<boolean>(false);
-    // function reRenderPage() { setRerender(!rerender);}
-
-    // useEffect(() => {
-    //     dispatch(fetchUserInfo());
-    // }, [dispatch]);
 
     return (
         <div>
@@ -56,10 +47,10 @@ export default function UserMe() {
                                 </div>
                                 <div className="lg:w-4/12 px-4 lg:order-3 text-right lg:self-center">
                                     <div className="py-6 px-3 sm:mt-0">
-                                    {userInfo.black_type != "block" ? <UserMenu /> : <></>}
+                                        {userInfo.black_type != "block" ? <UserMenu /> : <></>}
                                     </div>
                                 </div>
-                                
+
 
                             </div>
                             <div className="text-center mt-4">

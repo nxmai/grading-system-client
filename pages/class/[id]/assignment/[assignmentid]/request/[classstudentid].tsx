@@ -113,7 +113,6 @@ function ReviewRequest() {
     const handleAcceptScore = async () => {
         if (classstudentid) {
             try {
-                // console.log(id, assignmentid, classstudentid);
                 const reps =
                     await assignmentReviewApi.acceptScoreRequestByStudent(
                         id,
@@ -121,7 +120,6 @@ function ReviewRequest() {
                         classstudentid
                     );
                     setRerender();
-                // console.log(reps.data);
                 await userApi.responseToStudentGradeReviewNotification({ classId: id, assignmentId: assignmentid, classStudentId: classstudentid });
             } catch (error) {
                 console.log(error);
@@ -132,14 +130,12 @@ function ReviewRequest() {
     const handleIgnoreScore = async () => {
         if (classstudentid) {
             try {
-                // console.log(id, assignmentid, classstudentid);
                 const reps =
                     await assignmentReviewApi.ignoreScoreRequestByStudent(
                         id,
                         assignmentid,
                         classstudentid
                     );
-                // console.log(reps.data);
                 setRerender();
                 await userApi.responseToStudentGradeReviewNotification({ classId: id, assignmentId: assignmentid, classStudentId: classstudentid });
             } catch (error) {
@@ -272,7 +268,7 @@ function ReviewRequest() {
                 )}
 
                 {classUserRole.role == "student" &&
-                reviewRequestData?.isAccept ? (
+                reviewRequestData?.isAccept != null ? (
                     reviewRequestData.isAccept ? (
                         reviewRequestData?.scoreFromTeacher ? (
                             <div>
@@ -355,7 +351,7 @@ function ReviewRequest() {
                 )}
 
                 <div className="text-sm font-bold text-blue-800 mt-2">
-                    Chat with teacher
+                    Comment about review request
                 </div>
                 <div className="mt-2 mb-4 w-full h-[1px] bg-blue-700"></div>
 
@@ -397,7 +393,7 @@ function ReviewRequest() {
                     />
                     <Button onClick={sendChat}>Send</Button>
                 </div>
-                <div className="mt-4"></div>
+                <div className="mt-4 mb-24"></div>
             </div>
         </div>
     );

@@ -60,8 +60,6 @@ export default function UserUpdateModal({
 
     useEffect(() => {}, [userInfoState]);
 
-    console.log(userInfoState);
-
     return (
         <Modal
             open={isOpen}

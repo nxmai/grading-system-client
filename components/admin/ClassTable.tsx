@@ -18,11 +18,10 @@ export default function ClassTable() {
             const clasess = await classApi.getAllClasses(filter);
             setClassList(clasess.data);
         } catch (err) {
-            console.log("]> err: ", err);
+            console.log(err);
             setClassList([]);
         }
     };
-    console.log(classList);
 
     useEffect(() => {
         const queryInit = router.query;

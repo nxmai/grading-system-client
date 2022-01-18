@@ -33,7 +33,7 @@ const Header: FC<HeaderProps> = ({ attemptHandle }) => {
             const res = await classApi.getUserRoleByClassId(id);
             setClassUserRole({ ...res?.data });
         } catch (error: any) {
-            console.log(error.message);
+            console.error();
             // return router.push("/");
         }
     }
@@ -48,7 +48,7 @@ const Header: FC<HeaderProps> = ({ attemptHandle }) => {
             setIsModalVisible(true);
         }
     };
-console.log(classUserRole);
+    
     const closeModal = () => {
         setIsModalVisible(false);
     };
@@ -195,7 +195,7 @@ console.log(classUserRole);
                             <img
                                 src={userInfo.photoUrl}
                                 alt="avt"
-                                className="w-10 rounded-full"
+                                className="w-[2.5rem] max-h-[2.5rem] rounded-full"
                             />
                         ) : (
                             <svg
