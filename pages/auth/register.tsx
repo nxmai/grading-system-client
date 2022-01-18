@@ -36,7 +36,7 @@ function Register() {
                     authApi.sendConfirmation(data);
                     setIsSended(true);
                 })
-                .catch(error => setInputError(error));
+                .catch(error => console.log(error));
         } else {
             setInputError("Please fill in all required fields");
         }
