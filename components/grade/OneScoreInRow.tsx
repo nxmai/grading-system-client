@@ -21,7 +21,7 @@ export default function ScoreButton({
     resetRow,
     scoreDraft,
 }: ScoreBtnProps) {
-    const initScore = coreId ? scoreTempt : undefined;
+    const initScore = coreId ? scoreDraft != undefined ? scoreDraft : scoreTempt : undefined;
     const [score, setScore] = useState<number>();
 
     useEffect(() => {
