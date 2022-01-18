@@ -2,7 +2,6 @@ import React, { ReactElement } from "react";
 
 // components
 
-import CardTable from "components/Cards/CardTable.js";
 import AuthLayout from "components/layouts/AuthLayout";
 import AdminLayout from "components/layouts/AdminLayout";
 import ClassTable from "components/admin/ClassTable";

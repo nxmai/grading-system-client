@@ -1,9 +1,8 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "components/Modal";
 import { UserModel } from "features/user/userSlice";
 import userApi from "api/user";
 import router from "next/router";
-import Button from "components/Button";
 
 type AppProps = {
     isOpen: boolean;
